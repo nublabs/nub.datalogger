@@ -1,0 +1,36 @@
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
+
+\documentclass[12pt]{article}
+\usepackage{fullpage}
+
+\title{NUBlogger: an affordable, wireless datalogging platform}
+\author{Drafted by Alec Resnick\footnote{aresnick@mit.edu}}
+\date{Last revised \today}
+
+\begin{document}
+\maketitle
+Our solution}
+\begin{abstract}
+Dataloggers are expensive.  
+\end{abstract}
+
+\section{An overview}
+The NUBlogger is an affordable datalogger platform that's designed to be flexible, rugged, and easy-to-use.  A dongle which can either connect directly to a computer or stand alone listens for sensor signals.  Currently, we've implemented temperature sensing, but the system itself is sensor-agnostic and easily extensible.
+
+Each sensor can be configured to record at a given interval, and the collected data is recorded directly to a flash memory card as plaintext in a format\footnote{Comma separated variable (CSV)} that can be opened by any spreadsheet program.  We're building the datalogger on top of a popular microcontroller platform known as the Arduino.\footnote{\texttt{http://arduino.cc}}  Providing a wrapper around typical microcontroller code, the Arduino is a fantastic physical computing platform which has a large user base the skill spectrum from amateur to expert.
+
+Not only are we building the NUBlogger on top of the Arduino platform, we'll be releasing our own product as open source, along with a well-developed set of support materials.  Rather than simply have customers, we'd like to grow a community around a product so that the user base can extend the product and help each other, providing more agile and comprehensive support than a top-down approach to customer service ever could.
+  
+\section{What's next?}
+The NUBlogger platform has a lot of room to grow in versatility and shrink in price.  The ultimate price point we'd like to hit is between eight and ten dollars per sensor, and between ten and fifteen dollars per dongle.  Currently, the sensors cost about twenty dollars and the dongles about thirty five.  We're working on a revision of the NUBlogger that will make the dongle appear as a thumb drive on the computer, letting you plug and play without any configuration or switching of SD cards.
+
+We're planning to develop a number of additional sensors for the NUBlogger, including  wind speed, rainfall, humidity, and sunlight levels.  Ideally,   
+
+
+\section{How can we work with GLOBE?}
+You tell us!  We want to solve your problems, and to do that, we would love to to design sensors to accomodate the GLOBE specification and have GLOBE point to our design as the recommended sensor setup.  We would be happy to develop the necessary support materials and tailor the design and operation to your needs.  
+\end{document}

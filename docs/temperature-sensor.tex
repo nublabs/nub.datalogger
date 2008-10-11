@@ -1,0 +1,158 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{latexsym}
+\usepackage[pdftex]{graphicx}
+
+\newcommand{\degree}{\ensuremath{^\circ}}
+
+\title{Proposal for the design and construction \\ of a temperature sensor and datalogging platform for teachers and students}
+\author{Cambridge School of Weston}
+\date{Last edited \today}
+
+\begin{document}
+
+\maketitle
+\begin{abstract}
+The Cambridge School of Weston (CSW) is looking to develop lessons plans that use firsthand, experimental investigation of greenhouse gases and global warming as a springboard for broader discussion and deeper investigation of the issues involved.  As part of this, they need an accessible, durable datalogging system that allows them to capture temperature at regular intervals.
+
+An initial estimate of the work necessary to build this to their specifications indicates that it will require at most, sixty manhours of work and produce a product whose unit, wholesale cost is around sixty dollars.
+
+This project requires a rugged, weatherproof enclosues; plug-and-play datalogging; and extensive documentation.  We will be designing and building both a product version (intended for users who just want to purchase a solution) and a kit version (intended for users who are willing and able to build the product from scratch).
+
+CSW's classes start September 3rd; they've requested that this be ready by early October.  We have not secured payment or agreed on a price with them, yet.  
+\end{abstract}
+
+\newpage
+
+\section{What are we doing?}
+We want to design and build a setup to allow easy, temperature sensing and datalogging for students and teachers.
+
+
+\section{Who are we working for?}
+Cambridge School of Weston, a private school in Massachusetts who is looking to develop a set of elssons around the simulation and experimental investigation of global warming.
+\subsection{Contacts}
+\begin{itemize}
+\item Marilyn Del Donno\footnote{\texttt{mdeldonno@csw.org}}
+\item Karen Bruker \footnote{\texttt{kbruker@csw.org}}
+\item Tad LASTNAME
+\end{itemize}
+
+\section{What are their needs?}
+\begin{itemize}
+\item $0.1 \degree$ resolution
+\item Indoor/outdoor datalogger
+\item $0-100 \degree$ range
+\item Extremely durable
+\item Easy-to-use, outputs CSV/Excel files
+\item Battery powered
+\item Sample rate from once every 30 seconds up to once an hour
+\item Low noise
+\item Ability to measure the temperature of glass
+\item Easy to mount on any surface
+\item Easy to calibrate (/calibration process)
+\item Possible wireless capability for remote data\{sensing, logging\}
+\item User manual and extensive documentation
+\item They do not \textit{need} this project to promote or facilitate ``cross-disciplinary'' integration; however, CSW is enthusiastic about the possibility that one day students could build this product in their physics class, bring it to their biology class, use it, etc.
+\end{itemize}
+
+
+\section{How does it help us?}
+Cambridge School of Weston will pay for our time and material costs; they are funded by an endowment from Prof. Eric von Hippel at MIT\footnote{\texttt{evhippel@mit.edu}}.  This is a product that---particularly given that everyone is excited about energy and global warming---had the potential to appeal to a broad range of teachers and students interested in getting a firsthand sense of the issues.  
+
+At the end of this project, we'll have a product we could sell.  Not only will we have the datalogging platform and temperature sensors designed and documented, but we'll also have a project which lends itself to being converted into a kit.
+
+By designing our datalogger carefully, we can lay the foundations for a platform spanning a wide variety of instrumentation.  Furthermore, if we use a platform like the Arduino\footnote{\texttt{http://arduino.cc}}, we open doors to further involvement and engineering projects for the school, given the flexibility of the platform.
+
+
+\section{When does this need to be done?}
+October 1.
+
+
+\section{What do we have to do to make this work?}
+\begin{itemize}
+\item Design a circuitboard that can convert analog to digital values, store data, and load the data onto a computer (via USB or wireless)
+\item Program microcontrollers
+\item Find some sensors
+\item Work with kids and teachers, finding how to make the product [more] usable.
+\item Design and build a weatherproof enclosure for it
+\item Write clear, well-illustrated documentation for its use
+\item Figure out how to mount sensors to glass and measure the glass's temperature
+\item Find low noise cables to be used with the sensors.
+\end{itemize}
+
+
+\section{What materials are needed?}
+\begin{itemize}
+\item Circuit board components
+\item Circuit board revisions
+\item Material for weatherproof case
+\item Materials for mounting sensors
+\item Sensors 
+\item Low noise cables
+\end{itemize}
+
+
+\section{How much will a unit cost?}
+Here is an unsourced breakdown, \textit{i.e.} a guesstimate:
+\begin{itemize}
+\item Circuit board components \$30 without wireless, up to \$55 with wireless.
+\item Circuit board \$5
+\item Weatherproof case \$10
+\item Mounting materials \$2
+\item Sensors \$10
+\item Low noise cables \$3
+\end{itemize}
+
+\textbf{Total cost: \$60-\$85}
+ 
+\section{How long will it take?}
+\begin{itemize}
+\item Design a circuitboard that can convert analog to digital values, store data, and load the data onto a computer (via USB or wireless): 10 hours
+\item Program microcontrollers: 2 hours
+\item Design kit version of circuitboard: 2 hours
+\item Find some sensors: 2 hours
+\item Work with kids and teachers, finding how to make the product [more] usable: 8 hours
+\item Design and build a weatherproof enclosure for it: 5 hours
+\item Write clear, well-illustrated documentation for its use: 30 hours
+\item Figure out how to mount sensors to glass and measure the glass's temperature: 5 hours
+\item Find low noise cables to be used with the sensors: 1 hour
+\end{itemize}
+
+
+\section{How do you plan to make this?}
+\begin{enumerate}
+\item Revise time and material estimates
+\item Check with Cambridge School of Weston regarding budget and secure payment
+\item User interface design: mockup of unit and use cases
+\item Design and build enclosure
+\item Design, fabricate, and test board
+\item Complete first prototype
+\item Complete initial documentation
+\item First field testing (document feedback)
+\item Revise and redeploy until CSW is satisfied
+\item Polish documentation
+\item Deploy
+\end{enumerate}
+
+
+\section{What documentation needs to be written?}
+\subsection{Product version}
+\begin{enumerate}
+\item How does it work?
+\item Annotated, thoroughly explained diagram of circuit board
+\item Illustrated workflow/protocol
+\item Walk through collection and analysis of a day of data
+\item Common problems and their solutions
+\end{enumerate}
+
+\subsection{Kit version}
+\begin{enumerate}
+\item How does it work?
+\item Annotated, thoroughly explained diagram of circuit board
+\item Illustrated guide to assembly
+\item Walk through collection and analysis of a day of data
+\item Common problems and their solutions
+\end{enumerate}
+
+\end{document}

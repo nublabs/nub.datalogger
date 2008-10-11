@@ -1,0 +1,35 @@
+* Thermocouples
+** Measure in a window
+** Measure in a glass
+** Wireless update for remote sensors
+** Separating parts of the spectrum and noting effect on heat
+** Output in Excel
+** Arduino platform for general datalogging
+** 0.1degC accuracy
+
+* Bomb calorimeter
+** Not expensive
+** Nice jacket and case for water
+** Datalogging interface (bonus points for same platform as thermocouples)
+** 0-700degC?
+
+* Bike energy efficiency/POV
+** LED+magnet
+** Bike speed measure
+** Bike-in-place rollers
+** Datalogging for this, too!
+
+* Solar array
+** 2kW
+
+* Clickers/8.02T answers
+
+* Smartboards
+** Johnny Lee Chun wrapper
+
+* To do/explore
+** PSC funding for undergraduates to supervise kits
+** Cheap toys for circuit bending
+** Recognition from MIT
+** NUBtalks mailing list subscription
+** Trade contact information with Tad/Karen/Marilyn for Alex and me and NUB

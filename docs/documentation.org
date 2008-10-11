@@ -1,0 +1,17 @@
+Needed documentation for temperature datalogger
+
+* Product
+** Explanation of how everything works, from the ground up
+*** Thermistor
+*** Microcontroller
+*** Power electronics
+*** Wireless
+** Walkthrough of common use cases
+*** Set up for long term logging
+*** Set up for measuring temperature over a short period of time
+*** Using CSV files
+*** How the Processing applet works
+
+* Kit
+** Ibid
+** How to assemble, with photos/video/audio

@@ -1,0 +1,7 @@
+* nublogger
+The nublogger is an affordable, wireless datalogger platform to which you can connect any voltage-based sensor and log the recorded data wirelessly to a text file that you can open in any spreadsheet program.  Using the ZigBee wireless protocol, a single dongle is plugged into your computer and appears as a thumb drive.  That dongle can communicate with nearly any number of sensors and log each sensor's data in a separate file.
+
+
+The nublogger is designed not only to be affordable, but buildable and extensible, as well.  Built on top of the popular Arduino microcontroller platform, it is possible to add sensors 
+
+nublabs is releasing the nublogger under the MIT license 

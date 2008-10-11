@@ -1,0 +1,66 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{latexsym}
+\usepackage[pdftex]{graphicx}
+
+\newcommand{\degree}{\ensuremath{^\circ}}
+
+\title{Design document for a temperature sensor and datalogging platform}
+\author{Cambridge School of Weston}
+\date{Last edited \today}
+
+\begin{document}
+\maketitle
+\section{Overview}
+So these are just a few of my thoughts that seemed worth writing down when it comes to the design and implementation of the datalogger.  Feel free to push back.
+
+\section{Design criteria}
+\begin{enumerate}
+\item Low cost
+\item Durability (must be weatherproof)
+\item Ease of use
+\item Easy to build
+\item Modularity
+\end{enumerate}
+
+\section{Intended market}
+Students and teachers with ``typical'' technical backgrounds.  Teachers will want to use this in a lesson plan and give them to students from ages 8-80.  Private, public schools, afterschool programs, parents, people who want to include a temperature sensor in their projects: in general, this is targeted at people who want a quick solution to the temperature logging problem.
+
+\section{Use cases}
+\begin{itemize}
+\item \textbf{Teachers running a unit on global warming}
+  \begin{quote}
+    Teachers are looking to run a unit on global warming.  As part of this, they want students to create and play with a biosphere in various incarnations.  Ranging from glasses filled with different gases and exposed to heat to a full ecosystem, they want to be able to explore these experimental environments.  They teach high schoolers, and want to have a school set which will last essentially indefinitely.  They want to be able to schedule the frequency of the datalogging and the length of time for which it runs.  This means they should be able to either enter a number of days, or a date, and they should be able to choose how frequently it logs data in a convenient set of units (once a day, hour, minute, week, year).  The teachers are happiest working with an SD card or thumb drive.  I think we should aim to make it possible for the datalogger to plug into the computer.
+  \end{quote}
+\item Someone interested in sensing the temperature in their aquarium
+  \begin{quote}
+    This person will want an easy way to plop the sensor into their aquarium, and then run a wire out (or easily access wirelessly) the temperature and put it into a text file or maybe run a script that could display the temperature over time.  They should also be able to push a button and see the current temperature.  \end{quote}
+
+\item An artist interested in making an installation that reacts to temperature
+  \begin{quote}
+    This person would either want the data in text or as a real time buffer, or would like direct access to the voltage the temperature sensor generates (for passing onto the rest of the installation's hardware).
+  \end{quote}
+
+\item A person interested in getting into electronics, and wants to make a kit
+  \begin{quote}
+    This person is just looking for an easy, low cost introduction to electronics and wants a solderable kit where they can get a bag of parts, follow some instructions, and get something that spits out a temperature.
+  \end{quote}
+\end{itemize}
+
+\section{Physical design}
+Sloan: here's some of my thoughts on what should govern how the datalogger looks.  Let me know if I'm doing too much backseat driving, or if this input is valuable.  I'd be interested to hear the reasoning behind your design decisions, when that time comes.
+
+This should be a tool that both adults and kids find attractive, and take seriously.  Muted, but colorful?  It should be something that is waterproof, but easy to take apart.  Significant bonus points of working forward from readily available cases or materials: keep in mind that we want to make this a kit, too.  Rather than aim for an integrated hardware experience like the iPod, we want there to be a bit more transparency.  I assume it's possible to come up with a good user design without needing to manufacture a case from scratch.  There should be clear, easy to use buttons or switches to turn the machine on or off, clear feedback about the current UI context, easy number entry.
+
+\section{Walkthrough the primary use cases}
+\subsection{Classroom use}
+\begin{enumerate}
+\item Class starts, I walk in with a box of dataloggers and hand one out to each student.  Each one has a number on it, and that number is the identity of the unit.
+\item Each student takes one and attaches it to a beaker that they will expose to heat.
+\item Each student calibrates the unit to a known temperature (obtained from an existing thermometer)
+\item Each student exposes the unit to heat and records ten temperatures over the course of a class period.
+\item At the end of class, each student brings their unit to a computer, plugs it in to a USB drive, and takes a CSV file off the internal memory.
+\end{enumerate}
+\subsection{Remote use}
+\end{document}

@@ -1,0 +1,72 @@
+#TITLE
+#AUTHOR alec resnick
+#DATE 08 October 2008
+
+
+* meeting with alex for overview of nublogger construction
+ - third, top organizer has all needed parts
+ - one-sided board
+ - goofy thing: didn't print out resistor values on board, need to match with schematic or existing board
+ - use lead-free solder (green lid)
+ - 25K = 24K resistors
+ - Most resistors you need are in green labeled bins in organizer
+ - 10K resistor form factor won't fit, need to angle up relative to board (as opposed to flat)
+ - Make five two sensor, rest one sensor
+ - On the switch, the two leads on the bottom are electrically the same: use the one on the side andone of the ones on the bottom.  Errors manifest as a temperature = short.
+ - Use stranded wire for connectors (since they will flex, etc.)
+ - With board facing up, bottom of battery header is GND
+ - Note that headers are extremely close: try to keep them apart while soldering
+ - M5103 thermistors
+
+** Steps to build
+ 1. Get board
+ 2. Plug in micro
+ 3. Wet pads for micro and solder
+ 4. Fold resistors and stuff in (see note about 10K resistors)
+ 5. Insert LEDs (negative side = shorter side --> goes to the flat side of the schematic)
+ 6. Insert capacitors (47nF)
+ 7. Insert headers, matching up rectangle to rectangular flap on headers.
+ 8. Flip over and put on something soft to keep headers in
+ 9. Solder one lead, check if headers flush, push and heat up to keep flush.
+ 10. Don't need to populate six pin header on datalogger
+ 11. Insert XBee last
+ 12. Be sure to snip off leads as closely as possible on underside (no insulation!) 
+ 13. Drill holes in triangle, drill upside down so that it flat instead of bowed with 1/4" bit.
+ 14. Solder wires onto switch, inserting stranded through the hole.  The wire should be about two inches long (note that one will need to be longer than the other, to allow for the different origins on the switch) and the two wires should be twisted together.
+ 15. Crimp crimpins onto the wire, directionality doesn't matter since its resistive.
+ 16. Crimpins should just slide into headers.  A screwdriver or tweezers will help to insert them.
+ 17. Put a lockwasher on top and bolt down the switch tight.
+ 18. Insert 3.5mm jack and bolt down tightly.
+ 19. Label sensor 1/sensor 2
+ 20. Label on/off position of switch
+ 21. Connect battery header; note that DIRECTION MATTERS
+
+** Tasks remaining
+ - Arduino development
+  - Upload to IO board -- someone else is using COM port!
+  - ISP cable points toward board (needs twist)
+  - In AVR studio, choose HEX, hit program
+  - Program EEPROM
+  - Plug in batteries, do its thing.
+  - TODO
+    - Sample rate
+    - Doesn't listen to computer at all
+    - Sleep command for XBee
+    - eg name, sleep, parameter
+    - Write up command protocol
+    - On bootup, reads first 256 bytes of EEPROM
+    - Reads in stream called name
+    - Hardcoding name in code as we burn
+    - Need to make sure to sleep, not just delay!
+    - When asleep, assert pin PD2 --> XBEESLEEP
+    - Learn how to power management --
+      - Shut down ADC, XBEE
+    - Blink LED on bootup, comm, etc. 
+ - 22 gauge stranded wire
+ - Crimper for insulation, crimp pins, etc.
+ - Strain relief on sensors, crimps into headers
+ - Figure out how to indicate on/off
+ - Label sensor 1/sensor 2 (see board)
+ - Dongle case
+ - Datalogger holder
+ - How to mount thermistors to suckers/windows/whatever.

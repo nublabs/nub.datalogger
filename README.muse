@@ -1,0 +1,22 @@
+#title README for nublogger
+#author alec resinck (alec@nublabs.org)
+#date 101008
+#desc The nublogger is an affordable, wireless platform for datalogging, using the XBee protocol.
+
+* What is this project?
+The nublogger is an affordable, wireless platform for datalogging, using the XBee protocol.  The nublogger comprises a dongle for a computer, and any number (well, up to 65536) sensors which can wirelessly log data to it.
+
+** Where is it now?
+Currently, the datalogger costs about $XX in parts and requires approximately X hours to assemble.  A user plugs in the dongle to their computer, and the dongle listens for any broadcasting sensors, logging each sensor's data to a separate CSV text file on the computer.  Currently, no pairing between dongle and sensor is done.  Each dongle logs all sensors in range using a Java program written in [[http://processing.org][Processing]].
+
+** Where is it going?
+The nublogger is still well above its ultimate price point.  Beyond replacing the XBee development board, we also will be making the dongle appear as a thumb drive on the host computer.  Currently, a Java program written in [[http://www.processing.org][Processing]] is responsible for parsing and logging the data.  Also, the ability to pair dongle and sensor will be introduced, to allow numerous dongles within wireless range to be used with one another.
+
+* File index
+ - project
+   - CONVENTIONS.muse : documents the project structure conventions used and the best practices for updating a project
+   - README.muse  : this file
+   - docs : a directory holding all documentation and documents relevant to the project
+   - hardware : a directory containing all the hardware schematics and CAD files
+   - software : a directory containing all of the relevant software for the project
+   - misc : everything else (including, for example, literature reviews)

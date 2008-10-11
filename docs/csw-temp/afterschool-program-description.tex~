@@ -1,0 +1,17 @@
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
+
+Tinkering with electronic sensing: an introduction to the Arduino and Processing
+
+So I taught a D-Block course at CSW last year, and I had a lot of fun.  And this year, some friends of mine and I started an organization to--among other things--make affordable tools for teachers.  As part of that, CSW was interested in doing some automated temperature sensing, and we designed and built a datalogger for you guys.
+
+We used a pretty neat, microcontroller platform called the Arduino to develop the datalogger.  The interesting thing about the Arduino and the datalogger we designed is that they are a great jumping off point for getting into electronics: it's easy to switch out sensors, try new electronics, experiment with the Arduino, etc.  So, if you're interested in getting to know the datalogger, how to build and use one, and how to write software and make hardware that can use the data that you collect, we'd love to help.  As it stands, the datalogger can be programmed to detect and record temperature wirelessly.  But temperature is just one option: there are a multitude of sensors--humidity, light, sound, air pressure--and by building and programming the datalogger, you'd be learning how to do the basic sensor work that's behind a lot of cool projects.
+
+We'd like to run a D-Block program where you guys' can learn a bit about how the Arduino and datalogger work, assemble a datalogger, and use it however you'd like.  One possible extension is using the programming language Processing to learn how to make interfaces and interact with the Arduino with a computer.  Processing is a fantastic gateway, and you can make some seriously beautiful things with it.
+
+Beyond this, since the Arduino platform and the Processing language have active, hobbyist communities around them, you'll have the chance to become part of a really fun group of people.  One possibility we think would be pretty cool to explore is the following: if you had an idea for something you wanted to make, and we thought we could help you design and build it, if you were interested in documenting the design and construction process well, we would be excited to help you market and sell it as a kit or product online.  At worst, you make something you wanted.  At best, you make something you wanted and a lot of other people wanted, too.
+
+If you have a different vision for what you would want an electronics-focused D-Block to look like, let us know and we can figure out how to accomodate.  Feedback would be awesome!  Tell us what you want (thenubs@nublabs.com), and we'll see what we can do.
