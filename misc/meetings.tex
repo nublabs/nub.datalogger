@@ -1,0 +1,119 @@
+\documentclass{article}
+
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+\usepackage[pdftex]{graphicx}
+
+\begin{document}
+
+\title{meetings regarding the nublogger}
+\author{alec resnick (alec@nublabs.org)}
+\date{08 October 2008}
+
+\maketitle
+
+
+
+\section{meeting with alex for overview of nublogger construction}
+
+\subsection{notes}
+
+\begin{itemize}
+\item Third organizer to the right on the top row has all the needed parts.
+\item Resistor values are not printed on the board, meaning you need to match the board with the schematic or an existing board
+\item Since these will be going to schools, use lead-free solder (the lid with the green trim)
+\item All 25k resistors are actually 24k resistors
+\item Most resistors you need are in green labeled bins in organizer
+\item 10k resistor form factor won't fit, so you need to angle the resistor up relative to board
+\item Make five two sensor borads, the rest (11 sensors) should be one sensor
+\item On the switch, the two leads on the bottom are electrically the same: use the one on the side and one of the ones on the bottom.  Messing this up manifests as a temperature equivalent to a short.
+\item Use stranded wire for connectors, since they will be flexing.
+\item With board facing up, bottom of battery header is GND
+\item Note that headers are extremely close: try to keep them apart while soldering
+\item We're using M5103 thermistors
+\item For the LEDs negative side = shorter side---\textgreater{} goes to the flat side in the schematic
+\item Notes on Arduino development:
+
+\begin{itemize}
+\item Upload to IO board---someone else is using COM port!
+\item ISP cable points toward board (needs twist)
+\item In AVR studio, choose HEX, hit program
+\item Program EEPROM
+\item Plug in batteries, do its thing.
+\end{itemize}
+\end{itemize}
+
+
+
+\subsection{Steps to build}
+
+\begin{enumerate}
+\item Get board
+\item Plug in microcontroller
+\item Wet pads for micro and solder
+\item Fold resistors and stuff.  Note that 10k resistor form factor won't fit, so you need to angle the resistor up relative to board.
+\item Insert LEDs (negative side = shorter side---\textgreater{} goes to the flat side in the schematic)
+\item Insert capacitors (47nF)
+\item Insert headers, matching up rectangle to rectangular flap on headers.
+\item Flip over and rest the board on something soft to keep headers in
+\item Solder one lead, check if headers flush, push and heat up to keep flush.
+\item Don't need to populate six pin header on datalogger
+\item Insert XBee last
+\item Be sure to snip off leads as closely as possible on underside (no insulation!)
+\item For the cap, drill holes in a triangle; be sure to drill (with 1/4`` bit) upside down so that the top is flat instead of bowed
+\item Solder wires onto switch, inserting stranded wire through the hole in the switch's leads.  The wire should be about two inches long (note that one will need to be longer than the other, to allow for the different origins on the switch) and the two wires should be twisted together.
+\item Put crimps onto the wire; directionality doesn't matter since this is all just resistive.
+\item Crimps should just slide into headers.  A screwdriver or tweezers will help to insert them.
+\item Put a lockwasher on top and bolt down the switch tight.
+\item Insert 3.5mm jack and bolt down tightly.
+\item Label sensor 1/sensor 2
+\item Label on/off position of switch
+\item Connect battery header; note that DIRECTION MATTERS
+\item Label datalogger with name
+\end{enumerate}
+
+
+
+\subsection{Tasks remaining}
+
+\begin{itemize}
+\item Arduino development
+
+\begin{itemize}
+\item TODO
+
+\begin{itemize}
+\item Sample rate
+\item Doesn't listen to computer at all
+\item Sleep command for XBee
+\item eg name, sleep, parameter
+\item Write up command protocol
+\item On bootup, reads first 256 bytes of EEPROM
+\item Reads in stream called name
+\item Hardcoding name in code as we burn, since we are making so few dataloggers
+\item Need to make sure to sleep, not just delay!
+\item When asleep, assert pin PD2---\textgreater{} XBEESLEEP
+\item Learn how to intelligently manage power
+
+\begin{itemize}
+\item Shut down ADC, XBEE
+\end{itemize}
+\item Blink LED on bootup, comm, etc.
+\end{itemize}
+\end{itemize}
+\item Pick up 22 gauge stranded wire
+\item Purchase crimper for insulation, crimp pins, etc.
+\item Strain relief on sensors, crimps into headers
+\item Figure out how to indicate on/off
+\item Label sensor 1/sensor 2 (see board)
+\item Dongle case
+\item Datalogger holder
+\item How to mount thermistors to suckers/windows/whatever.
+\end{itemize}
+
+
+
+
+\end{document}
