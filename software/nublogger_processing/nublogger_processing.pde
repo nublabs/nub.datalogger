@@ -7,13 +7,26 @@ Serial myPort;
 intVector data;
 boolean listening = true;
 String delimeter = ",";
-
+String sketchPath = "/home/aresnick/nub/projects/nublogger/software/nublogger_processing/";
 
 void setup() {
   size(10,10);
+  sketchPath = choosePath();
 
   println(Serial.list());
   myPort = new Serial(this, Serial.list()[0], 9600);
+}
+
+String choosePath(){
+  String savePath = selectFolder();  // Opens file chooser
+  if (savePath == null) {
+    // If a file was not selected
+    println("No output file was selected...");
+  } else {
+  // If a file was selected, print path to folder
+  println(savePath);
+  }
+  return savePath;
 }
 
 void listen(Serial port){
@@ -21,10 +34,9 @@ void listen(Serial port){
   String[] data = null;
   do {
     dataRecvd = port.readStringUntil('\n');
-  } while(dataRecvd == null);
-  
-  println(dataRecvd);
+  }while(dataRecvd == null);
   data = parseRaw(dataRecvd);
+  println(dataRecvd);
   writeReading(data);
 }
 
@@ -35,36 +47,20 @@ String[] parseRaw(String input){
 }
 
 void writeReading(String[] sensorReadings){
-  String sensorName = sensorReadings[0];
-  initializeSensorFile(sensorReadings);
-  try{
-    PrintWriter output = new PrintWriter(new BufferedWriter( new FileWriter (sensorName + ".csv", true)));
-    
-    for(int i = 1; i < sensorReadings.length - 1; ++i){
-      output.print(sensorReadings[i]);
-      print(sensorReadings[i]);
-      if(i < sensorReadings.length-1){
-        output.print(',');
-//        print(',');
-      }
-      else{
-        output.print('\n');
-      }
-    }
-    output.flush();
-    output.close();
-  }
+  String filename = sketchPath + sensorReadings[0] + ".csv";
   
-  catch (IOException exc){
-    print("IOException caught; problem writing to " + sensorName + ".csv\n");
+  if(!fileExists(filename)){
+    initializeSensorFile(sensorReadings);
   }
+
+  String lineToAppend = arrayToCSV(subset(sensorReadings, 1)) + '\n';
+  appendToFile(lineToAppend, filename);
 }
 
 boolean fileExists(String filename){
   File file = new File(filename);
   if(!file.exists())
     return false;
-       
   return true;
 }
 
@@ -76,22 +72,38 @@ String[] constructHeadings(String[] sensorReadings){
   return headings;
 }
 
+String arrayToCSV(String[] array){
+  String csv = "";
+  for(int i = 0; i < array.length; ++i){
+    csv += array[i];
+    if (i < array.length-1){
+      csv += ',';
+    }
+    else{
+      csv += '\n';
+    }
+  }
+  
+  return csv;
+}
+
+void appendToFile(String toAppend, String filename){
+  try {
+    BufferedWriter out = new BufferedWriter(new FileWriter(filename, true));
+    out.write(toAppend);
+    out.close();
+  } 
+  catch (IOException e) {
+    print("IOException caught!  Error writing to "+filename);
+  }
+}
+
 void initializeSensorFile(String[] sensorReadings){
-  String filename = sensorReadings[0] + ".csv";
+  String filename = sketchPath + sensorReadings[0] + ".csv";
   String[] headings = constructHeadings(sensorReadings);
   
-  if (!fileExists(filename)){
-    PrintWriter output = createWriter(filename);
-    for(int i = 0; i < headings.length; ++i){
-      output.print(headings[i]);
-      if(i < headings.length-1){
-        output.print(',');
-      }
-    }
-    output.print('\n');
-    output.flush();
-    output.close();
-  }
+  String firstLine = arrayToCSV(headings);
+  appendToFile(firstLine, filename);
 }
 
 void toggleListening(){
@@ -104,8 +116,6 @@ void keyPressed(){
 
 void draw() {
   if (myPort.available() > 0 && listening == true){
-    listen(myPort);
-    myPort.clear();
     listen(myPort);
   }
 }
