@@ -35,7 +35,7 @@
  4. Fold resistors and stuff.  Note that 10k resistor form factor won't fit, so you need to angle the resistor up relative to board.
  5. Insert LEDs (negative side = shorter side --> goes to the flat side in the schematic)
  6. Insert capacitors (47nF)
- 7. Insert headers, matching up rectangle to rectangular flap on headers.
+bv 7. Insert headers, matching up rectangle to rectangular flap on headers.
  8. Flip over and rest the board on something soft to keep headers in
  9. Solder one lead, check if headers flush, push and heat up to keep flush.
  10. Don't need to populate six pin header on datalogger

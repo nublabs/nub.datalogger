@@ -2,23 +2,21 @@ import processing.serial.*;
 
 PrintWriter output;
 
-int numSamples = 1000;
+int numSamples=1000;
 Serial myPort;  // The serial port
-
-float[][] voltage = new float[numSamples][2];
-float[] temperature = new float[numSamples];
-float[] R = new float[numSamples];
-float R0 = 10000.0;
-float R2 = 10000.0;
-float B = 3950;
-float T0 = 298.0;
-boolean full_set = false;
-boolean noData = false;
-
+float[][]voltage =new float[numSamples][2];
+float[]temperature=new float[numSamples];
+float[]R=new float[numSamples];
+float R0=10000.0;
+float R2=10000.0;
+float B=3950;
+float T0=298.0;
+boolean full_set=false;
+boolean noData=false;
 PFont font;
 
-int data[] = new int[100];
-int index, i;
+  int data[]=new int[100];
+  int index,i;
 int vindex;
 
 void setup() {
@@ -27,106 +25,90 @@ void setup() {
   println(Serial.list());
 
   output=createWriter("log.csv");
+  // I know that the first port in the serial list on my mac
+  // is always my  Keyspan adaptor, so I open Serial.list()[0].
+  // Open whatever port is the one you're using.
   myPort = new Serial(this, Serial.list()[0], 9600);
-  
-  for(int i=0;i<100;i++)
-    for(int j=0;j<2;j++)
-      voltage[i][j]=0;
+for(int i=0;i<100;i++)
+  for(int j=0;j<2;j++)
+    voltage[i][j]=0;
 
   font = loadFont("AmericanTypewriter-Light-18.vlw"); 
   textFont(font); 
   output.println("Time (seconds), Temperature (degrees C)");
-  
+
+
   vindex=0;
 }
 
 float display(float temp_in)
 {
-  temp_in -= 273;
-  temp_in = 100 - temp_in;
-  temp_in *= 6;
-  temp_in += 100;
+  temp_in-=273;
+  temp_in=100-temp_in;
+  temp_in*=6;
+  temp_in+=100;
   return temp_in;
 }
 
 float display_c(float temp_in)
 {
-  temp_in = 100 - temp_in;
-  temp_in *= 6;
-  temp_in += 100;
+  temp_in=100-temp_in;
+  temp_in*=6;
+  temp_in+=100;
   return temp_in;
 }
 
 float data_request(char channel)
 {
-  int rawValue = 0;
-  while (rawValue == 0) {
+  int rawValue=0;
+  while(rawValue==0)
+  {
     myPort.write(channel);
-    delay(50);
-    
-    i=0;
-    while(myPort.available()>0) {
-      data[i] = myPort.read();
+  i=0;
+  delay(50);
+  while(myPort.available()>0)
+  {
+      data[i]=myPort.read();
       i++;
-    }
-    
-    if (data[2] == channel) {
-      rawValue = data[0] + data[1]*256;
-    }
-    else
-      rawValue = 0;
-      
-    myPort.clear();
   }
-  
+  if(data[2]==channel)
+  {
+    rawValue=data[0]+data[1]*256;
+  }
+  else
+    rawValue=0;
+  myPort.clear();
+  }
   return (float)rawValue;
 }
 
-
 float get_data(char channel)
 {
-  float[] samples = new float[3];
-  float[] differences = new float[3];
-  
-  for(int i = 0; i < samples.length; i++)
-    samples[i] = data_request(channel);
-  
-  differences[0] = abs(samples[2] - samples[1]);
-  differences[1] = abs(samples[1] - samples[0]);
-  differences[2] = abs(samples[0] - samples[2]);
+  float[] samples=new float[3];
+  float[]differences=new float[3];
+  for(int i=0;i<3;i++)
+    samples[i]=data_request(channel);
+  differences[0]=abs(samples[2]-samples[1]);
+  differences[1]=abs(samples[1]-samples[0]);
+  differences[2]=abs(samples[0]-samples[2]);
 
-  float[] notSmallest = new float[1];
-  float smallestDiff = min(differences);
-  
-  for (int i = 0; i < differences.length; i++){
-    if(differences[i] != smallestDiff){
-      append(notSmallest, differences[i]);
-    }
-  }
-  
-  if (notSmallest.length != 0)
-    return average(notSmallest);
-  else
+  if((differences[0]<=differences[1])&&(differences[0]<=differences[2]))
+    return ((samples[2]+samples[1])/2);
+  else if((differences[1]<=differences[0])&&(differences[1]<=differences[2]))  
+    return ((samples[1]+samples[0])/2);
+  else if((differences[2]<=differences[0])&&(differences[2]<=differences[1]))
+    return ((samples[0]+samples[2])/2);
+  else 
     return 0.0;
-}
 
-float average(float[] samples) {
-  float sum = 0;
-  int numSamples = samples.length;
-  for (int i = 0; i < numSamples; ++i) {
-    sum += samples[i];
-  }
-  
-  float average = sum / numSamples;
-  return average;
 }
 
 void draw()
 {
-  voltage[index][0] = get_data('0');
-  voltage[index][1] = get_data('1');
+  voltage[index][0]=get_data('0');
+  voltage[index][1]=get_data('1');
   
-  R[index] = R2*((float)voltage[index][0]/(float)voltage[index][1])-R2;
+  R[index]=R2*((float)voltage[index][0]/(float)voltage[index][1])-R2;
   temperature[index]=B/log(R[index]/(R0*exp(-1*B/T0)));
   
   if((temperature[index]-273)>100)
