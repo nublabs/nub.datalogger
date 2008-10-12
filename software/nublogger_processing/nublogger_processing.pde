@@ -6,13 +6,17 @@ int numSamples = 3;
 Serial myPort;
 intVector data;
 boolean listening = true;
+
 String delimeter = ",";
 String sketchPath = "/home/aresnick/nub/projects/nublogger/software/nublogger_processing/";
 
+HashMap sensorUnits = new HashMap();
+
 void setup() {
   size(10,10);
-  sketchPath = choosePath();
-
+//  sketchPath = choosePath();
+sensorUnits.put(1,"degrees Celsius");
+sensorUnits.put(2,"degrees Celsius");
   println(Serial.list());
   myPort = new Serial(this, Serial.list()[0], 9600);
 }
@@ -53,7 +57,7 @@ void writeReading(String[] sensorReadings){
     initializeSensorFile(sensorReadings);
   }
 
-  String lineToAppend = arrayToCSV(subset(sensorReadings, 1)) + '\n';
+  String lineToAppend = arrayToCSV(subset(sensorReadings, 1));
   appendToFile(lineToAppend, filename);
 }
 
@@ -67,7 +71,8 @@ boolean fileExists(String filename){
 String[] constructHeadings(String[] sensorReadings){
   String[] headings = new String[sensorReadings.length-2];
   for(int i = 1; i < sensorReadings.length-1; ++i){
-    headings[i-1] = "sensor"+i;
+    headings[i-1] = ("sensor" + i) + " " + "(" + sensorUnits.get(i) + ")";
+    print("MOO"+headings[i-1]);
   } 
   return headings;
 }
@@ -78,9 +83,6 @@ String arrayToCSV(String[] array){
     csv += array[i];
     if (i < array.length-1){
       csv += ',';
-    }
-    else{
-      csv += '\n';
     }
   }
   
@@ -102,7 +104,7 @@ void initializeSensorFile(String[] sensorReadings){
   String filename = sketchPath + sensorReadings[0] + ".csv";
   String[] headings = constructHeadings(sensorReadings);
   
-  String firstLine = arrayToCSV(headings);
+  String firstLine = arrayToCSV(headings) + '\n';
   appendToFile(firstLine, filename);
 }
 
