@@ -1,5 +1,6 @@
 import processing.serial.*;
 import java.io.*;
+import javax.swing.*; 
 
 int numSamples = 3;
 
@@ -11,26 +12,18 @@ String delimeter = ",";
 String sketchPath = "/home/aresnick/nub/projects/nublogger/software/nublogger_processing/";
 
 HashMap sensorUnits = new HashMap();
+HashMap configOptions = new HashMap();
 
 void setup() {
   size(10,10);
-//  sketchPath = choosePath();
-sensorUnits.put(1,"degrees Celsius");
-sensorUnits.put(2,"degrees Celsius");
+  File configFile = chooseConfigFile();
+  configOptions = parseConfigFile(configFile);
+  
+  sensorUnits.put(1,"degrees Celsius");
+  sensorUnits.put(2,"degrees Celsius");
   println(Serial.list());
-  myPort = new Serial(this, Serial.list()[0], 9600);
-}
-
-String choosePath(){
-  String savePath = selectFolder();  // Opens file chooser
-  if (savePath == null) {
-    // If a file was not selected
-    println("No output file was selected...");
-  } else {
-  // If a file was selected, print path to folder
-  println(savePath);
-  }
-  return savePath;
+  int serialPortNumber = autoselectSerialPort();
+  myPort = new Serial(this, Serial.list()[serialPortNumber], 9600);
 }
 
 void listen(Serial port){
@@ -72,7 +65,6 @@ String[] constructHeadings(String[] sensorReadings){
   String[] headings = new String[sensorReadings.length-2];
   for(int i = 1; i < sensorReadings.length-1; ++i){
     headings[i-1] = ("sensor" + i) + " " + "(" + sensorUnits.get(i) + ")";
-    print("MOO"+headings[i-1]);
   } 
   return headings;
 }
@@ -368,4 +360,71 @@ class floatVector{
     }
     return -1;
   }
+}
+
+File chooseConfigFile(){
+  try { 
+    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); 
+  } 
+  catch (Exception e) { 
+    e.printStackTrace();  
+  }
+  
+  File file;
+  // create a file chooser 
+  final JFileChooser fc = new JFileChooser(); 
+  
+  // in response to a button click:
+  int returnVal = fc.showOpenDialog(this); 
+  
+  if (returnVal == JFileChooser.APPROVE_OPTION) { 
+    file = fc.getSelectedFile(); 
+  }
+  else { 
+    println("Open command cancelled by user."); 
+  }
+  
+  return file;
+}
+
+/* Config files have three lines (do not include the angle brackets in your file):
+NUBLOGGER_NAME <name of datalogger>
+SAMPLE_INTERVAL <interval between samples, in minutes>
+SAMPLING_TIME <length of time to sample for, in minutes>
+SENSOR1_UNIT <units of measurement>
+SENSOR2_UNIT <units of measurement>
+*/
+HashMap parseConfigFile(File file){
+  HashMap configOptions = new HashMap();
+  String lines[] = loadStrings(file);
+  for(int i = 0; i < lines.length; ++i){
+    String words[] = lines[i].split(" ");
+    String configOption = words[0];
+    String configValue = words[1];
+    
+    configOptions.put(configOption, configValue);
+  }
+  
+  return configOptions;
+}
+
+int autoselectSerialPort(){
+ String[] avaliablePorts = Serial.list();
+ for(int i = 0; i < availablePorts.length; ++i){
+   Serial port = new Serial(this, Serial.list()[i], 9600);
+   if (ask(port) == true){
+     return i;
+   }
+ }
+ print("Error: no dongle found");
+}
+
+boolean ask(Serial port){
+  port.clear();
+  port.write("Anybody out there?");
+  if(port.available() > 0){
+     if (port.readStringUntil('\n') == "Yes"){
+       return true;
+     }
+   }
 }
