@@ -5,13 +5,14 @@
 char* loggingLevels[] = {"INFO", "WARN", "ERROR", "CRITICAL"};
 
 // Variables --------------------------------------------------
-char name[256];
+
 
 int sensor1_top, sensor1_bottom, sensor2_top, sensor2_bottom;  //the raw ADC values for the voltages on either side of the thermistor
 float temp1, temp2;  //the temperature, in celsius, that the thermistor is measuring
 float r1, r2;  //the resistance in ohms of the thermistors
 
-int checksum;
+int chksum;
+
 
 
 //Temperature=B/ln(R/(R0*e^(-B/T0)))
@@ -34,7 +35,10 @@ struct logMsg {
 
 int digitsOfPrecision = 2;  
 int guardTime = 2000;
-
+char name[256];
+float sampleInterval;
+float sampleTime;
+char* sensor1_unit, sensor2_unit;
 
 // Helper functions --------------------------------------------------
 boolean validLogLevel(char* logLevel){
@@ -91,6 +95,11 @@ char* concat(char** strings){
 
 void initializePins(){
   pinMode(LEDpin.number, OUTPUT);
+}
+
+void initializeConfig(){
+  XBee_write("Looking for love.");
+  
 }
 
 // XBee ----------------------------------------
@@ -173,6 +182,14 @@ void Arduino_wake(){
   // Wakes up
 }
 
+char[] Arduino_read(){
+  char[] getByte;
+  while (Serial.available() == 0);
+  getByte = Serial.read();
+  
+  return getByte;
+}
+
 char[] whoami(){
   for(int i=0;i<255;i++)   //read in our unique name from EEPROM when we boot
     name[i]=EEPROM.read(i);
@@ -181,6 +198,10 @@ char[] whoami(){
   }
   
   return name;
+}
+
+void parseConfig(char* configStrings){
+  int numConfigOptions = strlen(configStrings);
 }
 
 // Main program --------------------------------------------------
@@ -193,7 +214,10 @@ void setup()
   
   blinkLED(LEDpin.number, 3, 500);
   
+  name = whoami();
+  
   Serial.begin(9600);  //initialize the serial port
+  initializeConfig();
 }
 
 void loop()
@@ -216,7 +240,7 @@ void sendValues()
   Serial.print(", degrees C, ");
   printFloat(temp2);
   Serial.print(", degrees C, ");
-  Serial.print(checksum);  //the checksum is the sum of temp1 and temp2, cast as an int
+  Serial.print(chksum);  //the checksum is the sum of temp1 and temp2, cast as an int
   Serial.println();
 }
 
@@ -248,14 +272,18 @@ void updateValues()
     float sensor1_ratio = sensor1_top/sensor1_bottom;
     float sensor2_ratio = sensor2_top/sensor2_bottom;
     
-    r1=(sensor1_ratio - 1)*RBOTTOM;
-    r2=(sensor2_ratio - 1)*RBOTTOM;
+    r1 = (sensor1_ratio - 1)*RBOTTOM;
+    r2 = (sensor2_ratio - 1)*RBOTTOM;
     
     //temp1=r1;
     temp1 = R2T(r1);
     temp2 = R2T(r2);
     
-    checksum = temp1 + temp2;
+    chksum = checksum(temp1, temp2);
+}
+
+float checksum(float t1, float t2){
+  return t+t2;
 }
 
 float R2T(float resistance){

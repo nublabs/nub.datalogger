@@ -9,7 +9,7 @@ intVector data;
 boolean listening = true;
 
 String delimeter = ",";
-String sketchPath = "/home/aresnick/nub/projects/nublogger/software/nublogger_processing/";
+String sketchPath = "";
 
 HashMap sensorUnits = new HashMap();
 HashMap configOptions = new HashMap();
@@ -18,12 +18,14 @@ void setup() {
   size(10,10);
   File configFile = chooseConfigFile();
   configOptions = parseConfigFile(configFile);
-  
-  sensorUnits.put(1,"degrees Celsius");
-  sensorUnits.put(2,"degrees Celsius");
+ 
+  sensorUnits.put(1, configOptions.get("SENSOR1_UNIT"));
+  sensorUnits.put(2, configOptions.get("SENSOR2_UNIT"));
   println(Serial.list());
   int serialPortNumber = autoselectSerialPort();
   myPort = new Serial(this, Serial.list()[serialPortNumber], 9600);
+  
+  configOptions.get("SAMPLE_INTERVAL");
 }
 
 void listen(Serial port){
@@ -37,6 +39,9 @@ void listen(Serial port){
   writeReading(data);
 }
 
+void say(String message, Serial port){
+  port.write(message);
+}
 
 String[] parseRaw(String input){
   String[] parameters = split(input, delimeter);
@@ -65,7 +70,9 @@ String[] constructHeadings(String[] sensorReadings){
   String[] headings = new String[sensorReadings.length-2];
   for(int i = 1; i < sensorReadings.length-1; ++i){
     headings[i-1] = ("sensor" + i) + " " + "(" + sensorUnits.get(i) + ")";
-  } 
+  }
+  headings[sensorReadings.length-1] = "timestamp";
+   
   return headings;
 }
 
@@ -387,7 +394,7 @@ File chooseConfigFile(){
   return file;
 }
 
-/* Config files have three lines (do not include the angle brackets in your file):
+/* Config files have five lines (do not include the angle brackets in your file):
 NUBLOGGER_NAME <name of datalogger>
 SAMPLE_INTERVAL <interval between samples, in minutes>
 SAMPLING_TIME <length of time to sample for, in minutes>
@@ -395,7 +402,7 @@ SENSOR1_UNIT <units of measurement>
 SENSOR2_UNIT <units of measurement>
 */
 HashMap parseConfigFile(File file){
-  HashMap configOptions = new HashMap();
+  HashMap configOptions = new HashMap();h=
   String lines[] = loadStrings(file);
   for(int i = 0; i < lines.length; ++i){
     String words[] = lines[i].split(" ");
@@ -405,6 +412,7 @@ HashMap parseConfigFile(File file){
     configOptions.put(configOption, configValue);
   }
   
+  sketchPatch = String(file) + ".csv";
   return configOptions;
 }
 
