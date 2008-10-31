@@ -1,19 +1,20 @@
 import processing.serial.*;
 import java.io.*;
-import javax.swing.*; 
-
+import javax.swing.*;
+ 
 int numSamples = 3;
-
+ 
 Serial myPort;
 intVector data;
 boolean listening = true;
-
+ 
 String delimeter = ",";
 String sketchPath = "";
+String defaultConfigFile = "/home/aresnick/nub/projects/nublogger/software/config.txt";
 
 HashMap sensorUnits = new HashMap();
 HashMap configOptions = new HashMap();
-
+ 
 void setup() {
   size(10,10);
   File configFile = chooseConfigFile();
@@ -27,7 +28,7 @@ void setup() {
   
   configOptions.get("SAMPLE_INTERVAL");
 }
-
+ 
 void listen(Serial port){
   String dataRecvd = null;
   String[] data = null;
@@ -38,34 +39,34 @@ void listen(Serial port){
   println(dataRecvd);
   writeReading(data);
 }
-
+ 
 void say(String message, Serial port){
   port.write(message);
 }
-
+ 
 String[] parseRaw(String input){
   String[] parameters = split(input, delimeter);
   return parameters;
 }
-
+ 
 void writeReading(String[] sensorReadings){
   String filename = sketchPath + sensorReadings[0] + ".csv";
   
   if(!fileExists(filename)){
     initializeSensorFile(sensorReadings);
   }
-
+ 
   String lineToAppend = arrayToCSV(subset(sensorReadings, 1));
   appendToFile(lineToAppend, filename);
 }
-
+ 
 boolean fileExists(String filename){
   File file = new File(filename);
   if(!file.exists())
     return false;
   return true;
 }
-
+ 
 String[] constructHeadings(String[] sensorReadings){
   String[] headings = new String[sensorReadings.length-2];
   for(int i = 1; i < sensorReadings.length-1; ++i){
@@ -75,7 +76,7 @@ String[] constructHeadings(String[] sensorReadings){
    
   return headings;
 }
-
+ 
 String arrayToCSV(String[] array){
   String csv = "";
   for(int i = 0; i < array.length; ++i){
@@ -87,18 +88,18 @@ String arrayToCSV(String[] array){
   
   return csv;
 }
-
+ 
 void appendToFile(String toAppend, String filename){
   try {
     BufferedWriter out = new BufferedWriter(new FileWriter(filename, true));
     out.write(toAppend);
     out.close();
-  } 
+  }
   catch (IOException e) {
-    print("IOException caught!  Error writing to "+filename);
+    print("IOException caught! Error writing to "+filename);
   }
 }
-
+ 
 void initializeSensorFile(String[] sensorReadings){
   String filename = sketchPath + sensorReadings[0] + ".csv";
   String[] headings = constructHeadings(sensorReadings);
@@ -106,39 +107,39 @@ void initializeSensorFile(String[] sensorReadings){
   String firstLine = arrayToCSV(headings) + '\n';
   appendToFile(firstLine, filename);
 }
-
+ 
 void toggleListening(){
   listening = !listening;
 }
-
+ 
 void keyPressed(){
-  toggleListening();  
+  toggleListening();
 }
-
+ 
 void draw() {
   if (myPort.available() > 0 && listening == true){
     listen(myPort);
   }
 }
-
-
+ 
+ 
 /////////////////////////////////////////
-
+ 
 float display(float temp_in) {
   return 6*(100-(temp_in-273)) + 100;
 }
-
+ 
 float display_c(float temp_in) {
   return 6*(100 - temp_in) + 100;
 }
-
-
+ 
+ 
 float data_request(char channel){
   int rawValue = 0;
   while(rawValue == 0){
     myPort.write(channel);
     delay(50);
-  }  
+  }
   
   while(myPort.available() > 0){
     data.push(myPort.read());
@@ -155,7 +156,7 @@ float data_request(char channel){
   
   return float(rawValue);
 }
-
+ 
 float get_data(char channel){
   floatVector samples = new floatVector(numSamples);
   floatVector differences = new floatVector(numSamples);
@@ -169,19 +170,19 @@ float get_data(char channel){
   float smallestDiff = min(differences.getArray());
   int smallestIndex = differences.index(smallestDiff);
     
-  return average(samples.complement(smallestIndex));  
+  return average(samples.complement(smallestIndex));
 }
-
+ 
 float average(floatVector toAverage){
   return addMap(toAverage.getArray())/toAverage.getArray().length;
 }
-
+ 
 float average(intVector toAverage){
   return float(addMap(toAverage.getArray()))/float(toAverage.size());
 }
-
+ 
 float subtractMap(float[] subtractionArray){
-  int startIndex = 0; 
+  int startIndex = 0;
   int endIndex = subtractionArray.length;
   
   float subtraction = 0.0;
@@ -191,7 +192,7 @@ float subtractMap(float[] subtractionArray){
   
   return subtraction;
 }
-
+ 
 int subtractMap(int[] subtractionArray){
   int subtraction = 0;
   int startIndex = 0;
@@ -202,7 +203,7 @@ int subtractMap(int[] subtractionArray){
   
   return subtraction;
 }
-
+ 
 float addMap(float[] additionArray){
   int startIndex = 0;
   int endIndex = additionArray.length;
@@ -213,7 +214,7 @@ float addMap(float[] additionArray){
   
   return addition;
 }
-
+ 
 int addMap(int[] additionArray){
   int startIndex = 0;
   int endIndex = additionArray.length;
@@ -223,14 +224,14 @@ int addMap(int[] additionArray){
   }
   
   return addition;
-} 
-
+}
+ 
 // A fucking intVector class, because Processing can't template ArrayLists
 class intVector{
  int[] internalArray;
  
  public intVector(){
- } 
+ }
  
  public intVector(int size){
    internalArray = new int[3];
@@ -247,7 +248,7 @@ class intVector{
  }
  
  int size() {
-  return this.internalArray.length; 
+  return this.internalArray.length;
  }
  
  intVector push(int toAdd){
@@ -264,7 +265,7 @@ class intVector{
  }
  
  int get(int index){
-  return internalArray[index]; 
+  return internalArray[index];
  }
  
  intVector set(int index, int value){
@@ -281,7 +282,7 @@ class intVector{
  }
  
  intVector remove(int index){
-   int[]  newArray = this.complement(index).getArray();
+   int[] newArray = this.complement(index).getArray();
    this.internalArray = newArray;
    return this;
  }
@@ -295,13 +296,13 @@ class intVector{
    return -1;
  }
 }
-
+ 
 // A fucking floatVector class, because Processing can't template ArrayLists
 class floatVector{
   float[] internalArray;
  
   public floatVector(){
-  } 
+  }
  
   public floatVector(int arraySize){
     internalArray = new float[3];
@@ -318,7 +319,7 @@ class floatVector{
   }
  
   int size() {
-   return this.internalArray.length; 
+   return this.internalArray.length;
   }
  
   floatVector push(int toAdd){
@@ -335,7 +336,7 @@ class floatVector{
   }
  
   float get(int index){
-    return internalArray[index]; 
+    return internalArray[index];
   }
  
   floatVector set(int index, float value){
@@ -368,32 +369,33 @@ class floatVector{
     return -1;
   }
 }
-
+ 
 File chooseConfigFile(){
-  try { 
-    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); 
-  } 
-  catch (Exception e) { 
-    e.printStackTrace();  
+  try {
+    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+  }
+  catch (Exception e) {
+    e.printStackTrace();
   }
   
   File file;
-  // create a file chooser 
-  final JFileChooser fc = new JFileChooser(); 
+  // create a file chooser
+  final JFileChooser fc = new JFileChooser();
   
   // in response to a button click:
-  int returnVal = fc.showOpenDialog(this); 
+  int returnVal = fc.showOpenDialog(this);
   
-  if (returnVal == JFileChooser.APPROVE_OPTION) { 
-    file = fc.getSelectedFile(); 
+  if (returnVal == JFileChooser.APPROVE_OPTION) {
+    file = fc.getSelectedFile();
   }
-  else { 
-    println("Open command cancelled by user."); 
+  else {
+    println("Open command cancelled, using default configuration file instead.");
+    file = new File(defaultConfigFile);
   }
   
   return file;
 }
-
+ 
 /* Config files have five lines (do not include the angle brackets in your file):
 NUBLOGGER_NAME <name of datalogger>
 SAMPLE_INTERVAL <interval between samples, in minutes>
@@ -402,7 +404,7 @@ SENSOR1_UNIT <units of measurement>
 SENSOR2_UNIT <units of measurement>
 */
 HashMap parseConfigFile(File file){
-  HashMap configOptions = new HashMap();h=
+  HashMap configOptions = new HashMap();
   String lines[] = loadStrings(file);
   for(int i = 0; i < lines.length; ++i){
     String words[] = lines[i].split(" ");
@@ -412,12 +414,12 @@ HashMap parseConfigFile(File file){
     configOptions.put(configOption, configValue);
   }
   
-  sketchPatch = String(file) + ".csv";
+  sketchPath = file.getPath() + file.getName() + ".csv";
   return configOptions;
 }
-
+ 
 int autoselectSerialPort(){
- String[] avaliablePorts = Serial.list();
+ String[] availablePorts = Serial.list();
  for(int i = 0; i < availablePorts.length; ++i){
    Serial port = new Serial(this, Serial.list()[i], 9600);
    if (ask(port) == true){
@@ -425,8 +427,9 @@ int autoselectSerialPort(){
    }
  }
  print("Error: no dongle found");
+ return -1;
 }
-
+ 
 boolean ask(Serial port){
   port.clear();
   port.write("Anybody out there?");
@@ -435,4 +438,8 @@ boolean ask(Serial port){
        return true;
      }
    }
+}
+
+void initializeCommProtocol(){
+  
 }

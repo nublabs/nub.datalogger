@@ -1,19 +1,30 @@
+#define NAME "gretchen"
+#define ON 1
+#define INITIALIZED 2
+#define WHOAMI 3
+#define WAITING_FOR_CONFIG 4
+#define MESSAGE_START 5
+#define MESSAGE_END 6
+#define CHECKSUM_IDENTIFIER 7
+#define NAME_IDENTIFIER = 8
+
+#define MALFORMED_MESSAGE 101
+#define MISSING_MESSAGE_START 102
+#define MISSING_MESSAGE_END 103
+#define TIMEOUT 104
+
 #include <EEPROM.h>
 #include <avr/sleep.h>
 #include <string.h> 
 
-char* loggingLevels[] = {"INFO", "WARN", "ERROR", "CRITICAL"};
+char* loggingLevels = {"INFO", "WARN", "ERROR", "CRITICAL"};
 
 // Variables --------------------------------------------------
-
-
 int sensor1_top, sensor1_bottom, sensor2_top, sensor2_bottom;  //the raw ADC values for the voltages on either side of the thermistor
 float temp1, temp2;  //the temperature, in celsius, that the thermistor is measuring
 float r1, r2;  //the resistance in ohms of the thermistors
 
 int chksum;
-
-
 
 //Temperature=B/ln(R/(R0*e^(-B/T0)))
 float B = 3950;   //the beta value of the NTC thermistor--used to calculate temp from resistance
@@ -98,8 +109,39 @@ void initializePins(){
 }
 
 void initializeConfig(){
-  XBee_write("Looking for love.");
-  
+  XBee_write("Looking for love, or configuration.");
+}
+
+void sendMessage(int messageIdentifier, char* message) {
+  XBee_wake();
+  XBee_write(MESSAGE_START);
+  XBee_write(messageIdentifier);
+  XBee_write(message);
+  XBee_write(MESSAGE_END);
+  XBee_sleep();
+}
+
+void sendMessage(int messageIdentifier, int message) {
+  XBee_wake();
+  XBee_write(MESSAGE_START);
+  XBee_write(messageIdentifier);
+  XBee_write(message);
+  XBee_write(MESSAGE_END);  
+  XBee_sleep();
+}
+
+void sendMessage(int messageIdentifier, float message) {
+  XBee_wake();
+  XBee_write(MESSAGE_START);
+  XBee_write(messageIdentifier);
+  XBee_write(message);
+  XBee_write(MESSAGE_END);
+  XBee_sleep();
+}
+
+void initializeSensor(){
+  XBee_write(ON);
+  sendMessage(WHOAMI, NAME);
 }
 
 // XBee ----------------------------------------
@@ -111,6 +153,32 @@ void XBee_write(char* message){
   int msgLength = strlen(message);
   for(int i = 0; i < msgLength; ++i){
     XBee_write(message[i]);
+  }
+}
+
+void startMsg(){
+  XBee_write(MESSSAGE_START);
+}
+  
+void endMsg(){
+  XBee_write(MESSAGE_END);  
+}
+
+float checksum(char* msgToCheck){
+  chksum = 0;
+  for(int i = 0; i < len(msgToCheck); ++i){
+      chksum += float(msgToCheck[i]);
+  }
+  
+  return chksum;
+}
+
+boolean checkChecksum(int sample, int checksum) {
+  if (sample == checksum){
+   return true; 
+  }
+  else{
+    return false;
   }
 }
 
@@ -224,7 +292,7 @@ void loop()
 {
   updateValues();
   sendValues();
-//   delay(1000);  
+  delay(1000);  
 }
 
 float now(){
