@@ -1,23 +1,28 @@
+#include <EEPROM.h>
+#include <avr/power.h>
+#include <avr/sleep.h>
+#include <string.h> 
+#include <stdlib.h>
+
 #define NAME "gretchen"
 #define ON 1
 #define INITIALIZED 2
 #define WHOAMI 3
 #define WAITING_FOR_CONFIG 4
 #define MESSAGE_START 5
+
 #define MESSAGE_END 6
 #define CHECKSUM_IDENTIFIER 7
 #define NAME_IDENTIFIER = 8
 
-#define MALFORMED_MESSAGE 101
+/*#define MALFORMED_MESSAGE 101
 #define MISSING_MESSAGE_START 102
 #define MISSING_MESSAGE_END 103
-#define TIMEOUT 104
+#define TIMEOUT 104*/
 
-#include <EEPROM.h>
-#include <avr/sleep.h>
-#include <string.h> 
 
-char* loggingLevels = {"INFO", "WARN", "ERROR", "CRITICAL"};
+
+//char** loggingLevels = {"INFO", "WARN", "ERROR", "CRITICAL"};
 
 // Variables --------------------------------------------------
 int sensor1_top, sensor1_bottom, sensor2_top, sensor2_bottom;  //the raw ADC values for the voltages on either side of the thermistor
@@ -32,6 +37,8 @@ float T0 = 298.0;  //the T0 value of the thermistor--used to calculate temp from
 float R0 = 10000;  //the resistance at T0
 float RTOP = 24000;
 float RBOTTOM = 1000;
+
+int EEPROM_index = 0;
 
 // Helper structures --------------------------------------------------
 struct pin {
@@ -52,7 +59,7 @@ float sampleTime;
 char* sensor1_unit, sensor2_unit;
 
 // Helper functions --------------------------------------------------
-boolean validLogLevel(char* logLevel){
+/*boolean validLogLevel(char* logLevel){
   int numLevels = arrayLen(loggingLevels);
   for(int i = 0; i < numLevels; ++i){
     if (strstr(loggingLevels[i], logLevel)){
@@ -69,7 +76,7 @@ void log(char* logLevel, char* logMessage){
     char* message = concat(toConcatenate);
     Serial.print(message);       
   }
-}
+}*/
 
 int arrayLen(char* array[]){
  return sizeof(array)/sizeof(*array); 
@@ -157,21 +164,21 @@ void XBee_write(char* message){
 }
 
 void startMsg(){
-  XBee_write(MESSSAGE_START);
+  XBee_write(MESSAGE_START);
 }
   
 void endMsg(){
   XBee_write(MESSAGE_END);  
 }
 
-float checksum(char* msgToCheck){
+/*float checksum(char* msgToCheck){
   chksum = 0;
   for(int i = 0; i < len(msgToCheck); ++i){
       chksum += float(msgToCheck[i]);
   }
   
   return chksum;
-}
+}*/
 
 boolean checkChecksum(int sample, int checksum) {
   if (sample == checksum){
@@ -250,9 +257,9 @@ void Arduino_wake(){
   // Wakes up
 }
 
-char[] Arduino_read(){
-  char[] getByte;
-  while (Serial.available() == 0);
+int Arduino_read(){
+  int getByte;
+  while (Serial.available() == 0){}
   getByte = Serial.read();
   
   return getByte;
@@ -260,9 +267,9 @@ char[] Arduino_read(){
 
 char[] whoami(){
   for(int i=0;i<255;i++)   //read in our unique name from EEPROM when we boot
-    name[i]=EEPROM.read(i);
+    name[i] = EEPROM.read(i);
   if(name[254] != NULL){
-    log("ERROR", "Name not null-terminated."); 
+    //log("ERROR", "Name not null-terminated."); 
   }
   
   return name;
@@ -347,12 +354,12 @@ void updateValues()
     temp1 = R2T(r1);
     temp2 = R2T(r2);
     
-    chksum = checksum(temp1, temp2);
+//    chksum = checksum(temp1, temp2);
 }
 
-float checksum(float t1, float t2){
+/*float checksum(float t1, float t2){
   return t+t2;
-}
+}*/
 
 float R2T(float resistance){
  return float(B/log(resistance/(R0*exp(-1*B/T0))) - 273);
