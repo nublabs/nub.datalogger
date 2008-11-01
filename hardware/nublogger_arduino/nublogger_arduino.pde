@@ -2,7 +2,6 @@
 #include <avr/power.h>
 #include <avr/sleep.h>
 #include <string.h> 
-#include <stdlib.h>
 
 #define NAME "gretchen"
 #define ON 1
@@ -38,8 +37,6 @@ float R0 = 10000;  //the resistance at T0
 float RTOP = 24000;
 float RBOTTOM = 1000;
 
-int EEPROM_index = 0;
-
 // Helper structures --------------------------------------------------
 struct pin {
  int number;
@@ -53,7 +50,7 @@ struct logMsg {
 
 int digitsOfPrecision = 2;  
 int guardTime = 2000;
-char name[256];
+char* name;
 float sampleInterval;
 float sampleTime;
 char* sensor1_unit, sensor2_unit;
@@ -265,7 +262,7 @@ int Arduino_read(){
   return getByte;
 }
 
-char[] whoami(){
+char* whoami(){
   for(int i=0;i<255;i++)   //read in our unique name from EEPROM when we boot
     name[i] = EEPROM.read(i);
   if(name[254] != NULL){
