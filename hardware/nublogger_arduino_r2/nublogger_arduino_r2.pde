@@ -3,6 +3,9 @@
 #include <avr/sleep.h>
 #include <string.h> 
 #include <stdlib.h>
+#include <avr/interrupt.h>
+#include "XBee_communications.h"
+#include "configuration.h"
 
 #define NAME "gretchen"
 
@@ -30,41 +33,62 @@
 #define MISSING_MESSAGE_END 103
 #define TIMEOUT 104
 
+float RBOTTOM=1000.0;
+float B=3950.0;
+float R0=10000.0;
+float T0=298.0;
+
+float sensor1_top;
+float sensor2_top;
+float sensor1_bottom;
+float sensor2_bottom;
+
+float r1,r2, temp1, temp2;
+int chksum; 
+
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 /*
 // Configuration
 struct configuration {
   char* name;
-  char** fields = {};
-  int[] values = {};
+  char** fields;
+  int* values};
 };
-
 configuration defaultConfig, receivedConfig;
+*/
+
+char * config_name;
+char ** config_fields;
+int * config_values;
+
 
 void defineDefaultConfig(){
-  defaultConfig.name = "default";
-  defaultConfig.fields = {"delay", "numSamples", "timeToRun"};
-  defaultConfig.values[0] = 1000;
-  defaultConfig.values[1] = -1;
-  defaultConfig.values[2] = -1;  
-  receivedConfig = defaultConfig;
+  config_name = "default";
+  config_fields[0] = "delay";
+  config_fields[1] = "numSamples";
+  config_fields[2] = "timeToRun";
+  config_values[0] = 1;
+  config_values[1] = -1;
+  config_values[2] = -1;
 }
-
-
-configuration defineReceivedConfig(char** receivedConfigFields, int[] receivedConfigVals){
+/*
+int defineReceivedConfig(char** receivedConfigFields, int* receivedConfigVals){
   int numFieldsToConfigure = -1;
   
   if (arrayLen(receivedConfigFields) == arrayLen(receivedConfigVals)){
     numFieldsToConfigure = arrayLen(receivedConfigFields);
+    return 1
   }
   else{
-    return defaultConfiguration;
+    return 0; 
   }
   
   for(int i = 0; i < numFieldsToConfigure; ++i){
    writeConfigField(receivedConfiguration, receivedConfigFields[i], receivedConfigVals[i]); 
   }
 }
+
+
 
 int readConfigField(configuration config, char* whichField){
   int numFields = arrayLen(configuration.fields);
@@ -81,16 +105,17 @@ int writeConfigField(configuration config, char* whichField, int newValue){
    if (config.fields[i] == whichField){
      config.fields[i] = newValue;
      return config.fields[i];
-   }
+
+   
   }
 }
-*/
 
+*/
 struct pin {
  int number;
 };
 pin LEDpin, switchPin, sleepPin, wakePin;
-
+/*
 //Communications
 
 int checksum(char* message){
@@ -174,6 +199,32 @@ void XBee_sleep(){
   digitalWrite(sleepPin.number, HIGH);
   delay(1000);  
 }
+*/
+
+ISR(TIMER2_COMP_vect)    //timer2 compare match
+{
+}
+
+
+//Arduino ----------------------------------------
+void Arduino_sleep(){
+  set_sleep_mode(SLEEP_MODE_PWR_SAVE);   //put it to sleep but keep a clock running
+  sleep_enable();
+  //attachInterrupt(0, Arduino_wake, LOW);  no good--this is an external interrupt
+  //we want to set up compare matches and prescalers on timer2, put it in PWR_SAVE mode (which kills everything except timer2)
+  //and then just put it to sleep.  The interrupt vector for timer2 overflow will wake it up.
+  sleep_mode();
+  //Actually sleeps now
+ 
+  sleep_disable();
+  detachInterrupt(0);
+}
+
+void Arduino_wake(){
+  // Wakes up
+}
+
+
 
 void blinkLED(int targetPin, int numBlinks, int blinkInterval) {
    // this function blinks the an LED light as many times as requested
@@ -193,15 +244,15 @@ void setup(){
   wakePin.number = sleepPin.number;
   
   blinkLED(LEDpin.number, 3, 500);
-  
+  defineDefaultConfig();
   Serial.begin(9600);  //initialize the serial port
 }
-
+/*
 float now(){
   return float(millis()/1000);  
 }
-
-int[] broadcastValues()
+*/
+void broadcastValues()
 {
   blinkLED(LEDpin.number, 2, 250);
   Serial.print(NAME);
@@ -233,40 +284,45 @@ void updateValues()
     sensor1_bottom = analogRead(1);
     sensor2_top = analogRead(2);
     sensor2_bottom = analogRead(3);
-    
+  
     sensor1_top = float(sensor1_top);
     sensor1_bottom = float(sensor1_top);
     sensor2_top = float(sensor2_top);
     sensor2_bottom = float(sensor2_bottom);
-    
+  
     float sensor1_ratio = sensor1_top/sensor1_bottom;
     float sensor2_ratio = sensor2_top/sensor2_bottom;
-    
+ 
     r1 = (sensor1_ratio - 1)*RBOTTOM;
     r2 = (sensor2_ratio - 1)*RBOTTOM;
-    
+  
     //temp1=r1;
     temp1 = R2T(r1);
     temp2 = R2T(r2);
     
-//    chksum = checksum(temp1, temp2);
+    chksum = checksum(temp1, temp2);
 }
 
-/*float checksum(float t1, float t2){
-  return t+t2;
-}*/
+int checksum(float t1, float t2){
+  return (int)(t1+t2);
+}
 
 float R2T(float resistance){
  return float(B/log(resistance/(R0*exp(-1*B/T0))) - 273);
 }
 
+void checkConfig()
+{
+}
+
 void loop(){
-  updateValues();
-  broadcastValues();
-  checkConfig();
-  //delay(receivedConfig.values[0]);
+   updateValues();
+   broadcastValues();
+   checkConfig();
+   int i;
+    delay(config_values[0]);  //delay in milliseconds
   
-  /*if sensingDone(){
-   powerDown();
-  }*/
+ // if (sensingDone()){
+   //powerDown();
+  //}
 }

@@ -1,0 +1,1 @@
+#define digitsOfPrecision 2
