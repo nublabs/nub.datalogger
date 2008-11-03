@@ -12,30 +12,6 @@
 //move the EEPROM data down by 1--the first location gets corrupted in a brownout
 
 
-//States
-#define TURNING_ON 0
-#define INITIALIZED 1
-#define WAITING_FOR_CONFIG 3
-#define CONFIGURED 4
-#define SAMPLING 5
-#define TURNING_OFF 6
-#define BROKEN 7
-
-//Message IDs
-#define WHOAMI_IDENTIFIER 10
-#define CHECKSUM_IDENTIFIER 11
-#define NAME_IDENTIFIER 12
-#define CONFIGURATION_IDENTIFIER 13
-#define LOGGING_IDENTIFIER 14
-#define MESSAGE_START 15
-#define MESSAGE_END 16
-
-//Error Messages
-#define MALFORMED_MESSAGE 101
-#define MISSING_MESSAGE_START 102
-#define MISSING_MESSAGE_END 103
-#define TIMEOUT 104
-
 float RBOTTOM=1000.0;
 float B=3950.0;
 float R0=10000.0;
@@ -176,16 +152,25 @@ void setup(){
   defineDefaultConfig();
   Serial.begin(19200);  //initialize the serial port
   timer2_init(); //initialize the timer we use to keep track of our delay
-  findDongle();
+  findDongle();  //look for a dongle and send it my details so it can log me.
 }
 
 
-//broadcast yourself to the dongle on boot
+//returns the checksum of a string
+byte calculate_checksum(char* message){
+ byte chk = 0;
+ for(int i = 0 ; i < strlen(message); ++i){
+ chk += atoi((char*)message[i]);
+ }
+}
+
+//broadcast yourself to the world, looking for a dongle to talk to.
 void findDongle()
 {
   boolean discovered=false;
   int count=0;
-  byte data;
+  byte data, checksum;
+  checksum=0;
   while((count<3)&&(discovered==false))    //send a 'discover me' byte up to three times looking for a dongle
   {
     count++;
@@ -197,17 +182,31 @@ void findDongle()
      if(data==DISCOVERY_RESPONSE);
        discovered=true;
    }
-   
-   if(discovered==true)
+  }
+   if(discovered==true)   //ok, the dongle is responding, so let's send it our configuration fields.
    {
+     count=0;
+     boolean data_sent=false;
+     while((count<3)&&(data_sent==false))
+     {
+      count++;
       Serial.print(MESSAGE_START,BYTE);
-      Serial.print(name);
+      Serial.print(NAME);
+      checksum+=calculate_checksum(NAME);
       Serial.print(',');
-      Serial.print(configFields[0]);
+      Serial.print(config_fields[0]);
+      checksum+=calculate_checksum(config_fields[0]);
       Serial.print(',');
-      Serial.print(configFields[1]);
+      Serial.print(config_fields[1]);
+      checksum+=calculate_checksum(config_fields[1]);
       Serial.print(',');
-      Serial.print(configFields[2]);
+      Serial.print(config_fields[2]);
+      checksum+=calculate_checksum(config_fields[2]);
+      Serial.print(',');
+      Serial.print(checksum,BYTE);
+      Serial.print(MESSAGE_END,BYTE);
+     }
+      
    }
 }
 
@@ -301,7 +300,6 @@ void getConfig()
     count++;
   byte checksum=0;
   byte data;
-  byte state=WAITING_FOR_START;
   byte error=EVERYTHINGS_FINE;
   
   //start byte
@@ -316,7 +314,7 @@ void getConfig()
     error=NO_DATA_ERROR;
  
  //INTERVAL HIGH BYTE
-  delay(COMM_DELAY)
+  delay(COMM_DELAY);
   if((Serial.available()>0)&&(error==EVERYTHINGS_FINE))
   {
     data=Serial.read();
@@ -327,7 +325,7 @@ void getConfig()
     error=NO_DATA_ERROR;
 
  //INTERVAL LOW BYTE
-  delay(COMM_DELAY)
+  delay(COMM_DELAY);
   if((Serial.available()>0)&&(error==EVERYTHINGS_FINE))
   {
     data=Serial.read();
@@ -338,7 +336,7 @@ void getConfig()
     error=NO_DATA_ERROR;
 
  //UNIT
-  delay(COMM_DELAY)
+  delay(COMM_DELAY);
   if((Serial.available()>0)&&(error==EVERYTHINGS_FINE))
   {
     unit=Serial.read();
@@ -348,7 +346,7 @@ void getConfig()
     error=NO_DATA_ERROR;
 
  //HIGH_REPETITION
-  delay(COMM_DELAY)
+  delay(COMM_DELAY);
   if((Serial.available()>0)&&(error==EVERYTHINGS_FINE))
   {
     data=Serial.read();
@@ -359,7 +357,7 @@ void getConfig()
     error=NO_DATA_ERROR;
 
  //LOW_REPETITION
-  delay(COMM_DELAY)
+  delay(COMM_DELAY);
   if((Serial.available()>0)&&(error==EVERYTHINGS_FINE))
   {
     data=Serial.read();
@@ -370,7 +368,7 @@ void getConfig()
     error=NO_DATA_ERROR;
 
  //CHECKSUM
-  delay(COMM_DELAY)
+  delay(COMM_DELAY);
   if((Serial.available()>0)&&(error==EVERYTHINGS_FINE))
   {
     data=Serial.read();
@@ -381,7 +379,7 @@ void getConfig()
     error=NO_DATA_ERROR;
 
  //END BYTE
-  delay(COMM_DELAY)
+  delay(COMM_DELAY);
   if((Serial.available()>0)&&(error==EVERYTHINGS_FINE))
   {
     data=Serial.read();
@@ -407,7 +405,7 @@ void loop(){
      broadcastValues();
      getConfirmation();
    }
-   checkConfig();
+//   checkConfig();
    int i;
     delay(config_values[0]);  //delay in milliseconds
   
