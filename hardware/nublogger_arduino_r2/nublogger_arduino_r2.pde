@@ -129,6 +129,16 @@ void Arduino_wake(){
   // Wakes up
 }
 
+void changeBaudRate()
+{
+  Serial.begin(9600);
+  Serial.print("+++");
+  delay(2000);
+  Serial.println("ATBD4");
+  Serial.println("ATWR");
+  Serial.println("ATCN");
+  Serial.begin(19200);
+}
 
 
 void blinkLED(int targetPin, int numBlinks, int blinkInterval) {
@@ -143,13 +153,14 @@ void blinkLED(int targetPin, int numBlinks, int blinkInterval) {
 
 void setup(){  
 //  configureMe();
-  LEDpin.number = 13;
+  LEDpin.number = 4;
   switchPin.number = 12;
   sleepPin.number = 2;
   wakePin.number = sleepPin.number;
   
   blinkLED(LEDpin.number, 3, 500);
   defineDefaultConfig();
+  changeBaudRate();
   Serial.begin(19200);  //initialize the serial port
   timer2_init(); //initialize the timer we use to keep track of our delay
   findDongle();  //look for a dongle and send it my details so it can log me.
