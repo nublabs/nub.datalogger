@@ -1,0 +1,15 @@
+#define OK 0
+#define RESEND 1
+#define STAND_BY_FOR_CONFIG 2
+
+#define EVERYTHINGS_FINE 22
+#define NO_DATA_ERROR 23
+#define BAD_CHECKSUM_ERROR 24
+#define BAD_PACKET_STRUCTURE_ERROR 25
+
+#define DISCOVER 1
+#define DISCOVERY_RESPONSE 2
+
+
+#define COMM_DELAY 10
+

@@ -36,6 +36,22 @@
 #define MISSING_MESSAGE_END 103
 #define TIMEOUT 104
 
+#include "WProgram.h"
+void defineDefaultConfig();
+void timer2_init();
+void timer2_start();
+void timer2_stop();
+void Arduino_sleep();
+void Arduino_wake();
+void blinkLED(int targetPin, int numBlinks, int blinkInterval);
+void setup();
+void broadcastValues();
+void printFloat(float a);
+void updateValues();
+int checksum(float t1, float t2);
+float R2T(float resistance);
+void checkConfig();
+void loop();
 float RBOTTOM=1000.0;
 float B=3950.0;
 float R0=10000.0;
@@ -50,13 +66,6 @@ float r1,r2, temp1, temp2;
 int chksum; 
 
 int milliseconds, seconds, minutes;
-
-int interval;
-byte unit;
-int repetitions;
-  
-boolean repeat;
-int count;
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 /*
@@ -83,11 +92,123 @@ void defineDefaultConfig(){
   config_values[1] = -1;
   config_values[2] = -1;
 }
+/*
+int defineReceivedConfig(char** receivedConfigFields, int* receivedConfigVals){
+  int numFieldsToConfigure = -1;
+  
+  if (arrayLen(receivedConfigFields) == arrayLen(receivedConfigVals)){
+    numFieldsToConfigure = arrayLen(receivedConfigFields);
+    return 1
+  }
+  else{
+    return 0; 
+  }
+  
+  for(int i = 0; i < numFieldsToConfigure; ++i){
+   writeConfigField(receivedConfiguration, receivedConfigFields[i], receivedConfigVals[i]); 
+  }
+}
 
+
+
+int readConfigField(configuration config, char* whichField){
+  int numFields = arrayLen(configuration.fields);
+  for(int i = 0; i < numFields; ++i){
+   if (config.fields[i] == whichField){
+     return config.fields[i];
+   }
+  }
+}
+
+int writeConfigField(configuration config, char* whichField, int newValue){
+  int numFields = arrayLen(configuration.fields);
+  for(int i = 0; i < numFields; ++i){
+   if (config.fields[i] == whichField){
+     config.fields[i] = newValue;
+     return config.fields[i];
+
+   
+  }
+}
+
+*/
 struct pin {
  int number;
 };
 pin LEDpin, switchPin, sleepPin, wakePin;
+/*
+//Communications
+
+int checksum(char* message){
+  int chk = 0;
+  for(int i = 0 ; i < strlen(message); ++i){
+    chk += atoi((char*)message[i]);
+  }
+  
+  return chk;
+}
+
+char* askFor(int valueID){
+  sendMessage(valueID, "Gimme some love!");
+  listenFor(valueID);
+}
+
+char* listenFor(int valueID){
+  int incoming;
+  
+  int start = millis();
+  char* message, stringBuffer;
+  
+  boolean recording = false;
+  while(timeElapsedSince(start) < 2000 && recording == false){
+    if (Serial.available() > 1){
+      incoming = Serial.read();
+      if (incoming == MESSAGE_START) {
+        recording = true;
+        while(recording == true){
+          if (Serial.available() > 1) {
+            incoming = Serial.read();
+            if (incoming == MESSAGE_END){
+             recording = false;
+            }
+            else{
+              strcat(message, itoa(incoming, (char*)stringBuffer, 10));
+            }
+          }
+          else {
+           recording = false;
+          }
+      }
+    }  
+    }
+  }
+ return message; 
+}
+
+int timeElapsedSince(int startTime){
+  return millis() - startTime;
+}
+
+void sendMessage(int msgID, char* message){
+  XBee_wake();
+  XBee_writeByte(MESSAGE_START);
+  XBee_writeByte(msgID);
+  XBee_writeStr(message);
+  char* stringBuffer;
+  XBee_writeByte(checksum(strcat(itoa(msgID, stringBuffer, 10), message)));  
+  XBee_writeByte(MESSAGE_END);
+}
+
+void XBee_writeByte(char byteToSend){
+  Serial.print(byteToSend, DEC); 
+}
+
+void XBee_writeStr(char* message){
+  int msgLength = strlen(message);
+  for(int i = 0; i < msgLength; ++i){
+    XBee_writeByte(message[i]);
+  } 
+}
 
 void XBee_wake(){
   digitalWrite(sleepPin.number, LOW);
@@ -99,6 +220,7 @@ void XBee_sleep(){
   digitalWrite(sleepPin.number, HIGH);
   delay(1000);  
 }
+*/
 
 ISR(TIMER2_COMPA_vect)    //timer2 compare match
 {
@@ -174,44 +296,14 @@ void setup(){
   
   blinkLED(LEDpin.number, 3, 500);
   defineDefaultConfig();
-  Serial.begin(19200);  //initialize the serial port
+  Serial.begin(9600);  //initialize the serial port
   timer2_init(); //initialize the timer we use to keep track of our delay
-  findDongle();
 }
-
-
-//broadcast yourself to the dongle on boot
-void findDongle()
-{
-  boolean discovered=false;
-  int count=0;
-  byte data;
-  while((count<3)&&(discovered==false))    //send a 'discover me' byte up to three times looking for a dongle
-  {
-    count++;
-   Serial.print(DISCOVER); 
-   delay(COMM_DELAY);
-   if(Serial.available()>0)
-   {
-     data=Serial.read();
-     if(data==DISCOVERY_RESPONSE);
-       discovered=true;
-   }
-   
-   if(discovered==true)
-   {
-      Serial.print(MESSAGE_START,BYTE);
-      Serial.print(name);
-      Serial.print(',');
-      Serial.print(configFields[0]);
-      Serial.print(',');
-      Serial.print(configFields[1]);
-      Serial.print(',');
-      Serial.print(configFields[2]);
-   }
+/*
+float now(){
+  return float(millis()/1000);  
 }
-
-
+*/
 void broadcastValues()
 {
   blinkLED(LEDpin.number, 2, 250);
@@ -271,142 +363,13 @@ float R2T(float resistance){
  return float(B/log(resistance/(R0*exp(-1*B/T0))) - 273);
 }
 
-void getConfirmation()
+void checkConfig()
 {
-  byte confirmationByte=255;
-  delay(COMM_DELAY);
-  if(Serial.available() > 0)
-      confirmationByte=Serial.read();
-  switch(confirmationByte){
-    case(OK):
-      repeat=false;
-    break;
-    case(RESEND):
-      repeat=true;
-      count++;
-    break;
-    case(STAND_BY_FOR_CONFIG):
-       repeat=false;
-       getConfig();
-    break;
-  }
 }
-
-void getConfig()
-{
-  byte count=0;
-  boolean done=false;
-  while((count<3) && (done==false))   //give it three tries, then bail if it's not working.
-  {
-    count++;
-  byte checksum=0;
-  byte data;
-  byte state=WAITING_FOR_START;
-  byte error=EVERYTHINGS_FINE;
-  
-  //start byte
-  delay(COMM_DELAY);
-  if(Serial.available()>0)
-  {
-    data=Serial.read();
-    if(data!=MESSAGE_START)
-      error=BAD_PACKET_STRUCTURE_ERROR;
-  }
-  else if (Serial.available() == 0)
-    error=NO_DATA_ERROR;
- 
- //INTERVAL HIGH BYTE
-  delay(COMM_DELAY)
-  if((Serial.available()>0)&&(error==EVERYTHINGS_FINE))
-  {
-    data=Serial.read();
-    checksum+=data;
-    interval=256*(int)data;
-  }
-  else if (Serial.available() == 0)
-    error=NO_DATA_ERROR;
-
- //INTERVAL LOW BYTE
-  delay(COMM_DELAY)
-  if((Serial.available()>0)&&(error==EVERYTHINGS_FINE))
-  {
-    data=Serial.read();
-    checksum+=data;
-    interval+=(int)data;
-  }
-  else if (Serial.available() == 0)
-    error=NO_DATA_ERROR;
-
- //UNIT
-  delay(COMM_DELAY)
-  if((Serial.available()>0)&&(error==EVERYTHINGS_FINE))
-  {
-    unit=Serial.read();
-    checksum+=unit;
-  }
-  else if (Serial.available() == 0)
-    error=NO_DATA_ERROR;
-
- //HIGH_REPETITION
-  delay(COMM_DELAY)
-  if((Serial.available()>0)&&(error==EVERYTHINGS_FINE))
-  {
-    data=Serial.read();
-    checksum+=data;
-    repetitions=data*256;
-  }
-  else if (Serial.available() == 0)
-    error=NO_DATA_ERROR;
-
- //LOW_REPETITION
-  delay(COMM_DELAY)
-  if((Serial.available()>0)&&(error==EVERYTHINGS_FINE))
-  {
-    data=Serial.read();
-    checksum+=data;
-    repetitions+=data;
-  }
-  else if (Serial.available() == 0)
-    error=NO_DATA_ERROR;
-
- //CHECKSUM
-  delay(COMM_DELAY)
-  if((Serial.available()>0)&&(error==EVERYTHINGS_FINE))
-  {
-    data=Serial.read();
-    if(checksum!=data)
-      error=BAD_CHECKSUM_ERROR;
-  }
-  else if (Serial.available() == 0)
-    error=NO_DATA_ERROR;
-
- //END BYTE
-  delay(COMM_DELAY)
-  if((Serial.available()>0)&&(error==EVERYTHINGS_FINE))
-  {
-    data=Serial.read();
-    if(MESSAGE_END!=data)
-      error=BAD_PACKET_STRUCTURE_ERROR;
-  }
-  else if (Serial.available() == 0)
-    error=NO_DATA_ERROR;
-    
-    Serial.print(error,BYTE);   //send out the error, if we have one
-    if(error==EVERYTHINGS_FINE)
-      done=true;
-  }
-}
-
 
 void loop(){
    updateValues();
-   repeat=true;
-   count=0;
-   while((repeat==true)&&(count<3))
-   {
-     broadcastValues();
-     getConfirmation();
-   }
+   broadcastValues();
    checkConfig();
    int i;
     delay(config_values[0]);  //delay in milliseconds
@@ -415,3 +378,16 @@ void loop(){
    //powerDown();
   //}
 }
+
+int main(void)
+{
+	init();
+
+	setup();
+    
+	for (;;)
+		loop();
+        
+	return 0;
+}
+
