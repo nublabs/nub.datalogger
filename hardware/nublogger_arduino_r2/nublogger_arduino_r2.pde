@@ -413,6 +413,7 @@ void loop(){
    count=0;
    while((repeat==true)&&(count<3))
    {
+     count++;
      broadcastValues();
      getConfirmation();
    }
