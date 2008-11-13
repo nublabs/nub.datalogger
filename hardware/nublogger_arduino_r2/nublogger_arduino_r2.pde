@@ -37,12 +37,7 @@ int count;
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 /*
 // Configuration
-struct configuration {
-  char* name;
-  char** fields;
-  int* values};
-};
-configuration defaultConfig, receivedConfig;
+
 */
 
 char * config_name;
@@ -65,221 +60,22 @@ struct pin {
 };
 pin LEDpin, switchPin, sleepPin, wakePin;
 
-void XBee_wake(){
-  digitalWrite(sleepPin.number, LOW);
-  delay(15);
-}
-
-void XBee_sleep(){
-  pinMode(sleepPin.number, OUTPUT);
-  digitalWrite(sleepPin.number, HIGH);
-  delay(1000);  
-}
-
-ISR(TIMER2_COMPA_vect)    //timer2 compare match
-{
-  milliseconds+=33;
-  if(milliseconds>1000)
-  {
-    milliseconds-=1000;
-    seconds++;
-  }
-  if(seconds>60)
-  {
-    seconds-=60;
-    minutes++;
-  }
-}
-
-void timer2_init()
-{
-  TCCR2A=0;
-  TCCR2B=(1<<CS22) | (1<<CS21) | (1<<CS20);  //set the clock prescaler to 1024.  slow it down as much as possible.
-  OCR2A=255;    //we're going to check the counter and throw an interrupt when it's equal to OCR2A.  We can tweak this value later to give us sooper-accurate timing, 
-                //but for now it's essentially an overflow.  Each overflow is 33 ms.
-  TIMSK2=0;     //keep interrupts off for now, to keep things clean
-}
-
-void timer2_start()
-{
-  TIMSK2=(1<<OCIE2A);  //enable an interrupt on a OCR2A compare match
-  sei();     //enable global interrupts;
-}
-void timer2_stop()
-{
-  TIMSK2=0;   //get rid of that interrupt
-  cli();      //kill global interrupts
-}
 
 
-//Arduino ----------------------------------------
-void Arduino_sleep(){
-  set_sleep_mode(SLEEP_MODE_PWR_SAVE);   //put it to sleep but keep a clock running
-  sleep_enable();
-  //attachInterrupt(0, Arduino_wake, LOW);  no good--this is an external interrupt
-  //we want to set up compare matches and prescalers on timer2, put it in PWR_SAVE mode (which kills everything except timer2)
-  //and then just put it to sleep.  The interrupt vector for timer2 overflow will wake it up.
-  sleep_mode();
-  //Actually sleeps now
- 
-  sleep_disable();
-}
-
-void Arduino_wake(){
-  // Wakes up
-}
-
-void changeBaudRate()
-{
-  Serial.begin(9600);
-  Serial.print("+++");
-  delay(2000);
-  Serial.println("ATBD4");
-  Serial.println("ATWR");
-  Serial.println("ATCN");
-  Serial.begin(19200);
-}
 
 
-void blinkLED(int targetPin, int numBlinks, int blinkInterval) {
-   // this function blinks the an LED light as many times as requested
-   for (int i=0; i<numBlinks; i++) {
-    digitalWrite(targetPin, HIGH); // sets the LED on
-    delay(blinkInterval); // waits for a second
-    digitalWrite(targetPin, LOW); // sets the LED off
-    delay(blinkInterval);
-   }
-}
-
-void setup(){  
-//  configureMe();
-  LEDpin.number = 4;
-  switchPin.number = 12;
-  sleepPin.number = 2;
-  wakePin.number = sleepPin.number;
-  
-  blinkLED(LEDpin.number, 3, 500);
-  defineDefaultConfig();
-  changeBaudRate();
-  Serial.begin(19200);  //initialize the serial port
-  timer2_init(); //initialize the timer we use to keep track of our delay
-  findDongle();  //look for a dongle and send it my details so it can log me.
-}
 
 
-//returns the checksum of a string
-byte calculate_checksum(char* message){
- byte chk = 0;
- for(int i = 0 ; i < strlen(message); ++i){
- chk += atoi((char*)message[i]);
- }
-}
+
 
 //broadcast yourself to the world, looking for a dongle to talk to.
-void findDongle()
-{
-  boolean discovered=false;
-  int count=0;
-  byte data, checksum;
-  checksum=0;
-  while((count<3)&&(discovered==false))    //send a 'discover me' byte up to three times looking for a dongle
-  {
-    count++;
-   Serial.print(DISCOVER); 
-   delay(COMM_DELAY);
-   if(Serial.available()>0)
-   {
-     data=Serial.read();
-     if(data==DISCOVERY_RESPONSE);
-       discovered=true;
-   }
-  }
-   if(discovered==true)   //ok, the dongle is responding, so let's send it our configuration fields.
-   {
-     count=0;
-     boolean data_sent=false;
-     while((count<3)&&(data_sent==false))
-     {
-      count++;
-      Serial.print(MESSAGE_START,BYTE);
-      Serial.print(NAME);
-      checksum+=calculate_checksum(NAME);
-      Serial.print(',');
-      Serial.print(config_fields[0]);
-      checksum+=calculate_checksum(config_fields[0]);
-      Serial.print(',');
-      Serial.print(config_fields[1]);
-      checksum+=calculate_checksum(config_fields[1]);
-      Serial.print(',');
-      Serial.print(config_fields[2]);
-      checksum+=calculate_checksum(config_fields[2]);
-      Serial.print(',');
-      Serial.print(checksum,BYTE);
-      Serial.print(MESSAGE_END,BYTE);
-     }
-      
-   }
-}
 
 
-void broadcastValues()
-{
-  blinkLED(LEDpin.number, 2, 250);
-  Serial.print(NAME);
-  Serial.print(", ");
-  printFloat(temp1);
-  Serial.print(", degrees C, ");
-  printFloat(temp2);
-  Serial.print(", degrees C, ");
-  Serial.print(chksum);  //the checksum is the sum of temp1 and temp2, cast as an int
-  Serial.println();
-}
-
-void printFloat(float a)  //takes in a float and prints it out as a string to the serial port
-{
-  //cast the float as an int, truncating the precision to two decimal points
-  int num = a*pow(10, digitsOfPrecision);
-  
-  Serial.print(float(num)/pow(10, digitsOfPrecision), DEC);
-  Serial.print('.');
-  
-  //if num is negative, this can come out negative, too and that's an easy way to flip out some bits on the computer side 
-  Serial.print(abs(num%10));
-}
 
 
-void updateValues()
-{
-    sensor1_top = analogRead(0);
-    sensor1_bottom = analogRead(1);
-    sensor2_top = analogRead(2);
-    sensor2_bottom = analogRead(3);
-  
-    sensor1_top = float(sensor1_top);
-    sensor1_bottom = float(sensor1_top);
-    sensor2_top = float(sensor2_top);
-    sensor2_bottom = float(sensor2_bottom);
-  
-    float sensor1_ratio = sensor1_top/sensor1_bottom;
-    float sensor2_ratio = sensor2_top/sensor2_bottom;
- 
-    r1 = (sensor1_ratio - 1)*RBOTTOM;
-    r2 = (sensor2_ratio - 1)*RBOTTOM;
-  
-    //temp1=r1;
-    temp1 = R2T(r1);
-    temp2 = R2T(r2);
-    
-    chksum = checksum(temp1, temp2);
-}
 
-int checksum(float t1, float t2){
-  return (int)(t1+t2);
-}
 
-float R2T(float resistance){
- return float(B/log(resistance/(R0*exp(-1*B/T0))) - 273);
-}
+
 
 void getConfirmation()
 {

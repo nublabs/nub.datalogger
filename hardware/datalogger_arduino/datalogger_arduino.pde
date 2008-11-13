@@ -49,7 +49,7 @@ void broadcastReadings(char** readings, char** units)
 {
   if(len(readings) == len(units)){
     for(int i = 0; i < len(readings) && i < len(units); ++i){
-      
+        
       sendMessage(readings[i], DEL
     }
   }
