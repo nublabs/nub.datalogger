@@ -1,7 +1,9 @@
 //Arduino ----------------------------------------
 
+#ifndef ARDUINO_H
+#define ARDUINO_H
 #include "arduino_config.h"
-#include "wiring_digital.c"
+#include "wiring.h"
 
 void arduino_sleep(){
   set_sleep_mode(SLEEP_MODE_PWR_SAVE);   //put it to sleep but keep a clock running
@@ -28,3 +30,4 @@ void blinkLED(int targetPin, int numBlinks, int blinkInterval) {
     delay(blinkInterval);
    }
 }
+#endif

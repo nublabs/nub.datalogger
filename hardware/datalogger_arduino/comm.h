@@ -1,3 +1,5 @@
+#ifndef COMM_H
+#define COMM_H
 //Protocol (0-25)
 #define MESSAGE_START 0
 #define MESSAGE_END 1
@@ -22,6 +24,7 @@
 #define CONFIGURATION_IDENTIFIER 103
 #define LOGGING_IDENTIFIER 104
 #define REQUEST_IDENTIFIER 105
+#define ERROR_IDENTIFIER 106
 
 //Error Messages (151 - 200)
 #define MALFORMED_MESSAGE_ERROR 101
@@ -56,10 +59,30 @@ void transmitter_sleep(){
   XBee_sleep();
 }
 
-void timeout(){
-  sendMessage(TIMEOUT_ERROR);
+byte calculateChecksum(char* message){
+  byte chk = 0;
+  for(int i = 0 ; i < strlen(message); ++i){
+    chk += atoi((char*)message[i]);
+  }
+  
+  return chk;
 }
 
+void sendMessage(char* message, int messageIdentifier){
+  blinkLED(13, 2, 250);
+  int checksum = calculateChecksum(messageIdentifier + message);
+ 
+  Serial.print(MESSAGE_START, DEC);
+  Serial.print(messageIdentifier, DEC);
+  Serial.print(message);
+  Serial.print(CHECKSUM_IDENTIFIER, DEC);
+  Serial.print(checksum, DEC);
+  Serial.print(MESSAGE_END, DEC);  
+}
+
+void timeout(){
+  sendMessage((char*)TIMEOUT_ERROR, ERROR_IDENTIFIER);
+}
 
 char* receiveMsg(){
   char* data;
@@ -74,7 +97,7 @@ char* receiveMsg(){
 boolean receivedMsg(char* msg){
   int startTime = millis();
   while(millis() - startTime > MY_TIMEOUT ){
-      char* messge = receiveMsg();
+      char* message = receiveMsg();
       if (strstr(message, msg) == NULL) {
         return false;
       }
@@ -90,38 +113,20 @@ void request(char* request){
   sendMessage(request, REQUEST_IDENTIFIER);
 }
 
-void sendMessage(char* message, int messageIdentifier){
-  blinkLED(ARDUINO_LED_PIN, 2, 250);
-  int checksum = calculateChecksum(messageIdentifier + message);
-  char[][] toBroadcast = [[(char)MESSAGE_START], [(char)messageIdentifier], (char*)message, [(char)CHECKSUM_IDENTIFIER], [(char)checksum], [(char)MESSAGE_END]];
-  char* messageToTransmit = "";
-  for(int i = 0; i < strlen(toBroadcast); ++i){
-    for(int j = 0; j < strlen(toBroadcast[i]); ++j){
-      messageToTransmit += toBroadcast[i];
-    }
-    messageToTransmit += MESSAGE_DELIMITER;
-  }
-}
-
 boolean findDongle(){
   boolean foundDongle = false;
   int startTime = millis();
  
   while(millis() - startTime < MY_TIMEOUT && foundDongle == false){
-    request((char)PLEASE_DISCOVER_ME);
+    request((char*)PLEASE_DISCOVER_ME);
     delay(MY_COMM_DELAY);
-    if(receivedMessage(DISCOVERY_CONFIRMED){
+    char discoveryString[1] = {DISCOVERY_CONFIRMED};
+    boolean weWereDiscovered = receivedMsg(discoveryString);
+    if(weWereDiscovered){
      return true; 
     }
   }
   return false;
 }
 
-byte calculateChecksum(char* message){
-  byte chk = 0;
-  for(int i = 0 ; i < strlen(message); ++i){
-    chk += atoi((char*)message[i]);
-  }
-  
-  return chk;
-}
+#endif

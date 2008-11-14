@@ -1,3 +1,5 @@
+#ifndef TIMING_H
+#define TIMING_H
 int milliseconds, seconds, minutes;
 
 ISR(TIMER2_COMPA_vect)    //timer2 compare match
@@ -42,3 +44,5 @@ void initializeTiming() {
   minutes = 0;  
   timer2_init();
 }
+
+#endif
