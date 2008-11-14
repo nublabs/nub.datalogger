@@ -1,4 +1,4 @@
-#include "EEPROM.h"
+#include <EEPROM.h>
 
 #include <avr/power.h>
 #include <avr/sleep.h>
