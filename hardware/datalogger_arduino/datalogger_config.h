@@ -7,8 +7,6 @@
 #define MY_COMM_DELAY 50
 #define MY_NUM_SENSORS 2
 
-#include "helpers.h"
-
 struct configuration {
   char* profileName;
   char** fields;

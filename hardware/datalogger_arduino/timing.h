@@ -1,13 +1,5 @@
 int milliseconds, seconds, minutes;
 
-void initializeTiming() {
-  milliseconds = 0;
-  seconds = 0;
-  minutes = 0;  
-  timer2_init();
-}
-
-
 ISR(TIMER2_COMPA_vect)    //timer2 compare match
 {
   milliseconds += 33;
@@ -43,3 +35,10 @@ void timer2_stop()
   cli();      //kill global interrupts
 }
 
+// Set all the variables for interrupt based timing and begin the timer
+void initializeTiming() {
+  milliseconds = 0;
+  seconds = 0;
+  minutes = 0;  
+  timer2_init();
+}
