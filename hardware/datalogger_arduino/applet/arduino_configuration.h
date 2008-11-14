@@ -1,0 +1,4 @@
+#define ARDUINO_LED_PIN 4;
+#define ARDUINO_SWITCH_PIN 12;
+#define ARDUINO_SLEEP_PIN 2;
+#define ARDUINO_WAKE_PIN 2;

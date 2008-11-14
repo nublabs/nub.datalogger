@@ -1,7 +1,6 @@
 //Arduino ----------------------------------------
 
-#include "arduino_config.h"
-#include "wiring_digital.c"
+#include "arduino_configuration.h"
 
 void arduino_sleep(){
   set_sleep_mode(SLEEP_MODE_PWR_SAVE);   //put it to sleep but keep a clock running

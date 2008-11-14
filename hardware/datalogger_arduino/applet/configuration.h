@@ -42,13 +42,21 @@
 #define SLEEP 203
 #define WAKE 204
 
-// Attributes (301 - 350)
+// Attributes
 #define MY_DIGITS_OF_PRECISION 2
 #define MY_NAME "gretchen"
 #define MY_SERIAL_NUMBER 1
 #define MY_GUARD_TIME 1000
 #define MY_TIMEOUT 500
 #define MY_COMM_DELAY 50
+#define MY_NUM_SENSORS 2
+
+
+// XBee configuration 
+#define XBEE_SLEEP_PIN 13
+#define XBEE_COMM_DELAY 1000
+#define XBEE_GUARD_TIME 2000
+
 
 //----------
 
