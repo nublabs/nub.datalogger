@@ -9,20 +9,6 @@
 #define MY_COMM_DELAY 50
 #define MY_NUM_SENSORS 2
 
-struct configuration {
-  char* profileName;
-  char** fields;
-  int* values;
-};
-
-/*
-configuration defaultConfiguration, receivedConfiguration, activeConfiguration;
-
-defaultConfiguration.profileName = "default";
-defaultConfiguration.fields = {"name", "serial_number", "sampling_rate", "sampling_length", "digits_of_precision"};
-defaultConfiguration.values = {"gretchen", "1", "1m", "-1", "2"};
-*/
-
 //Thermistor sensor constants
 float RBOTTOM=1000.0;
 float B=3950.0;

@@ -3,6 +3,10 @@
 #include "XBee_config.h"
 #include "HardwareSerial.h"
 #include "wiring.h"
+#undef round
+#include "math.h"
+// An alternative to round is defined in wiring.h, this was conflicting with avr-libc's math.h
+#undef round
 
 void XBee_wake(){
   digitalWrite(XBEE_SLEEP_PIN, LOW);

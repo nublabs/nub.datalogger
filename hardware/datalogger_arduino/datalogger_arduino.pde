@@ -21,6 +21,8 @@ void setup(){
 }
 
 void loop(){
+  float* readings = updateValues();
+  
   
 }
 
@@ -57,16 +59,20 @@ float* updateValues()
 }
 
 //Broadcasts readings
-void broadcastReadings(char** readings, char** units)
+void broadcastReadings(float* rawReadings, char** units)
 {
   //Requires an array of readings and an array of units
-  int readingsLength = sizeof(readings)/sizeof(readings[0]);
+  int readingsLength = sizeof(rawReadings)/sizeof(rawReadings[0]);
   int unitsLength = sizeof(units)/sizeof(units[0]);
   if(readingsLength == unitsLength){
+    char* formattedReadings[] = {""};
+    for(int j = 0; j < readingsLength && j < unitsLength; ++j){
+      formattedReadings[j] = floatToString(rawReadings[j]);
+    }
     char* messageToBroadcast = "";
     for(int i = 0; i < readingsLength && i < unitsLength; ++i){
       //Put reading/unit pairs into message
-      char* toAdd[] = {readings[i], MESSAGE_DELIMITER, units[i], MESSAGE_DELIMITER};
+      char* toAdd[] = {formattedReadings[i], MESSAGE_DELIMITER, units[i], MESSAGE_DELIMITER};
       strcat(messageToBroadcast, concatStrings(toAdd));
     }
     Serial.print(messageToBroadcast);
