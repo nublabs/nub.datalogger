@@ -2,6 +2,7 @@
 #define XBEE_H
 #include "XBee_config.h"
 #include "HardwareSerial.h"
+#include "logging.h"
 #include "wiring.h"
 #undef round
 #include "math.h"
@@ -11,9 +12,11 @@
 void XBee_wake(){
   digitalWrite(XBEE_SLEEP_PIN, LOW);
   delay(XBEE_COMM_DELAY);
+  logMsg("XBee awake.", "DEBUG");
 }
 
 void XBee_sleep(){
+  logMsg("Putting XBee to sleep. . .", "DEBUG");
   pinMode(XBEE_SLEEP_PIN, OUTPUT);
   digitalWrite(XBEE_SLEEP_PIN, HIGH);
   delay(XBEE_COMM_DELAY);  
@@ -22,6 +25,7 @@ void XBee_sleep(){
 // The XBee has set values which you append to AT commands to choose baud rates
 // This returns the appropriate index to append to the AT command to change the baud rate
 int XBee_getBaudRateParameter(int baudRate){
+  logMsg("Calculating baud rate parameter. . .", "DEBUG");
   //Available baudRates
   int baudRates[] = {1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200};
   
@@ -40,6 +44,7 @@ int XBee_getBaudRateParameter(int baudRate){
 //TODO: add error handling
 void XBee_changeBaudRate(int currentBaudRate, int finalBaudRate)
 {
+  logMsg("Changing XBee baud rate. . .", "DEBUG");
   Serial.begin(currentBaudRate);
   delay(XBEE_GUARD_TIME);
   //Enter command mode
@@ -56,6 +61,7 @@ void XBee_changeBaudRate(int currentBaudRate, int finalBaudRate)
   //Exit command mode
   Serial.println("ATCN");
   Serial.begin(finalBaudRate);
+  logMsg("XBee baud rate changed.", "DEBUG");
 }
 
 #endif

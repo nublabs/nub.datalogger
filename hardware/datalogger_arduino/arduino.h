@@ -4,8 +4,10 @@
 #define ARDUINO_H
 #include "arduino_config.h"
 #include "wiring.h"
+#include "logging.h"
 
 void arduino_sleep(){
+  logMsg("Putting Arduino to sleep. . .", "DEBUG");
   set_sleep_mode(SLEEP_MODE_PWR_SAVE);   //put it to sleep but keep a clock running
   sleep_enable();
   //attachInterrupt(0, Arduino_wake, LOW);  no good--this is an external interrupt
@@ -18,10 +20,12 @@ void arduino_sleep(){
 }
 
 void arduino_wake(){
+  logMsg("Waking arduino. . .", "DEBUG");
   // Wakes up
 }
 
 void blinkLED(int targetPin, int numBlinks, int blinkInterval) {
+  logMsg("Blinking indicator LED. . .", "DEBUG");
    // this function blinks the an LED light as many times as requested
    for (int i=0; i<numBlinks; i++) {
     digitalWrite(targetPin, HIGH); // sets the LED on
