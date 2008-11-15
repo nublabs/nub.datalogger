@@ -42,8 +42,7 @@ int XBee_getBaudRateParameter(int baudRate){
 
 //Reconfigures baudRate
 //TODO: add error handling
-void XBee_changeBaudRate(int currentBaudRate, int finalBaudRate)
-{
+void XBee_changeBaudRate(int currentBaudRate, int finalBaudRate) {
   logMsg("Changing XBee baud rate. . .", "DEBUG");
   Serial.begin(currentBaudRate);
   delay(XBEE_GUARD_TIME);

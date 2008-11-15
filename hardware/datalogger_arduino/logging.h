@@ -4,7 +4,7 @@
 
 #include <string.h>
 #include "WConstants.h"
-
+/*
 int calculateLoggingLevel(char* levelName){
   char* availableLogLevels[] = {"CRITICAL", "ERROR", "WARNING", "INFO", "DEBUG"};
   int numLoggingLevels = sizeof(availableLogLevels)/sizeof(availableLogLevels[0]);
@@ -18,13 +18,13 @@ int calculateLoggingLevel(char* levelName){
 }
 
 boolean worthLogging(char* logLevel){ 
-/* int currentLoggingLevel = loggingLevel(LOGGING_LEVEL);
+ int currentLoggingLevel = loggingLevel(LOGGING_LEVEL);
  int levelToCompare = loggingLevel(logLevel);
  
  if(levelToCompare <= currentLoggingLevel){
    return true;
  }
- return false;*/
+ return false;
  return true;
 }
 
@@ -34,5 +34,5 @@ void logMsg(char* message, char* logLevel){
    Serial.print(":  ");
    Serial.println(message);
   }
-}
+}*/
 #endif

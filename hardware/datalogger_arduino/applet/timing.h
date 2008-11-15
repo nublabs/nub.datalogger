@@ -35,6 +35,7 @@ void timer2_start()
   sei();     //enable global interrupts;
   logMsg("Interrupt timer2 started.", "DEBUG");
 }
+
 void timer2_stop()
 {
   logMsg("Stopping interrupt timer2. . .", "DEBUG");

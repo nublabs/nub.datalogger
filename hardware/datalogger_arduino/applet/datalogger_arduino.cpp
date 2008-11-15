@@ -29,10 +29,10 @@ void setup(){
 //  delay(3000);
 //  Serial.begin(19200);
 //  logMsg("Starting up. . .", "INFO");
+  Serial.begin(19200);
 }
 
 void loop(){
-  Serial.begin(19200);
   delay(500);
   Serial.print("MOO");
   //blinkLED(13, 3, 500);
