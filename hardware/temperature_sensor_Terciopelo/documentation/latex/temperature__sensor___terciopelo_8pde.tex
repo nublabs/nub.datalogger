@@ -1,0 +1,69 @@
+\hypertarget{temperature__sensor___terciopelo_8pde}{
+\section{/Users/nikki/nublabs/nub.datalogger/hardware/temperature\_\-sensor\_\-Terciopelo/temperature\_\-sensor\_\-Terciopelo.pde File Reference}
+\label{temperature__sensor___terciopelo_8pde}\index{/Users/nikki/nublabs/nub.datalogger/hardware/temperature\_\-sensor\_\-Terciopelo/temperature\_\-sensor\_\-Terciopelo.pde@{/Users/nikki/nublabs/nub.datalogger/hardware/temperature\_\-sensor\_\-Terciopelo/temperature\_\-sensor\_\-Terciopelo.pde}}
+}
+{\tt \#include \char`\"{}temperature\_\-sensor\_\-board\_\-v2.h\char`\"{}}\par
+{\tt \#include \char`\"{}communications.h\char`\"{}}\par
+{\tt \#include \char`\"{}nublogger.h\char`\"{}}\par
+
+
+Include dependency graph for temperature\_\-sensor\_\-Terciopelo.pde:\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+void \hyperlink{temperature__sensor___terciopelo_8pde_4fc01d736fe50cf5b977f755b675f11d}{setup} ()
+\item 
+void \hyperlink{temperature__sensor___terciopelo_8pde_fe461d27b9c48d5921c00d521181f12f}{loop} ()
+\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{temperature__sensor___terciopelo_8pde_fe461d27b9c48d5921c00d521181f12f}{
+\index{temperature\_\-sensor\_\-Terciopelo.pde@{temperature\_\-sensor\_\-Terciopelo.pde}!loop@{loop}}
+\index{loop@{loop}!temperature_sensor_Terciopelo.pde@{temperature\_\-sensor\_\-Terciopelo.pde}}
+\subsubsection[{loop}]{\setlength{\rightskip}{0pt plus 5cm}void loop ()}}
+\label{temperature__sensor___terciopelo_8pde_fe461d27b9c48d5921c00d521181f12f}
+
+
+
+
+Definition at line 65 of file temperature\_\-sensor\_\-Terciopelo.pde.
+
+\begin{Code}\begin{verbatim}66 {
+67 }
+\end{verbatim}
+\end{Code}
+
+
+\hypertarget{temperature__sensor___terciopelo_8pde_4fc01d736fe50cf5b977f755b675f11d}{
+\index{temperature\_\-sensor\_\-Terciopelo.pde@{temperature\_\-sensor\_\-Terciopelo.pde}!setup@{setup}}
+\index{setup@{setup}!temperature_sensor_Terciopelo.pde@{temperature\_\-sensor\_\-Terciopelo.pde}}
+\subsubsection[{setup}]{\setlength{\rightskip}{0pt plus 5cm}void setup ()}}
+\label{temperature__sensor___terciopelo_8pde_4fc01d736fe50cf5b977f755b675f11d}
+
+
+nublogger temperature sensor Terciopelo(+)
+
+Alex Hornstein 11.19.08 \href{mailto:alex@nublabs.com}{\tt alex@nublabs.com} datalogger.nublabs.com
+
+(+)In keeping with the arduino nomenclature, we are naming all our code revisions with Spanish names of venemous snakes. The Terciopelo, or fer-de-lance is a pit viper common in central and northwestern south america. It has a powerful venom that, left untreated, can cause necrosis, brain hemorrhaging, renal failure and death. It's also capable of spraying venom through its fangs for up to 6 feet. Cool, huh? This is a sensor for nublab's datalogging system. The datalogger is a two-part system: There is a USB dongle that plugs into a computer that allows the computer to talk to a wireless Zigbee network, and then there are battery-powered sensors that sense data about the environemnt. The sensors collect data and convert it into human-readable units, and then send the data as plaintext over the wireless network to the computer, where it is stored and logged. Any sensor that will work with this system must implement the \hyperlink{nublogger_8h_3fdb2350c3f98c0de0f0ae3c831a8b14}{discover()}, \hyperlink{nublogger_8h_e369b3765489ee8bd0ea791c1843630f}{configure()} and sample() functions, as well as be identifiable by a unique name
+
+The \hyperlink{nublogger_8h_3fdb2350c3f98c0de0f0ae3c831a8b14}{discover()} function is a short communication sequence when the sensor is first turned on where it broadcasts its name over the network and ensures that the computer recognizes it and is ready to configure it and log its data. The sensor also sends the units of whatever value it will be reporting.
+
+the \hyperlink{nublogger_8h_e369b3765489ee8bd0ea791c1843630f}{configure()} function is triggered by a flag sent by the computer that indicates that the computer would like to change the datalogger's sample rate. \hyperlink{nublogger_8h_e369b3765489ee8bd0ea791c1843630f}{configure()} is another communication sequence in which the computer sends a sample interval in hours, minutes and seconds to the datalogger. By default, the datalogger samples every second.
+
+the sample() function is called by the sensor every sample interval. sample() reads a value from whatever sensing element (Thermistor, current sensor, light sensor, etc) the particular sensor uses, converts it to physical units (degrees celsius, amps, lux, etc) and sends out a string over the wireless network with the sensor's unique name and its sensed values.
+
+the name: each sensor should have a unique name burnt into its eeprom that makes it uniquely identifiable in the network. Nublabs is using a list of north and south american baby names which is available at datalogger.nublabs.com This particular sensor is a temperature sensor using an NTC thermistor. The thermistor is a resistive element. We sense it using two resistor dividers--one resistor, R1 which connects from Vcc to the thermistor, and another resistor that connects from the other end of the thermistor to ground. We measure the voltage at both ends of the thermistor using separate Analog to Digital Converter (ADC) pins. This allows us to factor out any effect changing battery voltage has on our temperature measurement. This code is written for version 2 of the sensor hardware. A pdf of the sensor schematic and board layout is available at datalogger.nublabs.com 
+
+Definition at line 59 of file temperature\_\-sensor\_\-Terciopelo.pde.
+
+References initializeSensor().
+
+\begin{Code}\begin{verbatim}60 {
+61   initializeSensor();
+62   Serial.begin(19200);
+63 }
+\end{verbatim}
+\end{Code}
+
+
