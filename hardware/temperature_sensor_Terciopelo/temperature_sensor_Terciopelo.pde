@@ -1,3 +1,5 @@
+
+
 /**
  * nublogger temperature sensor Terciopelo(+)
  * 
@@ -56,9 +58,17 @@
 #include "nublogger.h"                     //this file contains the discover() and configure() functions that are shared across all
                                            //sensors that work with the nublabs datalogging system
 
+#include "globals.h"                       //this file has all my global variables, such as the temperature value, my delay, and flags
+                                           //that keep track of whether or not I've been discovered/configured/etc
+
+#include "name.h"                          //this file stores the sensor's name.  This is intended to be easily replaced as we 
+                                           //program lots of sensors
+
+
 void setup()
 {
   initializeSensor();
+  discover();
   Serial.begin(19200);
 }
 
