@@ -1,17 +1,14 @@
+#include <HardwareSerial.h>   //if you're not in the main sketch, you have to include this to let you use Serial functions
+#include <string.h>
 
-
-
-/**
-  This file contains definitions for message bytes sent back and forth between the sensor and computer
-*/
-
-//!  these are defined messages sent between the sensor and the computer
-#define ACKNOWLEDGE                    1
-#define ACKNOWLEDGE_AND_CONFIGURE      2
-#define LISTENING                      3
-#define CHECKSUM_ERROR_PLEASE_RESEND   4
-#define CHECKSUM_ERROR_GIVING_UP       5
-#define DISCOVER_ME                    6
-
-#define MESSAGE_START 128
-#define MESSAGE_END   129
+int getByte(int timeout)
+{
+  int currentTime=millis();
+  int maxTime=currentTime+timeout;
+  while((Serial.available()==0)&&(millis()<(maxTime)))
+    {}
+  if((millis()>maxTime)||(Serial.available()==0))
+    return -1;
+  else
+    return Serial.read();
+}

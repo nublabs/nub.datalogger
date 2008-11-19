@@ -34,8 +34,8 @@
  */
  void initializeSensor()
  {
- /*  pinMode(XBEE_SLEEP,OUTPUT);
+   pinMode(XBEE_SLEEP,OUTPUT);
    pinMode(SAMPLE_BUTTON,INPUT);
-   pinMode(LED,OUTPUT);*/
+   pinMode(LED,OUTPUT);
  }
  

@@ -1,5 +1,4 @@
 
-
 /**
  * nublogger temperature sensor Terciopelo(+)
  * 
@@ -50,28 +49,145 @@
  * 
  */
 
-#include "temperature_sensor_board_v2.h"   //this file has pin definitions specific to the version 2 circuit board
-                                           //if you're using a board that's wired up differently, you'll need to change this file
-
-#include "communications.h"                //this file has definitions for message bytes sent between the computer and the sensor
-
-#include "nublogger.h"                     //this file contains the discover() and configure() functions that are shared across all
-                                           //sensors that work with the nublabs datalogging system
+#include "name.h"                          //this file stores the sensor's name.  This is intended to be easily replaced as we 
+                                           //program lots of sensors
 
 #include "globals.h"                       //this file has all my global variables, such as the temperature value, my delay, and flags
                                            //that keep track of whether or not I've been discovered/configured/etc
 
-#include "name.h"                          //this file stores the sensor's name.  This is intended to be easily replaced as we 
-                                           //program lots of sensors
+//#include "temperature_sensor_board_v2.h"   //this file has pin definitions specific to the version 2 circuit board
+                                           //if you're using a board that's wired up differently, you'll need to change this file
+
+#include "communications_definitions.h"    //this file has definitions for message bytes sent between the computer and the sensor
+
+//#include "nublogger.h"                     //this file contains the discover() and configure() functions that are shared across all
+                                           //sensors that work with the nublabs datalogging system
+
+//#include "communications.h"                //this file contains functions that make serial communication easier
+
+
+
 
 
 void setup()
 {
+  Serial.begin(19200);
   initializeSensor();
   discover();
-  Serial.begin(19200);
 }
 
 void loop()
 {
 }
+
+
+
+//communications.h
+int getByte(int timeout)
+{
+  int currentTime=millis();
+  int maxTime=currentTime+timeout;
+  while((Serial.available()==0)&&(millis()<(maxTime)))
+    {}
+  if((millis()>maxTime)||(Serial.available()==0))
+    return -1;
+  else
+    return Serial.read();
+}
+
+
+
+//nublogger.h
+//!  configure() runs if the computer is trying to change the sensor's sample rate
+/**
+  In configure(), the datalogger sends a LISTENING message to the computer, indicating that it's ready to receive data.
+  The computer sends three ints:  the hours, minutes and seconds of the sample interval, followed by a checksum byte that's the sum 
+  of the ints modulo 256.  The sensor computes a checksum on the received data.  If its checksum matches, it sends an 
+  ACKNOWLEDGE message back to the computer and updates its sample interval information.  If the checksum does not match, it sends 
+  a CHECKSUM_ERROR_PLEASE_RESEND message, asking the computer to send the three ints again, followed by a checksum.  If the 
+  sensor can't get a valid message (with a matching checksum) after three tries, it gives up, sends a CHECKSUM_ERROR_GIVING_UP 
+  message to the computer and keeps its original sample interval information
+*/
+void configure()
+{ 
+}
+
+//!  This function tells the computer of the datalogger's existence
+/**
+  When the sensor turns on, it runs discover().  It sends a MESSAGE_START message, a DISCOVER_ME message, and its name out to the 
+  computer and waits for acknowledgement.  The computer can send back a plain "ACKNOWLEDGE" message, which means that the sensor 
+  should run using its default configuration values.  The computer can also send back an "ACKNOWLEDGE_AND_CONFIGURE" message, which 
+  means that it has configuration data for the sensor.  If the sensor gets this message, it'll run configure() to receive the data 
+  from the computer.
+*/
+void discover()
+{ 
+  unsigned char checksum=0;
+  int i=0;
+  Serial.print(MESSAGE_START, BYTE);
+  Serial.print(DISCOVER_ME,BYTE);
+  Serial.print(name);
+  while(name[i]!=0)
+  {
+    checksum+=name[i];
+    i++;
+  }
+  checksum+=DISCOVER_ME;
+  Serial.print(checksum,BYTE);
+  Serial.print(MESSAGE_END,BYTE);
+
+  int receivedByte=getByte(100);     //looks for a byte on the serial port with a 100ms timeout
+  if(receivedByte==ACKNOWLEDGE)
+    discovered=TRUE;
+  if(receivedByte==ACKNOWLEDGE_AND_CONFIGURE)
+    {
+      discovered=TRUE;
+      configure();
+    }
+  
+}
+
+
+
+
+//temperature_sensor_board_v2.h
+/**
+ * these are the pin definitions for the v2 board
+ * 
+ * function      atmega pin    arduino pin
+ * 
+ * Serial RX        PD0             0    //serial lines that go out to the xbee module
+ * Serial TX        PD1             1
+ * Xbee_sleep       PD2             2    //a pin that, when asserted, puts the xbee radio into a low power sleep mode
+ * Sample_button    PD3             3    //an optional button that forces the sensor to take and send out a measurement
+ * LED              PD4             4    //an LED on board that you can use for all kinds of stuff
+ * 
+ * sensor1_top      PC0             (analog) 0    
+ * sensor1_bottom   PC1             (analog) 1
+ * sensor2_top      PC2             (analog) 2
+ * sensor2_bottom   PC3             (analog) 3
+ * 
+ */
+ 
+ #define XBEE_SLEEP 2
+ #define SAMPLE_BUTTON 3
+ #define LED 4
+ 
+ #define SENSOR1_TOP 0
+ #define SENSOR1_BOTTOM 1
+ #define SENSOR2_TOP 2
+ #define SENSOR2_BOTTOM 3
+ 
+ 
+ //!  this function configures all the digital communication pins as input or output pins
+ /**
+   If you adapt this code to work with another sensor or board, you should replace the code in initializeSensor() to 
+   initialize all your relevant pins
+   
+ */
+ void initializeSensor()
+ {
+   pinMode(XBEE_SLEEP,OUTPUT);
+   pinMode(SAMPLE_BUTTON,INPUT);
+   pinMode(LED,OUTPUT);
+ }  

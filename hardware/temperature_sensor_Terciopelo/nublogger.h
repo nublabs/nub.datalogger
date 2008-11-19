@@ -1,3 +1,7 @@
+#include <HardwareSerial.h>   //if you're not in the main sketch, you have to include this to let you use Serial functions
+#include <string.h>
+#include "communications.h"
+
 //!  configure() runs if the computer is trying to change the sensor's sample rate
 /**
   In configure(), the datalogger sends a LISTENING message to the computer, indicating that it's ready to receive data.
@@ -21,5 +25,28 @@ void configure()
   from the computer.
 */
 void discover()
-{
+{ 
+  unsigned char checksum=0;
+  int i=0;
+  Serial.print(MESSAGE_START, BYTE);
+  Serial.print(DISCOVER_ME,BYTE);
+  Serial.print(name);
+  while(name[i]!=0)
+  {
+    checksum+=name[i];
+    i++;
+  }
+  checksum+=DISCOVER_ME;
+  Serial.print(checksum,BYTE);
+  Serial.print(MESSAGE_END,BYTE);
+
+  int receivedByte=getByte(100);     //looks for a byte on the serial port with a 100ms timeout
+  if(receivedByte==ACKNOWLEDGE)
+    discovered=TRUE;
+  if(receivedByte==ACKNOWLEDGE_AND_CONFIGURE)
+    {
+      discovered=TRUE;
+      configure();
+    }
+  
 }
