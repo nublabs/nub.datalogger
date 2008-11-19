@@ -14,9 +14,8 @@ boolean streq(char* string1, char* string2){
   }  
 }
 
-char* concatStrings(char** stringsToConcat, int numStrings){ 
-  // TODO: What is up with calculating the length of an array of strings?
-  //  int numStrings = sizeof(stringsToConcat)/sizeof(stringsToConcat);
+char* concatStrings(char** stringsToConcat){ 
+  int numStrings = sizeof(*stringsToConcat)/sizeof(*stringsToConcat[0]);
   char *catted;
  
   int lenToCat = 0;
@@ -68,7 +67,7 @@ char* floatToString(float num)
   strcpy(afterDecimal, itoa(digitsAfterDecimal, afterDecimal, 10));
   char* strings[] = { beforeDecimal, ".", afterDecimal };
   
-  char* result = concatStrings(strings, sizeof(strings)/sizeof(strings[0]));
+  char *result = concatStrings(strings);
   
   return result;
 }

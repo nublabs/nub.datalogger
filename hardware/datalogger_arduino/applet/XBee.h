@@ -9,14 +9,17 @@
 // An alternative to round is defined in wiring.h, this was conflicting with avr-libc's math.h
 #undef round
 
+void XBee_initialize(){
+  pinMode(XBEE_SLEEP_PIN, OUTPUT);  
+}
+
+
 void XBee_wake(){
   digitalWrite(XBEE_SLEEP_PIN, LOW);
   delay(XBEE_COMM_DELAY);
-  logMsg("XBee awake.", "DEBUG");
 }
 
 void XBee_sleep(){
-  logMsg("Putting XBee to sleep. . .", "DEBUG");
   pinMode(XBEE_SLEEP_PIN, OUTPUT);
   digitalWrite(XBEE_SLEEP_PIN, HIGH);
   delay(XBEE_COMM_DELAY);  

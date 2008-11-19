@@ -1,9 +1,9 @@
-#ifndef COMM_H
+Dow#ifndef COMM_H
 #define COMM_H
 //Protocol (0-25)
 #define MESSAGE_START 0
 #define MESSAGE_END 1
-#define MESSAGE_DELIMITER ", "
+#define MESSAGE_DELIMITER ","
 
 //Messages from dongle
 #define OK 2
@@ -26,7 +26,6 @@
 #define REQUEST_IDENTIFIER 105
 #define ERROR_IDENTIFIER 106
 #define READING_IDENTIFIER 107
-#define UNIT_IDENTIFIER 108
 
 //Error Messages (151 - 200)
 #define MALFORMED_MESSAGE_ERROR 101
@@ -74,20 +73,19 @@ int calculateChecksum(char* message){
 
 void sendMessage(char* message, int messageIdentifier){
   blinkLED(13, 2, 250);
-  char toCheck[] = {
-    (char)messageIdentifier, *message  };
+  char toCheck[] = {(char)messageIdentifier, *message};
   int checksum = calculateChecksum(toCheck);
   logMsg("Beginning to send message . . .", "DEBUG");
   Serial.print(MESSAGE_START, DEC);
-  Serial.print(MESSAGE_DELIMITER);
+  Serial.print(" ");
   Serial.print(messageIdentifier, DEC);
-  Serial.print(MESSAGE_DELIMITER);
+  Serial.print(" ");
   Serial.print(message);
-  Serial.print(MESSAGE_DELIMITER);
+  Serial.print(" ");
   Serial.print(CHECKSUM_IDENTIFIER, DEC);
-  Serial.print(MESSAGE_DELIMITER);
+  Serial.print(" ");
   Serial.print(checksum, DEC);
-  Serial.print(MESSAGE_DELIMITER);
+  Serial.print(" ");
   Serial.print(MESSAGE_END, DEC);
   Serial.println();  
   logMsg("Sent message.", "DEBUG");
@@ -110,12 +108,12 @@ boolean receivedMsg(char* msg){
   logMsg("Waiting to receive message . . .", "DEBUG");
   char* receivedData = "";
   while(abs(millis() - startTime) < MY_TIMEOUT ){
-    readInto(receivedData);
-    if (strstr(receivedData, msg) != NULL) {
-      logMsg("Message received.", "DEBUG");
-      return true;
+      readInto(receivedData);
+      if (strstr(receivedData, msg) != NULL) {
+        logMsg("Message received.", "DEBUG");
+        return true;
+      }
     }
-  }
   timeout();
   return false;  
 }
@@ -132,12 +130,11 @@ boolean findDongle(){
   while(millis() - startTime < MY_TIMEOUT && foundDongle == false){
     request((char*)PLEASE_DISCOVER_ME);
     delay(MY_COMM_DELAY);
-    char discoveryString[1] = {
-      DISCOVERY_CONFIRMED    };
+    char discoveryString[1] = {DISCOVERY_CONFIRMED};
     boolean weWereDiscovered = receivedMsg(discoveryString);
     if(weWereDiscovered){
-      logMsg("Dongle found.", "INFO");
-      return true; 
+     logMsg("Dongle found.", "INFO");
+     return true; 
     }
   }
   logMsg("Dongle not found, timed out.", "ERROR");

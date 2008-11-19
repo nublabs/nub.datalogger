@@ -15,12 +15,6 @@
 #include "helpers.h"
 #include "logging.h"
 
-#include "WProgram.h"
-void setup();
-void loop();
-float resistanceToTemp(float resistance);
-float* updateValues();
-void broadcastReadings(float* rawReadings, char** units);
 void setup(){  
   //initializeTiming();
   //findDongle();  //look for a dongle and send it my details so it can log me.
@@ -31,16 +25,17 @@ Serial.begin(19200);
 }
 
 void loop(){
+  
   blinkLED(13, 3, 500);
   float* readings = updateValues();
   char* units[] = {"degrees C"};
   broadcastReadings(readings, units); 
-  delay(250);
 }
 
 //Convert resistance to temperature, per details of thermistor TODO: document thermistor model
 float resistanceToTemp(float resistance){
   float encodedTemp = float(B/log(resistance/(R0*exp(-1.0*B/T0))) - 273.0);
+  Serial.println((int)(encodedTemp*100));
   return encodedTemp;
 }
 
@@ -52,7 +47,7 @@ float* updateValues()
 
   float sensorRatios[MY_NUM_SENSORS];
   float resistances[MY_NUM_SENSORS];
-  float* readings;
+  float readings[MY_NUM_SENSORS];
 
   // Step through available sensors and record a top and bottom value for each
   for(int i = 0; i < 2*MY_NUM_SENSORS; i += 2){
@@ -65,9 +60,10 @@ float* updateValues()
     sensorRatios[i/2] = sensorReadings[i][0]/sensorReadings[i][1];
     resistances[i/2] = (sensorRatios[i/2] - 1)*RBOTTOM;
     readings[i/2] = resistanceToTemp(resistances[i/2]);
+    Serial.println(floatToString(readings[i/2]));
   }    
   logMsg("Sensor values updated.", "DEBUG");
-  
+
   return readings;
 }
 
@@ -79,33 +75,23 @@ void broadcastReadings(float* rawReadings, char** units)
   int readingsLength = sizeof(*rawReadings)/sizeof(rawReadings[0]);
   int unitsLength = sizeof(*units)/sizeof(units[0]);
   
-  char* messageToBroadcast;
   if(readingsLength == unitsLength){
+
+    char** formattedReadings;
+    for(int j = 0; j < readingsLength ; ++j){
+      strcpy(formattedReadings[j], floatToString(rawReadings[j]));
+    }
+    char* messageToBroadcast;
     for(int i = 0; i < readingsLength && i < unitsLength; ++i){
       //Put reading/unit pairs into message
-      char* temp = floatToString(rawReadings[i]);
-      char* toAdd[] = {floatToString(rawReadings[i]), MESSAGE_DELIMITER, units[i]};
-      char* newMsg[] = {messageToBroadcast, concatStrings(toAdd, sizeof(toAdd)/sizeof(toAdd[0]))};
-      messageToBroadcast = concatStrings(newMsg, sizeof(newMsg)/sizeof(newMsg[0]));
+      char* toAdd[] = {formattedReadings[i], MESSAGE_DELIMITER, units[i], MESSAGE_DELIMITER};
+      messageToBroadcast = concatStrings(toAdd);
     }
- //   Serial.println(messageToBroadcast);
-    sendMessage(messageToBroadcast, READING_IDENTIFIER);
+
+//    sendMessage(messageToBroadcast, READING_IDENTIFIER);
   }
   else{
     logMsg("Readings and units vectors different lengths; they need to be the same size.", "ERROR"); 
   }
-}
-
-
-int main(void)
-{
-	init();
-
-	setup();
-    
-	for (;;)
-		loop();
-        
-	return 0;
 }
 

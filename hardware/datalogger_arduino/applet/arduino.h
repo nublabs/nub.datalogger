@@ -6,6 +6,10 @@
 #include "wiring.h"
 #include "logging.h"
 
+void arduino_initialize(){
+  pinMode(ARDUINO_LED_PIN, OUTPUT);  
+}
+
 void arduino_sleep(){
   logMsg("Putting Arduino to sleep. . .", "DEBUG");
   set_sleep_mode(SLEEP_MODE_PWR_SAVE);   //put it to sleep but keep a clock running

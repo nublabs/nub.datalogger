@@ -92,7 +92,7 @@ char* getTime(){
   char* mthString =itoa(months, mthString, 10);
 
   char* timeSubstrings[] = {mthString, " months, ", wString, " weeks, ", dString, " days, ", hString, ":", mString,":", sString, ":", msString, "."};
-  char* timeString = concatStrings(timeSubstrings, sizeof(timeSubstrings)/sizeof(timeSubstrings[0]));
+  char* timeString = concatStrings(timeSubstrings);
 
  return timeString;
 }
