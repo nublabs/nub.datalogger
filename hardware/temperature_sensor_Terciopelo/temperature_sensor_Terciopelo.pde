@@ -80,6 +80,12 @@ void loop()
 {
 }
 
+void sample()
+{
+  getRawData();
+  convertToTemperature();
+  sendData();
+}
 
 
 //communications.h
@@ -89,10 +95,32 @@ int getByte(int timeout)
   int maxTime=currentTime+timeout;
   while((Serial.available()==0)&&(millis()<(maxTime)))
     {}
-  if((millis()>maxTime)||(Serial.available()==0))
-    return -1;
-  else
+  if(Serial.available()>0)        //did any data come in on the serial port?
     return Serial.read();
+  else                             //we didn't get any data before the timeout
+    return -1;
+}
+
+int getMessage(int timeout)
+{
+  int completeMessage=-1;   //a flag that lets us know if we got a full message
+  start=index;              //drop whatever other data is in our buffer--it'll probably just confuse the functions if we don't
+  int currentTime=millis();
+  int maxTime=currentTime+timeout;  
+  while((millis()<(maxTime))&&(buffer[index]!=MESSAGE_END))
+    {
+      if(Serial.available()>0)
+        {
+          buffer[index]=Serial.read();
+          if(buffer[index]==MESSAGE_END)   //we got a complete message
+            completeMessage=1;
+          index++;
+        }
+    }
+  if(completeMessage==-1)    //we never got a complete message
+    start=index;    //skip past whatever we got from the buffer
+  
+  return completeMessage;
 }
 
 
@@ -110,7 +138,72 @@ int getByte(int timeout)
 */
 void configure()
 { 
+  char i=0;
+  char tries=0;
+  char success=0;
+  unsigned char checksum=0;
+  int error;
+  
+  while((tries<NUM_TRIES)&&(success==0))     //we'll try
+  {
+  checksum=0;
+  Serial.print(LISTENING,BYTE);
+  error=getMessage(100);
+  if(error==-1)
+    Serial.print(TIMEOUT_ERROR,BYTE);
+  else
+  {
+    if(buffer[start]==MESSAGE_START)
+    {
+      if((index-start)==CONFIGURATION_MESSAGE_LENGTH)    //check to make sure the message is the size we expect
+      {
+        for(i=1;i<CHECKSUM;i++)
+          checksum+=buffer[start+i];
+        if(checksum==buffer[start+CHECKSUM])    //check to see if the calculated checksum is the same as the received checksum
+        {
+          //if it is, then we can load all the sample interval info
+          hours=(int)buffer[start+HOUR_HIGH]*256+(int)buffer[start+HOUR_LOW];
+          minutes=(int)buffer[start+MINUTE_HIGH]*256+(int)buffer[start+MINUTE_LOW];
+          seconds=(int)buffer[start+SECOND_HIGH]*256+(int)buffer[start+SECOND_LOW];
+          success=1;         //we can stop looping
+          configured=1;      //the sensor is configured!
+        }
+        else
+        {
+          if(tries<NUM_TRIES)
+          {
+            Serial.print(CHECKSUM_ERROR_PLEASE_RESEND);
+            tries++;
+          }
+          else
+            Serial.print(CHECKSUM_ERROR_GIVING_UP);
+        }
+      }
+      else      //the message is the wrong size
+        {
+          if(tries<NUM_TRIES)
+          {
+            Serial.print(MALFORMED_MESSAGE_ERROR_PLEASE_RESEND);
+            tries++;
+          }
+          else
+            Serial.print(MALFORMED_MESSAGE_ERROR_GIVING_UP);
+        }
+    }
+    else
+        {
+          if(tries<NUM_TRIES)
+          {
+            Serial.print(MALFORMED_MESSAGE_ERROR_PLEASE_RESEND);
+            tries++;
+          }
+          else
+            Serial.print(MALFORMED_MESSAGE_ERROR_GIVING_UP);
+        }
+  }
+  }
 }
+
 
 //!  This function tells the computer of the datalogger's existence
 /**
@@ -144,7 +237,10 @@ void discover()
       discovered=TRUE;
       configure();
     }
-  
+  if(receivedByte==-1)
+  {
+    Serial.print(TIMEOUT_ERROR,BYTE);  //getByte didn't get a byte before the timeout
+  }  
 }
 
 
@@ -191,3 +287,40 @@ void discover()
    pinMode(SAMPLE_BUTTON,INPUT);
    pinMode(LED,OUTPUT);
  }  
+ 
+ 
+void getTemperatures()
+{
+  getRawData();
+  convertToResistance();
+  convertToTemperature();
+}
+
+//!this just grabs the raw values off the analog to digital converter
+void getRawData()
+{
+  sensor1_top=analogRead(0);
+  sensor1_bottom=analogRead(1);
+  
+/*  uncomment if I enable 2-sensing elements per sensor
+  sensor2_top=analogRead(2);
+  sensor2_bottom=analogRead(3);*/
+}
+
+//!this function converts the raw ADC values from the thermistor into resistances of the thermistor
+void convertToResistance()
+{
+    sensor1_resistance = ((float)sensor1_top/(float)sensor1_bottom - 1)*RBOTTOM; // Voltages converted to resistances
+    /* uncomment if I enable two sensing elements
+    sensor2_resistance = ((float)sensor2_top/(float)sensor2_bottom - 1)*RBOTTOM; // Voltages converted to resistances*/
+ 
+}
+
+//this function converts the resistance of the thermistor into a temperature according to the thermistor's calibration curve
+void convertToTemperature()
+{
+   sensor1_temperature = float(B/log(sensor1_resistance/(R0*exp(-1.0*B/T0))) - 273.0); // Temperature in degrees Celsius
+   /* uncomment if I enable two sensing elements
+   sensor2_temperature = float(B/log(sensor2_resistance/(R0*exp(-1.0*B/T0))) - 273.0); // Temperature in degrees Celsius   */
+}
+
