@@ -123,7 +123,7 @@ int getMessage(int timeout)
   return completeMessage;
 }
 
-
+//
 void sendData()
 {
   sprintf(message, "thermistor 1 = %f degrees C", sensor1_temperature);
@@ -134,7 +134,7 @@ void sendData()
   Serial.print(MESSAGE_END);
 }
 
-
+//this computes a checksum of the global string 'message'
 unsigned char getChecksum()
 {
   char i=0;

@@ -20,109 +20,44 @@
   </div>
 </div>
 <div class="contents">
-<h1>/Users/nikki/nublabs/nub.datalogger/hardware/temperature_sensor_Terciopelo/communications.h File Reference</h1>
+<h1>/Users/nikki/nublabs/nub.datalogger/hardware/temperature_sensor_Terciopelo/communications.h File Reference</h1><code>#include &lt;HardwareSerial.h&gt;</code><br>
+<code>#include &lt;string.h&gt;</code><br>
+
+<p>
+<div class="dynheader">
+Include dependency graph for communications.h:</div>
+<div class="dynsection">
+<p><center><img src="communications_8h__incl.png" border="0" usemap="#/Users/nikki/nublabs/nub.datalogger/hardware/temperature_sensor_Terciopelo/communications.h_map" alt=""></center>
+</div>
+
 <p>
 <div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dynsection">
 <p><center><img src="communications_8h__dep__incl.png" border="0" usemap="#/Users/nikki/nublabs/nub.datalogger/hardware/temperature_sensor_Terciopelo/communications.hdep_map" alt=""></center>
 <map name="/Users/nikki/nublabs/nub.datalogger/hardware/temperature_sensor_Terciopelo/communications.hdep_map">
-<area shape="rect" href="temperature__sensor___terciopelo_8pde.html" title="/Users/nikki/nublabs/nub.datalogger/hardware/temperature_sensor_Terciopelo/temperature_sensor_Terciopelo.pde" alt="" coords="6,80,726,107"></map>
+<area shape="rect" href="nublogger_8h.html" title="/Users/nikki/nublabs/nub.datalogger/hardware/temperature_sensor_Terciopelo/nublogger.h" alt="" coords="24,80,597,107"></map>
 </div>
 
 <p>
 <a href="communications_8h-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
-<tr><td colspan="2"><br><h2>Defines</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="communications_8h.html#d97232eed56f4b8962167188db8dd2d4">ACKNOWLEDGE</a>&nbsp;&nbsp;&nbsp;1</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">these are defined messages sent between the sensor and the computer  <a href="#d97232eed56f4b8962167188db8dd2d4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="communications_8h.html#421ea5726b2e7e3464457785964b3c11">ACKNOWLEDGE_AND_CONFIGURE</a>&nbsp;&nbsp;&nbsp;2</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="communications_8h.html#29d0028b064fb993c0e1f2b1ce4a7f88">LISTENING</a>&nbsp;&nbsp;&nbsp;3</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="communications_8h.html#d7285ac8b394b259876f0e61574dd8b0">CHECKSUM_ERROR_PLEASE_RESEND</a>&nbsp;&nbsp;&nbsp;4</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="communications_8h.html#b111ad1c600abfe6a9a3a7e7a1a057d5">CHECKSUM_ERROR_GIVING_UP</a>&nbsp;&nbsp;&nbsp;5</td></tr>
+<tr><td colspan="2"><br><h2>Functions</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="communications_8h.html#f8c68e93feeba5b9244094043672bac0">getByte</a> (int timeout)</td></tr>
 
 </table>
-<hr><h2>Define Documentation</h2>
-<a class="anchor" name="d97232eed56f4b8962167188db8dd2d4"></a><!-- doxytag: member="communications.h::ACKNOWLEDGE" ref="d97232eed56f4b8962167188db8dd2d4" args="" -->
+<hr><h2>Function Documentation</h2>
+<a class="anchor" name="f8c68e93feeba5b9244094043672bac0"></a><!-- doxytag: member="communications.h::getByte" ref="f8c68e93feeba5b9244094043672bac0" args="(int timeout)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define ACKNOWLEDGE&nbsp;&nbsp;&nbsp;1          </td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-these are defined messages sent between the sensor and the computer 
-<p>
-
-<p>Definition at line <a class="el" href="communications_8h-source.html#l00002">2</a> of file <a class="el" href="communications_8h-source.html">communications.h</a>.</p>
-
-</div>
-</div><p>
-<a class="anchor" name="421ea5726b2e7e3464457785964b3c11"></a><!-- doxytag: member="communications.h::ACKNOWLEDGE_AND_CONFIGURE" ref="421ea5726b2e7e3464457785964b3c11" args="" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define ACKNOWLEDGE_AND_CONFIGURE&nbsp;&nbsp;&nbsp;2          </td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-
-<p>Definition at line <a class="el" href="communications_8h-source.html#l00003">3</a> of file <a class="el" href="communications_8h-source.html">communications.h</a>.</p>
-
-</div>
-</div><p>
-<a class="anchor" name="b111ad1c600abfe6a9a3a7e7a1a057d5"></a><!-- doxytag: member="communications.h::CHECKSUM_ERROR_GIVING_UP" ref="b111ad1c600abfe6a9a3a7e7a1a057d5" args="" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define CHECKSUM_ERROR_GIVING_UP&nbsp;&nbsp;&nbsp;5          </td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-
-<p>Definition at line <a class="el" href="communications_8h-source.html#l00006">6</a> of file <a class="el" href="communications_8h-source.html">communications.h</a>.</p>
-
-</div>
-</div><p>
-<a class="anchor" name="d7285ac8b394b259876f0e61574dd8b0"></a><!-- doxytag: member="communications.h::CHECKSUM_ERROR_PLEASE_RESEND" ref="d7285ac8b394b259876f0e61574dd8b0" args="" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define CHECKSUM_ERROR_PLEASE_RESEND&nbsp;&nbsp;&nbsp;4          </td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-
-<p>Definition at line <a class="el" href="communications_8h-source.html#l00005">5</a> of file <a class="el" href="communications_8h-source.html">communications.h</a>.</p>
-
-</div>
-</div><p>
-<a class="anchor" name="29d0028b064fb993c0e1f2b1ce4a7f88"></a><!-- doxytag: member="communications.h::LISTENING" ref="29d0028b064fb993c0e1f2b1ce4a7f88" args="" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LISTENING&nbsp;&nbsp;&nbsp;3          </td>
+          <td class="memname">int getByte           </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>timeout</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
         </tr>
       </table>
 </div>
@@ -132,10 +67,24 @@ these are defined messages sent between the sensor and the computer
 
 <p>Definition at line <a class="el" href="communications_8h-source.html#l00004">4</a> of file <a class="el" href="communications_8h-source.html">communications.h</a>.</p>
 
+<p>Referenced by <a class="el" href="nublogger_8h-source.html#l00027">discover()</a>.</p>
+<div class="fragment"><pre class="fragment"><a name="l00005"></a>00005 {
+<a name="l00006"></a>00006   <span class="keywordtype">int</span> currentTime=millis();
+<a name="l00007"></a>00007   <span class="keywordtype">int</span> maxTime=currentTime+timeout;
+<a name="l00008"></a>00008   <span class="keywordflow">while</span>((Serial.available()==0)&amp;&amp;(millis()&lt;(maxTime)))
+<a name="l00009"></a>00009     {}
+<a name="l00010"></a>00010   <span class="keywordflow">if</span>((millis()&gt;maxTime)||(Serial.available()==0))
+<a name="l00011"></a>00011     <span class="keywordflow">return</span> -1;
+<a name="l00012"></a>00012   <span class="keywordflow">else</span>
+<a name="l00013"></a>00013     <span class="keywordflow">return</span> Serial.read();
+<a name="l00014"></a>00014 }
+</pre></div>
+<p>
+
 </div>
 </div><p>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Wed Nov 19 15:07:49 2008 for temperature sensor by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Wed Nov 19 21:33:56 2008 for temperature sensor by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7 </small></address>
 </body>

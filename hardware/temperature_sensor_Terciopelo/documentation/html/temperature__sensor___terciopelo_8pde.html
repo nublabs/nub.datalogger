@@ -20,9 +20,10 @@
   </div>
 </div>
 <div class="contents">
-<h1>/Users/nikki/nublabs/nub.datalogger/hardware/temperature_sensor_Terciopelo/temperature_sensor_Terciopelo.pde File Reference</h1><code>#include &quot;<a class="el" href="temperature__sensor__board__v2_8h-source.html">temperature_sensor_board_v2.h</a>&quot;</code><br>
-<code>#include &quot;<a class="el" href="communications_8h-source.html">communications.h</a>&quot;</code><br>
-<code>#include &quot;<a class="el" href="nublogger_8h-source.html">nublogger.h</a>&quot;</code><br>
+<h1>/Users/nikki/nublabs/nub.datalogger/hardware/temperature_sensor_Terciopelo/temperature_sensor_Terciopelo.pde File Reference</h1><code>#include &quot;<a class="el" href="name_8h-source.html">name.h</a>&quot;</code><br>
+<code>#include &quot;<a class="el" href="globals_8h-source.html">globals.h</a>&quot;</code><br>
+<code>#include &quot;<a class="el" href="communications__definitions_8h-source.html">communications_definitions.h</a>&quot;</code><br>
+<code>#include &lt;stdio.h&gt;</code><br>
 
 <p>
 <div class="dynheader">
@@ -30,19 +31,628 @@ Include dependency graph for temperature_sensor_Terciopelo.pde:</div>
 <div class="dynsection">
 <p><center><img src="temperature__sensor___terciopelo_8pde__incl.png" border="0" usemap="#/Users/nikki/nublabs/nub.datalogger/hardware/temperature_sensor_Terciopelo/temperature_sensor_Terciopelo.pde_map" alt=""></center>
 <map name="/Users/nikki/nublabs/nub.datalogger/hardware/temperature_sensor_Terciopelo/temperature_sensor_Terciopelo.pde_map">
-<area shape="rect" href="temperature__sensor__board__v2_8h.html" title="temperature_sensor_board_v2.h" alt="" coords="58,80,276,107"><area shape="rect" href="communications_8h.html" title="communications.h" alt="" coords="300,80,431,107"><area shape="rect" href="nublogger_8h.html" title="nublogger.h" alt="" coords="455,80,548,107"></map>
+<area shape="rect" href="name_8h.html" title="name.h" alt="" coords="155,80,222,107"><area shape="rect" href="globals_8h.html" title="globals.h" alt="" coords="246,80,323,107"><area shape="rect" href="communications__definitions_8h.html" title="communications_definitions.h" alt="" coords="347,80,550,107"></map>
 </div>
 
 <p>
 <a href="temperature__sensor___terciopelo_8pde-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
+<tr><td colspan="2"><br><h2>Defines</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="temperature__sensor___terciopelo_8pde.html#658c2878485cfe5cc625d283a6d34bc1">XBEE_SLEEP</a>&nbsp;&nbsp;&nbsp;2</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="temperature__sensor___terciopelo_8pde.html#b2de299215608c2a35f0feb86adc2f6f">SAMPLE_BUTTON</a>&nbsp;&nbsp;&nbsp;3</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="temperature__sensor___terciopelo_8pde.html#eb7a7ba1ab7e0406f1b5ab36d579f585">LED</a>&nbsp;&nbsp;&nbsp;4</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="temperature__sensor___terciopelo_8pde.html#2a2946288d28852ba343b09fd4f17d7a">SENSOR1_TOP</a>&nbsp;&nbsp;&nbsp;0</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="temperature__sensor___terciopelo_8pde.html#0da2a51dcb3e00b10aedd07d75f22382">SENSOR1_BOTTOM</a>&nbsp;&nbsp;&nbsp;1</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="temperature__sensor___terciopelo_8pde.html#645141ae2ab7fa7ac3f690c4959b6baf">SENSOR2_TOP</a>&nbsp;&nbsp;&nbsp;2</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="temperature__sensor___terciopelo_8pde.html#df66e6da6cf8c78004dc0a75fd14d3b1">SENSOR2_BOTTOM</a>&nbsp;&nbsp;&nbsp;3</td></tr>
+
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="temperature__sensor___terciopelo_8pde.html#4fc01d736fe50cf5b977f755b675f11d">setup</a> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="temperature__sensor___terciopelo_8pde.html#fe461d27b9c48d5921c00d521181f12f">loop</a> ()</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="temperature__sensor___terciopelo_8pde.html#50a2ce599e896bfb535e70a42003ed23">sample</a> ()</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="temperature__sensor___terciopelo_8pde.html#f8c68e93feeba5b9244094043672bac0">getByte</a> (int timeout)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="temperature__sensor___terciopelo_8pde.html#8f2521044963073c55b3c290fffd79e3">getMessage</a> (int timeout)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="temperature__sensor___terciopelo_8pde.html#95b1b253ee46df6a93285803cf1f3370">sendData</a> ()</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">unsigned char&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="temperature__sensor___terciopelo_8pde.html#465a79dc430d1e52a5b540920da744ca">getChecksum</a> ()</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="temperature__sensor___terciopelo_8pde.html#e369b3765489ee8bd0ea791c1843630f">configure</a> ()</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight"><a class="el" href="nublogger_8h.html#e369b3765489ee8bd0ea791c1843630f" title="configure() runs if the computer is trying to change the sensor&#39;s sample rate...">configure()</a> runs if the computer is trying to change the sensor's sample rate  <a href="#e369b3765489ee8bd0ea791c1843630f"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="temperature__sensor___terciopelo_8pde.html#3fdb2350c3f98c0de0f0ae3c831a8b14">discover</a> ()</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function tells the computer of the datalogger's existence.  <a href="#3fdb2350c3f98c0de0f0ae3c831a8b14"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="temperature__sensor___terciopelo_8pde.html#f6c9587ccbcf223f8c79f508c2fef366">initializeSensor</a> ()</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">this function configures all the digital communication pins as input or output pins  <a href="#f6c9587ccbcf223f8c79f508c2fef366"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="temperature__sensor___terciopelo_8pde.html#ea28af0c7128421a38589128bb39ef1c">getTemperatures</a> ()</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="temperature__sensor___terciopelo_8pde.html#cfc975251dbc3a8c9a9b11f8df62cc41">getRawData</a> ()</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">this just grabs the raw values off the analog to digital converter  <a href="#cfc975251dbc3a8c9a9b11f8df62cc41"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="temperature__sensor___terciopelo_8pde.html#8e666a34a083b1806167ca991be0c436">convertToResistance</a> ()</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">this function converts the raw ADC values from the thermistor into resistances of the thermistor  <a href="#8e666a34a083b1806167ca991be0c436"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="temperature__sensor___terciopelo_8pde.html#3aa4f99331713009a70ee34eba83754b">convertToTemperature</a> ()</td></tr>
+
+<tr><td colspan="2"><br><h2>Variables</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="temperature__sensor___terciopelo_8pde.html#735577560ca40e5b6008a98829068904">R0</a> = 10000.0</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="temperature__sensor___terciopelo_8pde.html#8188fea1f6709096fe21a3ee084d00d0">B</a> = 3950.0</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="temperature__sensor___terciopelo_8pde.html#4211ba1269f650e21964d32238a460b2">T0</a> = 298</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="temperature__sensor___terciopelo_8pde.html#d17df5990b551ac9e97a3d60f65833ff">RBOTTOM</a> = 1000.0</td></tr>
+
 </table>
+<hr><h2>Define Documentation</h2>
+<a class="anchor" name="eb7a7ba1ab7e0406f1b5ab36d579f585"></a><!-- doxytag: member="temperature_sensor_Terciopelo.pde::LED" ref="eb7a7ba1ab7e0406f1b5ab36d579f585" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LED&nbsp;&nbsp;&nbsp;4          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+<p>Definition at line <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00293">293</a> of file <a class="el" href="temperature__sensor___terciopelo_8pde-source.html">temperature_sensor_Terciopelo.pde</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="b2de299215608c2a35f0feb86adc2f6f"></a><!-- doxytag: member="temperature_sensor_Terciopelo.pde::SAMPLE_BUTTON" ref="b2de299215608c2a35f0feb86adc2f6f" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SAMPLE_BUTTON&nbsp;&nbsp;&nbsp;3          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+<p>Definition at line <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00292">292</a> of file <a class="el" href="temperature__sensor___terciopelo_8pde-source.html">temperature_sensor_Terciopelo.pde</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="0da2a51dcb3e00b10aedd07d75f22382"></a><!-- doxytag: member="temperature_sensor_Terciopelo.pde::SENSOR1_BOTTOM" ref="0da2a51dcb3e00b10aedd07d75f22382" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SENSOR1_BOTTOM&nbsp;&nbsp;&nbsp;1          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+<p>Definition at line <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00296">296</a> of file <a class="el" href="temperature__sensor___terciopelo_8pde-source.html">temperature_sensor_Terciopelo.pde</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="2a2946288d28852ba343b09fd4f17d7a"></a><!-- doxytag: member="temperature_sensor_Terciopelo.pde::SENSOR1_TOP" ref="2a2946288d28852ba343b09fd4f17d7a" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SENSOR1_TOP&nbsp;&nbsp;&nbsp;0          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+<p>Definition at line <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00295">295</a> of file <a class="el" href="temperature__sensor___terciopelo_8pde-source.html">temperature_sensor_Terciopelo.pde</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="df66e6da6cf8c78004dc0a75fd14d3b1"></a><!-- doxytag: member="temperature_sensor_Terciopelo.pde::SENSOR2_BOTTOM" ref="df66e6da6cf8c78004dc0a75fd14d3b1" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SENSOR2_BOTTOM&nbsp;&nbsp;&nbsp;3          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+<p>Definition at line <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00298">298</a> of file <a class="el" href="temperature__sensor___terciopelo_8pde-source.html">temperature_sensor_Terciopelo.pde</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="645141ae2ab7fa7ac3f690c4959b6baf"></a><!-- doxytag: member="temperature_sensor_Terciopelo.pde::SENSOR2_TOP" ref="645141ae2ab7fa7ac3f690c4959b6baf" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SENSOR2_TOP&nbsp;&nbsp;&nbsp;2          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+<p>Definition at line <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00297">297</a> of file <a class="el" href="temperature__sensor___terciopelo_8pde-source.html">temperature_sensor_Terciopelo.pde</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="658c2878485cfe5cc625d283a6d34bc1"></a><!-- doxytag: member="temperature_sensor_Terciopelo.pde::XBEE_SLEEP" ref="658c2878485cfe5cc625d283a6d34bc1" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define XBEE_SLEEP&nbsp;&nbsp;&nbsp;2          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+these are the pin definitions for the v2 board<p>
+function atmega pin arduino pin<p>
+Serial RX PD0 0 //serial lines that go out to the xbee module Serial TX PD1 1 Xbee_sleep PD2 2 //a pin that, when asserted, puts the xbee radio into a low power sleep mode Sample_button PD3 3 //an optional button that forces the sensor to take and send out a measurement LED PD4 4 //an LED on board that you can use for all kinds of stuff<p>
+sensor1_top PC0 (analog) 0 sensor1_bottom PC1 (analog) 1 sensor2_top PC2 (analog) 2 sensor2_bottom PC3 (analog) 3 
+<p>Definition at line <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00291">291</a> of file <a class="el" href="temperature__sensor___terciopelo_8pde-source.html">temperature_sensor_Terciopelo.pde</a>.</p>
+
+</div>
+</div><p>
 <hr><h2>Function Documentation</h2>
+<a class="anchor" name="e369b3765489ee8bd0ea791c1843630f"></a><!-- doxytag: member="temperature_sensor_Terciopelo.pde::configure" ref="e369b3765489ee8bd0ea791c1843630f" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void configure           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+<a class="el" href="nublogger_8h.html#e369b3765489ee8bd0ea791c1843630f" title="configure() runs if the computer is trying to change the sensor&#39;s sample rate...">configure()</a> runs if the computer is trying to change the sensor's sample rate 
+<p>
+In <a class="el" href="nublogger_8h.html#e369b3765489ee8bd0ea791c1843630f" title="configure() runs if the computer is trying to change the sensor&#39;s sample rate...">configure()</a>, the datalogger sends a LISTENING message to the computer, indicating that it's ready to receive data. The computer sends three ints: the hours, minutes and seconds of the sample interval, followed by a checksum byte that's the sum of the ints modulo 256. The sensor computes a checksum on the received data. If its checksum matches, it sends an ACKNOWLEDGE message back to the computer and updates its sample interval information. If the checksum does not match, it sends a CHECKSUM_ERROR_PLEASE_RESEND message, asking the computer to send the three ints again, followed by a checksum. If the sensor can't get a valid message (with a matching checksum) after three tries, it gives up, sends a CHECKSUM_ERROR_GIVING_UP message to the computer and keeps its original sample interval information 
+<p>Definition at line <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00162">162</a> of file <a class="el" href="temperature__sensor___terciopelo_8pde-source.html">temperature_sensor_Terciopelo.pde</a>.</p>
+
+<p>References <a class="el" href="globals_8h-source.html#l00016">buffer</a>, <a class="el" href="communications__definitions_8h-source.html#l00029">CHECKSUM</a>, <a class="el" href="communications__definitions_8h-source.html#l00013">CHECKSUM_ERROR_GIVING_UP</a>, <a class="el" href="communications__definitions_8h-source.html#l00012">CHECKSUM_ERROR_PLEASE_RESEND</a>, <a class="el" href="communications__definitions_8h-source.html#l00030">CONFIGURATION_MESSAGE_LENGTH</a>, <a class="el" href="globals_8h-source.html#l00008">configured</a>, <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00104">getMessage()</a>, <a class="el" href="communications__definitions_8h-source.html#l00023">HOUR_HIGH</a>, <a class="el" href="communications__definitions_8h-source.html#l00024">HOUR_LOW</a>, <a class="el" href="globals_8h-source.html#l00011">hours</a>, <a class="el" href="globals_8h-source.html#l00017">index</a>, <a class="el" href="communications__definitions_8h-source.html#l00011">LISTENING</a>, <a class="el" href="communications__definitions_8h-source.html#l00017">MALFORMED_MESSAGE_ERROR_GIVING_UP</a>, <a class="el" href="communications__definitions_8h-source.html#l00016">MALFORMED_MESSAGE_ERROR_PLEASE_RESEND</a>, <a class="el" href="communications__definitions_8h-source.html#l00020">MESSAGE_START</a>, <a class="el" href="communications__definitions_8h-source.html#l00025">MINUTE_HIGH</a>, <a class="el" href="communications__definitions_8h-source.html#l00026">MINUTE_LOW</a>, <a class="el" href="globals_8h-source.html#l00012">minutes</a>, <a class="el" href="communications__definitions_8h-source.html#l00006">NUM_TRIES</a>, <a class="el" href="communications__definitions_8h-source.html#l00027">SECOND_HIGH</a>, <a class="el" href="communications__definitions_8h-source.html#l00028">SECOND_LOW</a>, <a class="el" href="globals_8h-source.html#l00013">seconds</a>, <a class="el" href="globals_8h-source.html#l00018">start</a>, and <a class="el" href="communications__definitions_8h-source.html#l00015">TIMEOUT_ERROR</a>.</p>
+<div class="fragment"><pre class="fragment"><a name="l00163"></a>00163 { 
+<a name="l00164"></a>00164   <span class="keywordtype">char</span> i=0;
+<a name="l00165"></a>00165   <span class="keywordtype">char</span> tries=0;
+<a name="l00166"></a>00166   <span class="keywordtype">char</span> success=0;
+<a name="l00167"></a>00167   <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> checksum=0;
+<a name="l00168"></a>00168   <span class="keywordtype">int</span> error;
+<a name="l00169"></a>00169   
+<a name="l00170"></a>00170   <span class="keywordflow">while</span>((tries&lt;<a class="code" href="communications__definitions_8h.html#1685ca2e434799fb98ea9272ed39d5e3">NUM_TRIES</a>)&amp;&amp;(success==0))     <span class="comment">//we'll try</span>
+<a name="l00171"></a>00171   {
+<a name="l00172"></a>00172   checksum=0;
+<a name="l00173"></a>00173   Serial.print(<a class="code" href="communications__definitions_8h.html#29d0028b064fb993c0e1f2b1ce4a7f88">LISTENING</a>,BYTE);
+<a name="l00174"></a>00174   error=<a class="code" href="temperature__sensor___terciopelo_8pde.html#8f2521044963073c55b3c290fffd79e3">getMessage</a>(100);
+<a name="l00175"></a>00175   <span class="keywordflow">if</span>(error==-1)
+<a name="l00176"></a>00176     Serial.print(<a class="code" href="communications__definitions_8h.html#efc48d416c882f06edaf6d01779d4d74">TIMEOUT_ERROR</a>,BYTE);
+<a name="l00177"></a>00177   <span class="keywordflow">else</span>
+<a name="l00178"></a>00178   {
+<a name="l00179"></a>00179     <span class="keywordflow">if</span>(<a class="code" href="globals_8h.html#d5e2d3a85512c52e869f6ad9a4c2808e">buffer</a>[<a class="code" href="globals_8h.html#0558edb7889eddddb3a01e3956de01c4">start</a>]==<a class="code" href="communications__definitions_8h.html#53b51d504d04d1bbfb3d4a4f57349480">MESSAGE_START</a>)
+<a name="l00180"></a>00180     {
+<a name="l00181"></a>00181       <span class="keywordflow">if</span>((<a class="code" href="globals_8h.html#5abc5420a7f15af7410173395b610ea8">index</a>-<a class="code" href="globals_8h.html#0558edb7889eddddb3a01e3956de01c4">start</a>)==<a class="code" href="communications__definitions_8h.html#8ec36de1ede672b53100e0414d57a75a">CONFIGURATION_MESSAGE_LENGTH</a>)    <span class="comment">//check to make sure the message is the size we expect</span>
+<a name="l00182"></a>00182       {
+<a name="l00183"></a>00183         <span class="keywordflow">for</span>(i=1;i&lt;<a class="code" href="communications__definitions_8h.html#9886586c91a412164c69eb0270d2875e">CHECKSUM</a>;i++)
+<a name="l00184"></a>00184           checksum+=<a class="code" href="globals_8h.html#d5e2d3a85512c52e869f6ad9a4c2808e">buffer</a>[<a class="code" href="globals_8h.html#0558edb7889eddddb3a01e3956de01c4">start</a>+i];
+<a name="l00185"></a>00185         <span class="keywordflow">if</span>(checksum==<a class="code" href="globals_8h.html#d5e2d3a85512c52e869f6ad9a4c2808e">buffer</a>[<a class="code" href="globals_8h.html#0558edb7889eddddb3a01e3956de01c4">start</a>+CHECKSUM])    <span class="comment">//check to see if the calculated checksum is the same as the received checksum</span>
+<a name="l00186"></a>00186         {
+<a name="l00187"></a>00187           <span class="comment">//if it is, then we can load all the sample interval info</span>
+<a name="l00188"></a>00188           <a class="code" href="globals_8h.html#f23005df06fc3cd4264e5eee2dfa2f8c">hours</a>=(int)<a class="code" href="globals_8h.html#d5e2d3a85512c52e869f6ad9a4c2808e">buffer</a>[<a class="code" href="globals_8h.html#0558edb7889eddddb3a01e3956de01c4">start</a>+<a class="code" href="communications__definitions_8h.html#d82632844d46de002b8d8d16900e42a0">HOUR_HIGH</a>]*256+(<span class="keywordtype">int</span>)<a class="code" href="globals_8h.html#d5e2d3a85512c52e869f6ad9a4c2808e">buffer</a>[<a class="code" href="globals_8h.html#0558edb7889eddddb3a01e3956de01c4">start</a>+<a class="code" href="communications__definitions_8h.html#3faa4fcb5d61433ccf65f19b4de44703">HOUR_LOW</a>];
+<a name="l00189"></a>00189           <a class="code" href="globals_8h.html#b693b677bdc9ded12b06daf49778101c">minutes</a>=(int)<a class="code" href="globals_8h.html#d5e2d3a85512c52e869f6ad9a4c2808e">buffer</a>[<a class="code" href="globals_8h.html#0558edb7889eddddb3a01e3956de01c4">start</a>+<a class="code" href="communications__definitions_8h.html#592fee6a2134a20e8761668cb7c773e3">MINUTE_HIGH</a>]*256+(<span class="keywordtype">int</span>)<a class="code" href="globals_8h.html#d5e2d3a85512c52e869f6ad9a4c2808e">buffer</a>[<a class="code" href="globals_8h.html#0558edb7889eddddb3a01e3956de01c4">start</a>+<a class="code" href="communications__definitions_8h.html#2ace92e75321bdd463da760570b4e7e7">MINUTE_LOW</a>];
+<a name="l00190"></a>00190           <a class="code" href="globals_8h.html#77bd4f876bdc3afed5acdd936f775d34">seconds</a>=(int)<a class="code" href="globals_8h.html#d5e2d3a85512c52e869f6ad9a4c2808e">buffer</a>[<a class="code" href="globals_8h.html#0558edb7889eddddb3a01e3956de01c4">start</a>+<a class="code" href="communications__definitions_8h.html#f4364f097130bbbe71669acfee2692ae">SECOND_HIGH</a>]*256+(<span class="keywordtype">int</span>)<a class="code" href="globals_8h.html#d5e2d3a85512c52e869f6ad9a4c2808e">buffer</a>[<a class="code" href="globals_8h.html#0558edb7889eddddb3a01e3956de01c4">start</a>+<a class="code" href="communications__definitions_8h.html#15e121356786cb610493f80e4b35e677">SECOND_LOW</a>];
+<a name="l00191"></a>00191           success=1;         <span class="comment">//we can stop looping</span>
+<a name="l00192"></a>00192           <a class="code" href="globals_8h.html#7bfacbf7b939bc01bfe63d7a2fdb0ad8">configured</a>=1;      <span class="comment">//the sensor is configured!</span>
+<a name="l00193"></a>00193         }
+<a name="l00194"></a>00194         <span class="keywordflow">else</span>
+<a name="l00195"></a>00195         {
+<a name="l00196"></a>00196           <span class="keywordflow">if</span>(tries&lt;<a class="code" href="communications__definitions_8h.html#1685ca2e434799fb98ea9272ed39d5e3">NUM_TRIES</a>)
+<a name="l00197"></a>00197           {
+<a name="l00198"></a>00198             Serial.print(<a class="code" href="communications__definitions_8h.html#d7285ac8b394b259876f0e61574dd8b0">CHECKSUM_ERROR_PLEASE_RESEND</a>);
+<a name="l00199"></a>00199             tries++;
+<a name="l00200"></a>00200           }
+<a name="l00201"></a>00201           <span class="keywordflow">else</span>
+<a name="l00202"></a>00202             Serial.print(<a class="code" href="communications__definitions_8h.html#b111ad1c600abfe6a9a3a7e7a1a057d5">CHECKSUM_ERROR_GIVING_UP</a>);
+<a name="l00203"></a>00203         }
+<a name="l00204"></a>00204       }
+<a name="l00205"></a>00205       <span class="keywordflow">else</span>      <span class="comment">//the message is the wrong size</span>
+<a name="l00206"></a>00206         {
+<a name="l00207"></a>00207           <span class="keywordflow">if</span>(tries&lt;<a class="code" href="communications__definitions_8h.html#1685ca2e434799fb98ea9272ed39d5e3">NUM_TRIES</a>)
+<a name="l00208"></a>00208           {
+<a name="l00209"></a>00209             Serial.print(<a class="code" href="communications__definitions_8h.html#c4da90313e5d11e20acac66663fb014c">MALFORMED_MESSAGE_ERROR_PLEASE_RESEND</a>);
+<a name="l00210"></a>00210             tries++;
+<a name="l00211"></a>00211           }
+<a name="l00212"></a>00212           <span class="keywordflow">else</span>
+<a name="l00213"></a>00213             Serial.print(<a class="code" href="communications__definitions_8h.html#bf39c03638711128272afb73031f864d">MALFORMED_MESSAGE_ERROR_GIVING_UP</a>);
+<a name="l00214"></a>00214         }
+<a name="l00215"></a>00215     }
+<a name="l00216"></a>00216     <span class="keywordflow">else</span>
+<a name="l00217"></a>00217         {
+<a name="l00218"></a>00218           <span class="keywordflow">if</span>(tries&lt;<a class="code" href="communications__definitions_8h.html#1685ca2e434799fb98ea9272ed39d5e3">NUM_TRIES</a>)
+<a name="l00219"></a>00219           {
+<a name="l00220"></a>00220             Serial.print(<a class="code" href="communications__definitions_8h.html#c4da90313e5d11e20acac66663fb014c">MALFORMED_MESSAGE_ERROR_PLEASE_RESEND</a>);
+<a name="l00221"></a>00221             tries++;
+<a name="l00222"></a>00222           }
+<a name="l00223"></a>00223           <span class="keywordflow">else</span>
+<a name="l00224"></a>00224             Serial.print(<a class="code" href="communications__definitions_8h.html#bf39c03638711128272afb73031f864d">MALFORMED_MESSAGE_ERROR_GIVING_UP</a>);
+<a name="l00225"></a>00225         }
+<a name="l00226"></a>00226   }
+<a name="l00227"></a>00227   }
+<a name="l00228"></a>00228 }
+</pre></div>
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="8e666a34a083b1806167ca991be0c436"></a><!-- doxytag: member="temperature_sensor_Terciopelo.pde::convertToResistance" ref="8e666a34a083b1806167ca991be0c436" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void convertToResistance           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+this function converts the raw ADC values from the thermistor into resistances of the thermistor 
+<p>
+
+<p>Definition at line <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00340">340</a> of file <a class="el" href="temperature__sensor___terciopelo_8pde-source.html">temperature_sensor_Terciopelo.pde</a>.</p>
+
+<p>References <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00304">RBOTTOM</a>, <a class="el" href="globals_8h-source.html#l00022">sensor1_bottom</a>, <a class="el" href="globals_8h-source.html#l00027">sensor1_resistance</a>, and <a class="el" href="globals_8h-source.html#l00021">sensor1_top</a>.</p>
+
+<p>Referenced by <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00321">getTemperatures()</a>.</p>
+<div class="fragment"><pre class="fragment"><a name="l00341"></a>00341 {
+<a name="l00342"></a>00342     <a class="code" href="globals_8h.html#02e4140abf2d38e2f54630353cc82c4d">sensor1_resistance</a> = ((float)<a class="code" href="globals_8h.html#eb723e2da6dfcdda2972ff176b4aade2">sensor1_top</a>/(<span class="keywordtype">float</span>)<a class="code" href="globals_8h.html#c0cf7a4f555cb76b1b42a5ec73a1f582">sensor1_bottom</a> - 1)*<a class="code" href="temperature__sensor___terciopelo_8pde.html#d17df5990b551ac9e97a3d60f65833ff">RBOTTOM</a>; <span class="comment">// Voltages converted to resistances</span>
+<a name="l00343"></a>00343     <span class="comment">/* uncomment if I enable two sensing elements</span>
+<a name="l00344"></a>00344 <span class="comment">    sensor2_resistance = ((float)sensor2_top/(float)sensor2_bottom - 1)*RBOTTOM; // Voltages converted to resistances*/</span>
+<a name="l00345"></a>00345  
+<a name="l00346"></a>00346 }
+</pre></div>
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="3aa4f99331713009a70ee34eba83754b"></a><!-- doxytag: member="temperature_sensor_Terciopelo.pde::convertToTemperature" ref="3aa4f99331713009a70ee34eba83754b" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void convertToTemperature           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+<p>Definition at line <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00349">349</a> of file <a class="el" href="temperature__sensor___terciopelo_8pde-source.html">temperature_sensor_Terciopelo.pde</a>.</p>
+
+<p>References <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00302">B</a>, <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00301">R0</a>, <a class="el" href="globals_8h-source.html#l00027">sensor1_resistance</a>, <a class="el" href="globals_8h-source.html#l00031">sensor1_temperature</a>, and <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00303">T0</a>.</p>
+
+<p>Referenced by <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00321">getTemperatures()</a>, and <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00083">sample()</a>.</p>
+<div class="fragment"><pre class="fragment"><a name="l00350"></a>00350 {
+<a name="l00351"></a>00351    <a class="code" href="globals_8h.html#bffcded031596e15ce3964ab6ebe4f29">sensor1_temperature</a> = float(<a class="code" href="temperature__sensor___terciopelo_8pde.html#8188fea1f6709096fe21a3ee084d00d0">B</a>/log(<a class="code" href="globals_8h.html#02e4140abf2d38e2f54630353cc82c4d">sensor1_resistance</a>/(<a class="code" href="temperature__sensor___terciopelo_8pde.html#735577560ca40e5b6008a98829068904">R0</a>*exp(-1.0*<a class="code" href="temperature__sensor___terciopelo_8pde.html#8188fea1f6709096fe21a3ee084d00d0">B</a>/<a class="code" href="temperature__sensor___terciopelo_8pde.html#4211ba1269f650e21964d32238a460b2">T0</a>))) - 273.0); <span class="comment">// Temperature in degrees Celsius</span>
+<a name="l00352"></a>00352    <span class="comment">/* uncomment if I enable two sensing elements</span>
+<a name="l00353"></a>00353 <span class="comment">   sensor2_temperature = float(B/log(sensor2_resistance/(R0*exp(-1.0*B/T0))) - 273.0); // Temperature in degrees Celsius   */</span>
+<a name="l00354"></a>00354 }
+</pre></div>
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="3fdb2350c3f98c0de0f0ae3c831a8b14"></a><!-- doxytag: member="temperature_sensor_Terciopelo.pde::discover" ref="3fdb2350c3f98c0de0f0ae3c831a8b14" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void discover           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+This function tells the computer of the datalogger's existence. 
+<p>
+When the sensor turns on, it runs <a class="el" href="nublogger_8h.html#3fdb2350c3f98c0de0f0ae3c831a8b14" title="This function tells the computer of the datalogger&#39;s existence.">discover()</a>. It sends a MESSAGE_START message, a DISCOVER_ME message, and its name out to the computer and waits for acknowledgement. The computer can send back a plain "ACKNOWLEDGE" message, which means that the sensor should run using its default configuration values. The computer can also send back an "ACKNOWLEDGE_AND_CONFIGURE" message, which means that it has configuration data for the sensor. If the sensor gets this message, it'll run <a class="el" href="nublogger_8h.html#e369b3765489ee8bd0ea791c1843630f" title="configure() runs if the computer is trying to change the sensor&#39;s sample rate...">configure()</a> to receive the data from the computer. 
+<p>Definition at line <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00239">239</a> of file <a class="el" href="temperature__sensor___terciopelo_8pde-source.html">temperature_sensor_Terciopelo.pde</a>.</p>
+
+<p>References <a class="el" href="communications__definitions_8h-source.html#l00009">ACKNOWLEDGE</a>, <a class="el" href="communications__definitions_8h-source.html#l00010">ACKNOWLEDGE_AND_CONFIGURE</a>, <a class="el" href="nublogger_8h-source.html#l00015">configure()</a>, <a class="el" href="communications__definitions_8h-source.html#l00014">DISCOVER_ME</a>, <a class="el" href="globals_8h-source.html#l00007">discovered</a>, <a class="el" href="communications_8h-source.html#l00004">getByte()</a>, <a class="el" href="communications__definitions_8h-source.html#l00021">MESSAGE_END</a>, <a class="el" href="communications__definitions_8h-source.html#l00020">MESSAGE_START</a>, <a class="el" href="name_8h-source.html#l00001">name</a>, <a class="el" href="communications__definitions_8h-source.html#l00015">TIMEOUT_ERROR</a>, and <a class="el" href="globals_8h-source.html#l00002">TRUE</a>.</p>
+<div class="fragment"><pre class="fragment"><a name="l00240"></a>00240 { 
+<a name="l00241"></a>00241   <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> checksum=0;
+<a name="l00242"></a>00242   <span class="keywordtype">int</span> i=0;
+<a name="l00243"></a>00243   Serial.print(<a class="code" href="communications__definitions_8h.html#53b51d504d04d1bbfb3d4a4f57349480">MESSAGE_START</a>, BYTE);
+<a name="l00244"></a>00244   Serial.print(<a class="code" href="communications__definitions_8h.html#9413ad5afdb7d48c2d8606409cde00d0">DISCOVER_ME</a>,BYTE);
+<a name="l00245"></a>00245   Serial.print(<a class="code" href="name_8h.html#5ac083a645d964373f022d03df4849c8">name</a>);
+<a name="l00246"></a>00246   <span class="keywordflow">while</span>(<a class="code" href="name_8h.html#5ac083a645d964373f022d03df4849c8">name</a>[i]!=0)
+<a name="l00247"></a>00247   {
+<a name="l00248"></a>00248     checksum+=<a class="code" href="name_8h.html#5ac083a645d964373f022d03df4849c8">name</a>[i];
+<a name="l00249"></a>00249     i++;
+<a name="l00250"></a>00250   }
+<a name="l00251"></a>00251   checksum+=<a class="code" href="communications__definitions_8h.html#9413ad5afdb7d48c2d8606409cde00d0">DISCOVER_ME</a>;
+<a name="l00252"></a>00252   Serial.print(checksum,BYTE);
+<a name="l00253"></a>00253   Serial.print(<a class="code" href="communications__definitions_8h.html#012714d5d0e7065e355fefe979491541">MESSAGE_END</a>,BYTE);
+<a name="l00254"></a>00254 
+<a name="l00255"></a>00255   <span class="keywordtype">int</span> receivedByte=<a class="code" href="communications_8h.html#f8c68e93feeba5b9244094043672bac0">getByte</a>(100);     <span class="comment">//looks for a byte on the serial port with a 100ms timeout</span>
+<a name="l00256"></a>00256   <span class="keywordflow">if</span>(receivedByte==<a class="code" href="communications__definitions_8h.html#d97232eed56f4b8962167188db8dd2d4" title="these are defined messages sent between the sensor and the computer">ACKNOWLEDGE</a>)
+<a name="l00257"></a>00257     <a class="code" href="globals_8h.html#514585400668872c199fe503d6259b83">discovered</a>=<a class="code" href="globals_8h.html#a8cecfc5c5c054d2875c03e77b7be15d">TRUE</a>;
+<a name="l00258"></a>00258   <span class="keywordflow">if</span>(receivedByte==<a class="code" href="communications__definitions_8h.html#421ea5726b2e7e3464457785964b3c11">ACKNOWLEDGE_AND_CONFIGURE</a>)
+<a name="l00259"></a>00259     {
+<a name="l00260"></a>00260       <a class="code" href="globals_8h.html#514585400668872c199fe503d6259b83">discovered</a>=<a class="code" href="globals_8h.html#a8cecfc5c5c054d2875c03e77b7be15d">TRUE</a>;
+<a name="l00261"></a>00261       <a class="code" href="nublogger_8h.html#e369b3765489ee8bd0ea791c1843630f" title="configure() runs if the computer is trying to change the sensor&amp;#39;s sample rate...">configure</a>();
+<a name="l00262"></a>00262     }
+<a name="l00263"></a>00263   <span class="keywordflow">if</span>(receivedByte==-1)
+<a name="l00264"></a>00264   {
+<a name="l00265"></a>00265     Serial.print(<a class="code" href="communications__definitions_8h.html#efc48d416c882f06edaf6d01779d4d74">TIMEOUT_ERROR</a>,BYTE);  <span class="comment">//getByte didn't get a byte before the timeout</span>
+<a name="l00266"></a>00266   }  
+<a name="l00267"></a>00267 }
+</pre></div>
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="f8c68e93feeba5b9244094043672bac0"></a><!-- doxytag: member="temperature_sensor_Terciopelo.pde::getByte" ref="f8c68e93feeba5b9244094043672bac0" args="(int timeout)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int getByte           </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>timeout</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+<p>Definition at line <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00092">92</a> of file <a class="el" href="temperature__sensor___terciopelo_8pde-source.html">temperature_sensor_Terciopelo.pde</a>.</p>
+<div class="fragment"><pre class="fragment"><a name="l00093"></a>00093 {
+<a name="l00094"></a>00094   <span class="keywordtype">int</span> currentTime=millis();
+<a name="l00095"></a>00095   <span class="keywordtype">int</span> maxTime=currentTime+timeout;
+<a name="l00096"></a>00096   <span class="keywordflow">while</span>((Serial.available()==0)&amp;&amp;(millis()&lt;(maxTime)))
+<a name="l00097"></a>00097     {}
+<a name="l00098"></a>00098   <span class="keywordflow">if</span>(Serial.available()&gt;0)        <span class="comment">//did any data come in on the serial port?</span>
+<a name="l00099"></a>00099     <span class="keywordflow">return</span> Serial.read();
+<a name="l00100"></a>00100   <span class="keywordflow">else</span>                             <span class="comment">//we didn't get any data before the timeout</span>
+<a name="l00101"></a>00101     <span class="keywordflow">return</span> -1;
+<a name="l00102"></a>00102 }
+</pre></div>
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="465a79dc430d1e52a5b540920da744ca"></a><!-- doxytag: member="temperature_sensor_Terciopelo.pde::getChecksum" ref="465a79dc430d1e52a5b540920da744ca" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned char getChecksum           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+<p>Definition at line <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00138">138</a> of file <a class="el" href="temperature__sensor___terciopelo_8pde-source.html">temperature_sensor_Terciopelo.pde</a>.</p>
+
+<p>References <a class="el" href="globals_8h-source.html#l00005">message</a>.</p>
+
+<p>Referenced by <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00127">sendData()</a>.</p>
+<div class="fragment"><pre class="fragment"><a name="l00139"></a>00139 {
+<a name="l00140"></a>00140   <span class="keywordtype">char</span> i=0;
+<a name="l00141"></a>00141   <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> checksum=0;
+<a name="l00142"></a>00142   <span class="keywordflow">while</span>(<a class="code" href="globals_8h.html#a0ec8ae62320ddf9e7b3d84d4cf01522">message</a>[i]!=0)
+<a name="l00143"></a>00143   {
+<a name="l00144"></a>00144     checksum+=<a class="code" href="globals_8h.html#a0ec8ae62320ddf9e7b3d84d4cf01522">message</a>[i];
+<a name="l00145"></a>00145     i++;
+<a name="l00146"></a>00146   }
+<a name="l00147"></a>00147   <span class="keywordflow">return</span> checksum;
+<a name="l00148"></a>00148 }
+</pre></div>
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="8f2521044963073c55b3c290fffd79e3"></a><!-- doxytag: member="temperature_sensor_Terciopelo.pde::getMessage" ref="8f2521044963073c55b3c290fffd79e3" args="(int timeout)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int getMessage           </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>timeout</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+<p>Definition at line <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00104">104</a> of file <a class="el" href="temperature__sensor___terciopelo_8pde-source.html">temperature_sensor_Terciopelo.pde</a>.</p>
+
+<p>References <a class="el" href="globals_8h-source.html#l00016">buffer</a>, <a class="el" href="globals_8h-source.html#l00017">index</a>, <a class="el" href="communications__definitions_8h-source.html#l00021">MESSAGE_END</a>, and <a class="el" href="globals_8h-source.html#l00018">start</a>.</p>
+
+<p>Referenced by <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00162">configure()</a>.</p>
+<div class="fragment"><pre class="fragment"><a name="l00105"></a>00105 {
+<a name="l00106"></a>00106   <span class="keywordtype">int</span> completeMessage=-1;   <span class="comment">//a flag that lets us know if we got a full message</span>
+<a name="l00107"></a>00107   <a class="code" href="globals_8h.html#0558edb7889eddddb3a01e3956de01c4">start</a>=<a class="code" href="globals_8h.html#5abc5420a7f15af7410173395b610ea8">index</a>;              <span class="comment">//drop whatever other data is in our buffer--it'll probably just confuse the functions if we don't</span>
+<a name="l00108"></a>00108   <span class="keywordtype">int</span> currentTime=millis();
+<a name="l00109"></a>00109   <span class="keywordtype">int</span> maxTime=currentTime+timeout;  
+<a name="l00110"></a>00110   <span class="keywordflow">while</span>((millis()&lt;(maxTime))&amp;&amp;(<a class="code" href="globals_8h.html#d5e2d3a85512c52e869f6ad9a4c2808e">buffer</a>[<a class="code" href="globals_8h.html#5abc5420a7f15af7410173395b610ea8">index</a>]!=<a class="code" href="communications__definitions_8h.html#012714d5d0e7065e355fefe979491541">MESSAGE_END</a>))
+<a name="l00111"></a>00111     {
+<a name="l00112"></a>00112       <span class="keywordflow">if</span>(Serial.available()&gt;0)
+<a name="l00113"></a>00113         {
+<a name="l00114"></a>00114           <a class="code" href="globals_8h.html#d5e2d3a85512c52e869f6ad9a4c2808e">buffer</a>[<a class="code" href="globals_8h.html#5abc5420a7f15af7410173395b610ea8">index</a>]=Serial.read();
+<a name="l00115"></a>00115           <span class="keywordflow">if</span>(<a class="code" href="globals_8h.html#d5e2d3a85512c52e869f6ad9a4c2808e">buffer</a>[<a class="code" href="globals_8h.html#5abc5420a7f15af7410173395b610ea8">index</a>]==<a class="code" href="communications__definitions_8h.html#012714d5d0e7065e355fefe979491541">MESSAGE_END</a>)   <span class="comment">//we got a complete message</span>
+<a name="l00116"></a>00116             completeMessage=1;
+<a name="l00117"></a>00117           <a class="code" href="globals_8h.html#5abc5420a7f15af7410173395b610ea8">index</a>++;
+<a name="l00118"></a>00118         }
+<a name="l00119"></a>00119     }
+<a name="l00120"></a>00120   <span class="keywordflow">if</span>(completeMessage==-1)    <span class="comment">//we never got a complete message</span>
+<a name="l00121"></a>00121     <a class="code" href="globals_8h.html#0558edb7889eddddb3a01e3956de01c4">start</a>=<a class="code" href="globals_8h.html#5abc5420a7f15af7410173395b610ea8">index</a>;    <span class="comment">//skip past whatever we got from the buffer</span>
+<a name="l00122"></a>00122   
+<a name="l00123"></a>00123   <span class="keywordflow">return</span> completeMessage;
+<a name="l00124"></a>00124 }
+</pre></div>
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="cfc975251dbc3a8c9a9b11f8df62cc41"></a><!-- doxytag: member="temperature_sensor_Terciopelo.pde::getRawData" ref="cfc975251dbc3a8c9a9b11f8df62cc41" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void getRawData           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+this just grabs the raw values off the analog to digital converter 
+<p>
+
+<p>Definition at line <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00329">329</a> of file <a class="el" href="temperature__sensor___terciopelo_8pde-source.html">temperature_sensor_Terciopelo.pde</a>.</p>
+
+<p>References <a class="el" href="globals_8h-source.html#l00022">sensor1_bottom</a>, and <a class="el" href="globals_8h-source.html#l00021">sensor1_top</a>.</p>
+
+<p>Referenced by <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00321">getTemperatures()</a>, and <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00083">sample()</a>.</p>
+<div class="fragment"><pre class="fragment"><a name="l00330"></a>00330 {
+<a name="l00331"></a>00331   <a class="code" href="globals_8h.html#eb723e2da6dfcdda2972ff176b4aade2">sensor1_top</a>=analogRead(0);
+<a name="l00332"></a>00332   <a class="code" href="globals_8h.html#c0cf7a4f555cb76b1b42a5ec73a1f582">sensor1_bottom</a>=analogRead(1);
+<a name="l00333"></a>00333   
+<a name="l00334"></a>00334 <span class="comment">/*  uncomment if I enable 2-sensing elements per sensor</span>
+<a name="l00335"></a>00335 <span class="comment">  sensor2_top=analogRead(2);</span>
+<a name="l00336"></a>00336 <span class="comment">  sensor2_bottom=analogRead(3);*/</span>
+<a name="l00337"></a>00337 }
+</pre></div>
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="ea28af0c7128421a38589128bb39ef1c"></a><!-- doxytag: member="temperature_sensor_Terciopelo.pde::getTemperatures" ref="ea28af0c7128421a38589128bb39ef1c" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void getTemperatures           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+<p>Definition at line <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00321">321</a> of file <a class="el" href="temperature__sensor___terciopelo_8pde-source.html">temperature_sensor_Terciopelo.pde</a>.</p>
+
+<p>References <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00340">convertToResistance()</a>, <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00349">convertToTemperature()</a>, and <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00329">getRawData()</a>.</p>
+<div class="fragment"><pre class="fragment"><a name="l00322"></a>00322 {
+<a name="l00323"></a>00323   <a class="code" href="temperature__sensor___terciopelo_8pde.html#cfc975251dbc3a8c9a9b11f8df62cc41" title="this just grabs the raw values off the analog to digital converter">getRawData</a>();
+<a name="l00324"></a>00324   <a class="code" href="temperature__sensor___terciopelo_8pde.html#8e666a34a083b1806167ca991be0c436" title="this function converts the raw ADC values from the thermistor into resistances of...">convertToResistance</a>();
+<a name="l00325"></a>00325   <a class="code" href="temperature__sensor___terciopelo_8pde.html#3aa4f99331713009a70ee34eba83754b">convertToTemperature</a>();
+<a name="l00326"></a>00326 }
+</pre></div>
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="f6c9587ccbcf223f8c79f508c2fef366"></a><!-- doxytag: member="temperature_sensor_Terciopelo.pde::initializeSensor" ref="f6c9587ccbcf223f8c79f508c2fef366" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void initializeSensor           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+this function configures all the digital communication pins as input or output pins 
+<p>
+If you adapt this code to work with another sensor or board, you should replace the code in <a class="el" href="temperature__sensor__board__v2_8h.html#f6c9587ccbcf223f8c79f508c2fef366" title="this function configures all the digital communication pins as input or output pins...">initializeSensor()</a> to initialize all your relevant pins 
+<p>Definition at line <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00313">313</a> of file <a class="el" href="temperature__sensor___terciopelo_8pde-source.html">temperature_sensor_Terciopelo.pde</a>.</p>
+
+<p>References <a class="el" href="temperature__sensor__board__v2_8h-source.html#l00021">LED</a>, <a class="el" href="temperature__sensor__board__v2_8h-source.html#l00020">SAMPLE_BUTTON</a>, and <a class="el" href="temperature__sensor__board__v2_8h-source.html#l00019">XBEE_SLEEP</a>.</p>
+<div class="fragment"><pre class="fragment"><a name="l00314"></a>00314  {
+<a name="l00315"></a>00315    pinMode(<a class="code" href="temperature__sensor__board__v2_8h.html#658c2878485cfe5cc625d283a6d34bc1">XBEE_SLEEP</a>,OUTPUT);
+<a name="l00316"></a>00316    pinMode(<a class="code" href="temperature__sensor__board__v2_8h.html#b2de299215608c2a35f0feb86adc2f6f">SAMPLE_BUTTON</a>,INPUT);
+<a name="l00317"></a>00317    pinMode(<a class="code" href="temperature__sensor__board__v2_8h.html#eb7a7ba1ab7e0406f1b5ab36d579f585">LED</a>,OUTPUT);
+<a name="l00318"></a>00318  }  
+</pre></div>
+<p>
+
+</div>
+</div><p>
 <a class="anchor" name="fe461d27b9c48d5921c00d521181f12f"></a><!-- doxytag: member="temperature_sensor_Terciopelo.pde::loop" ref="fe461d27b9c48d5921c00d521181f12f" args="()" -->
 <div class="memitem">
 <div class="memproto">
@@ -60,9 +670,74 @@ Include dependency graph for temperature_sensor_Terciopelo.pde:</div>
 
 <p>
 
-<p>Definition at line <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00065">65</a> of file <a class="el" href="temperature__sensor___terciopelo_8pde-source.html">temperature_sensor_Terciopelo.pde</a>.</p>
-<div class="fragment"><pre class="fragment"><a name="l00066"></a>00066 {
-<a name="l00067"></a>00067 }
+<p>Definition at line <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00079">79</a> of file <a class="el" href="temperature__sensor___terciopelo_8pde-source.html">temperature_sensor_Terciopelo.pde</a>.</p>
+<div class="fragment"><pre class="fragment"><a name="l00080"></a>00080 {
+<a name="l00081"></a>00081 }
+</pre></div>
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="50a2ce599e896bfb535e70a42003ed23"></a><!-- doxytag: member="temperature_sensor_Terciopelo.pde::sample" ref="50a2ce599e896bfb535e70a42003ed23" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sample           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+<p>Definition at line <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00083">83</a> of file <a class="el" href="temperature__sensor___terciopelo_8pde-source.html">temperature_sensor_Terciopelo.pde</a>.</p>
+
+<p>References <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00349">convertToTemperature()</a>, <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00329">getRawData()</a>, and <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00127">sendData()</a>.</p>
+<div class="fragment"><pre class="fragment"><a name="l00084"></a>00084 {
+<a name="l00085"></a>00085   <a class="code" href="temperature__sensor___terciopelo_8pde.html#cfc975251dbc3a8c9a9b11f8df62cc41" title="this just grabs the raw values off the analog to digital converter">getRawData</a>();
+<a name="l00086"></a>00086   <a class="code" href="temperature__sensor___terciopelo_8pde.html#3aa4f99331713009a70ee34eba83754b">convertToTemperature</a>();
+<a name="l00087"></a>00087   <a class="code" href="temperature__sensor___terciopelo_8pde.html#95b1b253ee46df6a93285803cf1f3370">sendData</a>();
+<a name="l00088"></a>00088 }
+</pre></div>
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="95b1b253ee46df6a93285803cf1f3370"></a><!-- doxytag: member="temperature_sensor_Terciopelo.pde::sendData" ref="95b1b253ee46df6a93285803cf1f3370" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sendData           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+<p>Definition at line <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00127">127</a> of file <a class="el" href="temperature__sensor___terciopelo_8pde-source.html">temperature_sensor_Terciopelo.pde</a>.</p>
+
+<p>References <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00138">getChecksum()</a>, <a class="el" href="globals_8h-source.html#l00005">message</a>, <a class="el" href="communications__definitions_8h-source.html#l00021">MESSAGE_END</a>, <a class="el" href="communications__definitions_8h-source.html#l00020">MESSAGE_START</a>, and <a class="el" href="globals_8h-source.html#l00031">sensor1_temperature</a>.</p>
+
+<p>Referenced by <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00083">sample()</a>.</p>
+<div class="fragment"><pre class="fragment"><a name="l00128"></a>00128 {
+<a name="l00129"></a>00129   sprintf(<a class="code" href="globals_8h.html#a0ec8ae62320ddf9e7b3d84d4cf01522">message</a>, <span class="stringliteral">"thermistor 1 = %f degrees C"</span>, <a class="code" href="globals_8h.html#bffcded031596e15ce3964ab6ebe4f29">sensor1_temperature</a>);
+<a name="l00130"></a>00130   <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> checksum=<a class="code" href="temperature__sensor___terciopelo_8pde.html#465a79dc430d1e52a5b540920da744ca">getChecksum</a>();
+<a name="l00131"></a>00131   Serial.print(<a class="code" href="communications__definitions_8h.html#53b51d504d04d1bbfb3d4a4f57349480">MESSAGE_START</a>);
+<a name="l00132"></a>00132   Serial.print(<a class="code" href="globals_8h.html#a0ec8ae62320ddf9e7b3d84d4cf01522">message</a>);
+<a name="l00133"></a>00133   Serial.print(checksum);
+<a name="l00134"></a>00134   Serial.print(<a class="code" href="communications__definitions_8h.html#012714d5d0e7065e355fefe979491541">MESSAGE_END</a>);
+<a name="l00135"></a>00135 }
 </pre></div>
 <p>
 
@@ -86,25 +761,103 @@ Include dependency graph for temperature_sensor_Terciopelo.pde:</div>
 <p>
 nublogger temperature sensor Terciopelo(+)<p>
 Alex Hornstein 11.19.08 <a href="mailto:alex@nublabs.com">alex@nublabs.com</a> datalogger.nublabs.com<p>
-(+)In keeping with the arduino nomenclature, we are naming all our code revisions with Spanish names of venemous snakes. The Terciopelo, or fer-de-lance is a pit viper common in central and northwestern south america. It has a powerful venom that, left untreated, can cause necrosis, brain hemorrhaging, renal failure and death. It's also capable of spraying venom through its fangs for up to 6 feet. Cool, huh? This is a sensor for nublab's datalogging system. The datalogger is a two-part system: There is a USB dongle that plugs into a computer that allows the computer to talk to a wireless Zigbee network, and then there are battery-powered sensors that sense data about the environemnt. The sensors collect data and convert it into human-readable units, and then send the data as plaintext over the wireless network to the computer, where it is stored and logged. Any sensor that will work with this system must implement the <a class="el" href="nublogger_8h.html#3fdb2350c3f98c0de0f0ae3c831a8b14" title="This function tells the computer of the datalogger&#39;s existence.">discover()</a>, <a class="el" href="nublogger_8h.html#e369b3765489ee8bd0ea791c1843630f" title="configure() runs if the computer is trying to change the sensor&#39;s sample rate...">configure()</a> and sample() functions, as well as be identifiable by a unique name<p>
+(+)In keeping with the arduino nomenclature, we are naming all our code revisions with Spanish names of venemous snakes. The Terciopelo, or fer-de-lance is a pit viper common in central and northwestern south america. It has a powerful venom that, left untreated, can cause necrosis, brain hemorrhaging, renal failure and death. It's also capable of spraying venom through its fangs for up to 6 feet. Cool, huh? This is a sensor for nublab's datalogging system. The datalogger is a two-part system: There is a USB dongle that plugs into a computer that allows the computer to talk to a wireless Zigbee network, and then there are battery-powered sensors that sense data about the environemnt. The sensors collect data and convert it into human-readable units, and then send the data as plaintext over the wireless network to the computer, where it is stored and logged. Any sensor that will work with this system must implement the <a class="el" href="nublogger_8h.html#3fdb2350c3f98c0de0f0ae3c831a8b14" title="This function tells the computer of the datalogger&#39;s existence.">discover()</a>, <a class="el" href="nublogger_8h.html#e369b3765489ee8bd0ea791c1843630f" title="configure() runs if the computer is trying to change the sensor&#39;s sample rate...">configure()</a> and <a class="el" href="temperature__sensor___terciopelo_8pde.html#50a2ce599e896bfb535e70a42003ed23">sample()</a> functions, as well as be identifiable by a unique name<p>
 The <a class="el" href="nublogger_8h.html#3fdb2350c3f98c0de0f0ae3c831a8b14" title="This function tells the computer of the datalogger&#39;s existence.">discover()</a> function is a short communication sequence when the sensor is first turned on where it broadcasts its name over the network and ensures that the computer recognizes it and is ready to configure it and log its data. The sensor also sends the units of whatever value it will be reporting.<p>
 the <a class="el" href="nublogger_8h.html#e369b3765489ee8bd0ea791c1843630f" title="configure() runs if the computer is trying to change the sensor&#39;s sample rate...">configure()</a> function is triggered by a flag sent by the computer that indicates that the computer would like to change the datalogger's sample rate. <a class="el" href="nublogger_8h.html#e369b3765489ee8bd0ea791c1843630f" title="configure() runs if the computer is trying to change the sensor&#39;s sample rate...">configure()</a> is another communication sequence in which the computer sends a sample interval in hours, minutes and seconds to the datalogger. By default, the datalogger samples every second.<p>
-the sample() function is called by the sensor every sample interval. sample() reads a value from whatever sensing element (Thermistor, current sensor, light sensor, etc) the particular sensor uses, converts it to physical units (degrees celsius, amps, lux, etc) and sends out a string over the wireless network with the sensor's unique name and its sensed values.<p>
+the <a class="el" href="temperature__sensor___terciopelo_8pde.html#50a2ce599e896bfb535e70a42003ed23">sample()</a> function is called by the sensor every sample interval. <a class="el" href="temperature__sensor___terciopelo_8pde.html#50a2ce599e896bfb535e70a42003ed23">sample()</a> reads a value from whatever sensing element (Thermistor, current sensor, light sensor, etc) the particular sensor uses, converts it to physical units (degrees celsius, amps, lux, etc) and sends out a string over the wireless network with the sensor's unique name and its sensed values.<p>
 the name: each sensor should have a unique name burnt into its eeprom that makes it uniquely identifiable in the network. Nublabs is using a list of north and south american baby names which is available at datalogger.nublabs.com This particular sensor is a temperature sensor using an NTC thermistor. The thermistor is a resistive element. We sense it using two resistor dividers--one resistor, R1 which connects from Vcc to the thermistor, and another resistor that connects from the other end of the thermistor to ground. We measure the voltage at both ends of the thermistor using separate Analog to Digital Converter (ADC) pins. This allows us to factor out any effect changing battery voltage has on our temperature measurement. This code is written for version 2 of the sensor hardware. A pdf of the sensor schematic and board layout is available at datalogger.nublabs.com 
-<p>Definition at line <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00059">59</a> of file <a class="el" href="temperature__sensor___terciopelo_8pde-source.html">temperature_sensor_Terciopelo.pde</a>.</p>
+<p>Definition at line <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00072">72</a> of file <a class="el" href="temperature__sensor___terciopelo_8pde-source.html">temperature_sensor_Terciopelo.pde</a>.</p>
 
-<p>References <a class="el" href="temperature__sensor__board__v2_8h-source.html#l00035">initializeSensor()</a>.</p>
-<div class="fragment"><pre class="fragment"><a name="l00060"></a>00060 {
-<a name="l00061"></a>00061   <a class="code" href="temperature__sensor__board__v2_8h.html#f6c9587ccbcf223f8c79f508c2fef366" title="this function configures all the digital communication pins as input or output pins...">initializeSensor</a>();
-<a name="l00062"></a>00062   Serial.begin(19200);
-<a name="l00063"></a>00063 }
+<p>References <a class="el" href="nublogger_8h-source.html#l00027">discover()</a>, and <a class="el" href="temperature__sensor__board__v2_8h-source.html#l00035">initializeSensor()</a>.</p>
+<div class="fragment"><pre class="fragment"><a name="l00073"></a>00073 {
+<a name="l00074"></a>00074   Serial.begin(19200);
+<a name="l00075"></a>00075   <a class="code" href="temperature__sensor__board__v2_8h.html#f6c9587ccbcf223f8c79f508c2fef366" title="this function configures all the digital communication pins as input or output pins...">initializeSensor</a>();
+<a name="l00076"></a>00076   <a class="code" href="nublogger_8h.html#3fdb2350c3f98c0de0f0ae3c831a8b14" title="This function tells the computer of the datalogger&amp;#39;s existence.">discover</a>();
+<a name="l00077"></a>00077 }
 </pre></div>
 <p>
 
 </div>
 </div><p>
+<hr><h2>Variable Documentation</h2>
+<a class="anchor" name="8188fea1f6709096fe21a3ee084d00d0"></a><!-- doxytag: member="temperature_sensor_Terciopelo.pde::B" ref="8188fea1f6709096fe21a3ee084d00d0" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float <a class="el" href="temperature__sensor___terciopelo_8pde.html#8188fea1f6709096fe21a3ee084d00d0">B</a> = 3950.0          </td>
+        </tr>
+      </table>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Wed Nov 19 15:07:50 2008 for temperature sensor by&nbsp;
+<div class="memdoc">
+
+<p>
+
+<p>Definition at line <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00302">302</a> of file <a class="el" href="temperature__sensor___terciopelo_8pde-source.html">temperature_sensor_Terciopelo.pde</a>.</p>
+
+<p>Referenced by <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00349">convertToTemperature()</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="735577560ca40e5b6008a98829068904"></a><!-- doxytag: member="temperature_sensor_Terciopelo.pde::R0" ref="735577560ca40e5b6008a98829068904" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float <a class="el" href="temperature__sensor___terciopelo_8pde.html#735577560ca40e5b6008a98829068904">R0</a> = 10000.0          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+<p>Definition at line <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00301">301</a> of file <a class="el" href="temperature__sensor___terciopelo_8pde-source.html">temperature_sensor_Terciopelo.pde</a>.</p>
+
+<p>Referenced by <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00349">convertToTemperature()</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="d17df5990b551ac9e97a3d60f65833ff"></a><!-- doxytag: member="temperature_sensor_Terciopelo.pde::RBOTTOM" ref="d17df5990b551ac9e97a3d60f65833ff" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float <a class="el" href="temperature__sensor___terciopelo_8pde.html#d17df5990b551ac9e97a3d60f65833ff">RBOTTOM</a> = 1000.0          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+<p>Definition at line <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00304">304</a> of file <a class="el" href="temperature__sensor___terciopelo_8pde-source.html">temperature_sensor_Terciopelo.pde</a>.</p>
+
+<p>Referenced by <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00340">convertToResistance()</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="4211ba1269f650e21964d32238a460b2"></a><!-- doxytag: member="temperature_sensor_Terciopelo.pde::T0" ref="4211ba1269f650e21964d32238a460b2" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float <a class="el" href="temperature__sensor___terciopelo_8pde.html#4211ba1269f650e21964d32238a460b2">T0</a> = 298          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+<p>Definition at line <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00303">303</a> of file <a class="el" href="temperature__sensor___terciopelo_8pde-source.html">temperature_sensor_Terciopelo.pde</a>.</p>
+
+<p>Referenced by <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00349">convertToTemperature()</a>.</p>
+
+</div>
+</div><p>
+</div>
+<hr size="1"><address style="text-align: right;"><small>Generated on Wed Nov 19 21:33:57 2008 for temperature sensor by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7 </small></address>
 </body>

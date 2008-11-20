@@ -20,14 +20,17 @@
   </div>
 </div>
 <div class="contents">
-<h1>/Users/nikki/nublabs/nub.datalogger/hardware/temperature_sensor_Terciopelo/nublogger.h File Reference</h1>
+<h1>/Users/nikki/nublabs/nub.datalogger/hardware/temperature_sensor_Terciopelo/nublogger.h File Reference</h1><code>#include &lt;HardwareSerial.h&gt;</code><br>
+<code>#include &lt;string.h&gt;</code><br>
+<code>#include &quot;<a class="el" href="communications_8h-source.html">communications.h</a>&quot;</code><br>
+
 <p>
 <div class="dynheader">
-This graph shows which files directly or indirectly include this file:</div>
+Include dependency graph for nublogger.h:</div>
 <div class="dynsection">
-<p><center><img src="nublogger_8h__dep__incl.png" border="0" usemap="#/Users/nikki/nublabs/nub.datalogger/hardware/temperature_sensor_Terciopelo/nublogger.hdep_map" alt=""></center>
-<map name="/Users/nikki/nublabs/nub.datalogger/hardware/temperature_sensor_Terciopelo/nublogger.hdep_map">
-<area shape="rect" href="temperature__sensor___terciopelo_8pde.html" title="/Users/nikki/nublabs/nub.datalogger/hardware/temperature_sensor_Terciopelo/temperature_sensor_Terciopelo.pde" alt="" coords="6,80,726,107"></map>
+<p><center><img src="nublogger_8h__incl.png" border="0" usemap="#/Users/nikki/nublabs/nub.datalogger/hardware/temperature_sensor_Terciopelo/nublogger.h_map" alt=""></center>
+<map name="/Users/nikki/nublabs/nub.datalogger/hardware/temperature_sensor_Terciopelo/nublogger.h_map">
+<area shape="rect" href="communications_8h.html" title="communications.h" alt="" coords="227,80,357,107"></map>
 </div>
 
 <p>
@@ -61,9 +64,11 @@ This graph shows which files directly or indirectly include this file:</div>
 <a class="el" href="nublogger_8h.html#e369b3765489ee8bd0ea791c1843630f" title="configure() runs if the computer is trying to change the sensor&#39;s sample rate...">configure()</a> runs if the computer is trying to change the sensor's sample rate 
 <p>
 In <a class="el" href="nublogger_8h.html#e369b3765489ee8bd0ea791c1843630f" title="configure() runs if the computer is trying to change the sensor&#39;s sample rate...">configure()</a>, the datalogger sends a LISTENING message to the computer, indicating that it's ready to receive data. The computer sends three ints: the hours, minutes and seconds of the sample interval, followed by a checksum byte that's the sum of the ints modulo 256. The sensor computes a checksum on the received data. If its checksum matches, it sends an ACKNOWLEDGE message back to the computer and updates its sample interval information. If the checksum does not match, it sends a CHECKSUM_ERROR_PLEASE_RESEND message, asking the computer to send the three ints again, followed by a checksum. If the sensor can't get a valid message (with a matching checksum) after three tries, it gives up, sends a CHECKSUM_ERROR_GIVING_UP message to the computer and keeps its original sample interval information 
-<p>Definition at line <a class="el" href="nublogger_8h-source.html#l00011">11</a> of file <a class="el" href="nublogger_8h-source.html">nublogger.h</a>.</p>
-<div class="fragment"><pre class="fragment"><a name="l00012"></a>00012 {
-<a name="l00013"></a>00013 }
+<p>Definition at line <a class="el" href="nublogger_8h-source.html#l00015">15</a> of file <a class="el" href="nublogger_8h-source.html">nublogger.h</a>.</p>
+
+<p>Referenced by <a class="el" href="nublogger_8h-source.html#l00027">discover()</a>.</p>
+<div class="fragment"><pre class="fragment"><a name="l00016"></a>00016 { 
+<a name="l00017"></a>00017 }
 </pre></div>
 <p>
 
@@ -87,17 +92,44 @@ In <a class="el" href="nublogger_8h.html#e369b3765489ee8bd0ea791c1843630f" title
 <p>
 This function tells the computer of the datalogger's existence. 
 <p>
-When the sensor turns on, it runs <a class="el" href="nublogger_8h.html#3fdb2350c3f98c0de0f0ae3c831a8b14" title="This function tells the computer of the datalogger&#39;s existence.">discover()</a>. It broadcasts its name out to the computer and waits for acknowledgement. The computer can send back a plain "ACKNOWLEDGE" message, which means that the sensor should run using its default configuration values. The computer can also send back an "ACKNOWLEDGE_AND_CONFIGURE" message, which means that it has configuration data for the sensor. If the sensor gets this message, it'll run <a class="el" href="nublogger_8h.html#e369b3765489ee8bd0ea791c1843630f" title="configure() runs if the computer is trying to change the sensor&#39;s sample rate...">configure()</a> to receive the data from the computer. 
-<p>Definition at line <a class="el" href="nublogger_8h-source.html#l00022">22</a> of file <a class="el" href="nublogger_8h-source.html">nublogger.h</a>.</p>
-<div class="fragment"><pre class="fragment"><a name="l00023"></a>00023 {
-<a name="l00024"></a>00024 }
+When the sensor turns on, it runs <a class="el" href="nublogger_8h.html#3fdb2350c3f98c0de0f0ae3c831a8b14" title="This function tells the computer of the datalogger&#39;s existence.">discover()</a>. It sends a MESSAGE_START message, a DISCOVER_ME message, and its name out to the computer and waits for acknowledgement. The computer can send back a plain "ACKNOWLEDGE" message, which means that the sensor should run using its default configuration values. The computer can also send back an "ACKNOWLEDGE_AND_CONFIGURE" message, which means that it has configuration data for the sensor. If the sensor gets this message, it'll run <a class="el" href="nublogger_8h.html#e369b3765489ee8bd0ea791c1843630f" title="configure() runs if the computer is trying to change the sensor&#39;s sample rate...">configure()</a> to receive the data from the computer. 
+<p>Definition at line <a class="el" href="nublogger_8h-source.html#l00027">27</a> of file <a class="el" href="nublogger_8h-source.html">nublogger.h</a>.</p>
+
+<p>References <a class="el" href="communications__definitions_8h-source.html#l00009">ACKNOWLEDGE</a>, <a class="el" href="communications__definitions_8h-source.html#l00010">ACKNOWLEDGE_AND_CONFIGURE</a>, <a class="el" href="nublogger_8h-source.html#l00015">configure()</a>, <a class="el" href="communications__definitions_8h-source.html#l00014">DISCOVER_ME</a>, <a class="el" href="globals_8h-source.html#l00007">discovered</a>, <a class="el" href="communications_8h-source.html#l00004">getByte()</a>, <a class="el" href="communications__definitions_8h-source.html#l00021">MESSAGE_END</a>, <a class="el" href="communications__definitions_8h-source.html#l00020">MESSAGE_START</a>, <a class="el" href="name_8h-source.html#l00001">name</a>, and <a class="el" href="globals_8h-source.html#l00002">TRUE</a>.</p>
+
+<p>Referenced by <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00072">setup()</a>.</p>
+<div class="fragment"><pre class="fragment"><a name="l00028"></a>00028 { 
+<a name="l00029"></a>00029   <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> checksum=0;
+<a name="l00030"></a>00030   <span class="keywordtype">int</span> i=0;
+<a name="l00031"></a>00031   Serial.print(<a class="code" href="communications__definitions_8h.html#53b51d504d04d1bbfb3d4a4f57349480">MESSAGE_START</a>, BYTE);
+<a name="l00032"></a>00032   Serial.print(<a class="code" href="communications__definitions_8h.html#9413ad5afdb7d48c2d8606409cde00d0">DISCOVER_ME</a>,BYTE);
+<a name="l00033"></a>00033   Serial.print(<a class="code" href="name_8h.html#5ac083a645d964373f022d03df4849c8">name</a>);
+<a name="l00034"></a>00034   <span class="keywordflow">while</span>(<a class="code" href="name_8h.html#5ac083a645d964373f022d03df4849c8">name</a>[i]!=0)
+<a name="l00035"></a>00035   {
+<a name="l00036"></a>00036     checksum+=<a class="code" href="name_8h.html#5ac083a645d964373f022d03df4849c8">name</a>[i];
+<a name="l00037"></a>00037     i++;
+<a name="l00038"></a>00038   }
+<a name="l00039"></a>00039   checksum+=<a class="code" href="communications__definitions_8h.html#9413ad5afdb7d48c2d8606409cde00d0">DISCOVER_ME</a>;
+<a name="l00040"></a>00040   Serial.print(checksum,BYTE);
+<a name="l00041"></a>00041   Serial.print(<a class="code" href="communications__definitions_8h.html#012714d5d0e7065e355fefe979491541">MESSAGE_END</a>,BYTE);
+<a name="l00042"></a>00042 
+<a name="l00043"></a>00043   <span class="keywordtype">int</span> receivedByte=<a class="code" href="communications_8h.html#f8c68e93feeba5b9244094043672bac0">getByte</a>(100);     <span class="comment">//looks for a byte on the serial port with a 100ms timeout</span>
+<a name="l00044"></a>00044   <span class="keywordflow">if</span>(receivedByte==<a class="code" href="communications__definitions_8h.html#d97232eed56f4b8962167188db8dd2d4" title="these are defined messages sent between the sensor and the computer">ACKNOWLEDGE</a>)
+<a name="l00045"></a>00045     <a class="code" href="globals_8h.html#514585400668872c199fe503d6259b83">discovered</a>=<a class="code" href="globals_8h.html#a8cecfc5c5c054d2875c03e77b7be15d">TRUE</a>;
+<a name="l00046"></a>00046   <span class="keywordflow">if</span>(receivedByte==<a class="code" href="communications__definitions_8h.html#421ea5726b2e7e3464457785964b3c11">ACKNOWLEDGE_AND_CONFIGURE</a>)
+<a name="l00047"></a>00047     {
+<a name="l00048"></a>00048       <a class="code" href="globals_8h.html#514585400668872c199fe503d6259b83">discovered</a>=<a class="code" href="globals_8h.html#a8cecfc5c5c054d2875c03e77b7be15d">TRUE</a>;
+<a name="l00049"></a>00049       <a class="code" href="nublogger_8h.html#e369b3765489ee8bd0ea791c1843630f" title="configure() runs if the computer is trying to change the sensor&amp;#39;s sample rate...">configure</a>();
+<a name="l00050"></a>00050     }
+<a name="l00051"></a>00051   
+<a name="l00052"></a>00052 }
 </pre></div>
 <p>
 
 </div>
 </div><p>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Wed Nov 19 15:07:49 2008 for temperature sensor by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Wed Nov 19 21:33:57 2008 for temperature sensor by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7 </small></address>
 </body>

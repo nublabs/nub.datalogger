@@ -2,69 +2,44 @@
 \section{/Users/nikki/nublabs/nub.datalogger/hardware/temperature\_\-sensor\_\-Terciopelo/communications.h File Reference}
 \label{communications_8h}\index{/Users/nikki/nublabs/nub.datalogger/hardware/temperature\_\-sensor\_\-Terciopelo/communications.h@{/Users/nikki/nublabs/nub.datalogger/hardware/temperature\_\-sensor\_\-Terciopelo/communications.h}}
 }
+{\tt \#include $<$HardwareSerial.h$>$}\par
+{\tt \#include $<$string.h$>$}\par
 
 
-This graph shows which files directly or indirectly include this file:\subsection*{Defines}
+Include dependency graph for communications.h:
+
+This graph shows which files directly or indirectly include this file:\subsection*{Functions}
 \begin{CompactItemize}
 \item 
-\#define \hyperlink{communications_8h_d97232eed56f4b8962167188db8dd2d4}{ACKNOWLEDGE}~1
-\begin{CompactList}\small\item\em these are defined messages sent between the sensor and the computer \item\end{CompactList}\item 
-\#define \hyperlink{communications_8h_421ea5726b2e7e3464457785964b3c11}{ACKNOWLEDGE\_\-AND\_\-CONFIGURE}~2
-\item 
-\#define \hyperlink{communications_8h_29d0028b064fb993c0e1f2b1ce4a7f88}{LISTENING}~3
-\item 
-\#define \hyperlink{communications_8h_d7285ac8b394b259876f0e61574dd8b0}{CHECKSUM\_\-ERROR\_\-PLEASE\_\-RESEND}~4
-\item 
-\#define \hyperlink{communications_8h_b111ad1c600abfe6a9a3a7e7a1a057d5}{CHECKSUM\_\-ERROR\_\-GIVING\_\-UP}~5
+int \hyperlink{communications_8h_f8c68e93feeba5b9244094043672bac0}{getByte} (int timeout)
 \end{CompactItemize}
 
 
-\subsection{Define Documentation}
-\hypertarget{communications_8h_d97232eed56f4b8962167188db8dd2d4}{
-\index{communications.h@{communications.h}!ACKNOWLEDGE@{ACKNOWLEDGE}}
-\index{ACKNOWLEDGE@{ACKNOWLEDGE}!communications.h@{communications.h}}
-\subsubsection[{ACKNOWLEDGE}]{\setlength{\rightskip}{0pt plus 5cm}\#define ACKNOWLEDGE~1}}
-\label{communications_8h_d97232eed56f4b8962167188db8dd2d4}
-
-
-these are defined messages sent between the sensor and the computer 
-
-
-
-Definition at line 2 of file communications.h.\hypertarget{communications_8h_421ea5726b2e7e3464457785964b3c11}{
-\index{communications.h@{communications.h}!ACKNOWLEDGE\_\-AND\_\-CONFIGURE@{ACKNOWLEDGE\_\-AND\_\-CONFIGURE}}
-\index{ACKNOWLEDGE\_\-AND\_\-CONFIGURE@{ACKNOWLEDGE\_\-AND\_\-CONFIGURE}!communications.h@{communications.h}}
-\subsubsection[{ACKNOWLEDGE\_\-AND\_\-CONFIGURE}]{\setlength{\rightskip}{0pt plus 5cm}\#define ACKNOWLEDGE\_\-AND\_\-CONFIGURE~2}}
-\label{communications_8h_421ea5726b2e7e3464457785964b3c11}
-
-
-
-
-Definition at line 3 of file communications.h.\hypertarget{communications_8h_b111ad1c600abfe6a9a3a7e7a1a057d5}{
-\index{communications.h@{communications.h}!CHECKSUM\_\-ERROR\_\-GIVING\_\-UP@{CHECKSUM\_\-ERROR\_\-GIVING\_\-UP}}
-\index{CHECKSUM\_\-ERROR\_\-GIVING\_\-UP@{CHECKSUM\_\-ERROR\_\-GIVING\_\-UP}!communications.h@{communications.h}}
-\subsubsection[{CHECKSUM\_\-ERROR\_\-GIVING\_\-UP}]{\setlength{\rightskip}{0pt plus 5cm}\#define CHECKSUM\_\-ERROR\_\-GIVING\_\-UP~5}}
-\label{communications_8h_b111ad1c600abfe6a9a3a7e7a1a057d5}
-
-
-
-
-Definition at line 6 of file communications.h.\hypertarget{communications_8h_d7285ac8b394b259876f0e61574dd8b0}{
-\index{communications.h@{communications.h}!CHECKSUM\_\-ERROR\_\-PLEASE\_\-RESEND@{CHECKSUM\_\-ERROR\_\-PLEASE\_\-RESEND}}
-\index{CHECKSUM\_\-ERROR\_\-PLEASE\_\-RESEND@{CHECKSUM\_\-ERROR\_\-PLEASE\_\-RESEND}!communications.h@{communications.h}}
-\subsubsection[{CHECKSUM\_\-ERROR\_\-PLEASE\_\-RESEND}]{\setlength{\rightskip}{0pt plus 5cm}\#define CHECKSUM\_\-ERROR\_\-PLEASE\_\-RESEND~4}}
-\label{communications_8h_d7285ac8b394b259876f0e61574dd8b0}
-
-
-
-
-Definition at line 5 of file communications.h.\hypertarget{communications_8h_29d0028b064fb993c0e1f2b1ce4a7f88}{
-\index{communications.h@{communications.h}!LISTENING@{LISTENING}}
-\index{LISTENING@{LISTENING}!communications.h@{communications.h}}
-\subsubsection[{LISTENING}]{\setlength{\rightskip}{0pt plus 5cm}\#define LISTENING~3}}
-\label{communications_8h_29d0028b064fb993c0e1f2b1ce4a7f88}
+\subsection{Function Documentation}
+\hypertarget{communications_8h_f8c68e93feeba5b9244094043672bac0}{
+\index{communications.h@{communications.h}!getByte@{getByte}}
+\index{getByte@{getByte}!communications.h@{communications.h}}
+\subsubsection[{getByte}]{\setlength{\rightskip}{0pt plus 5cm}int getByte (int {\em timeout})}}
+\label{communications_8h_f8c68e93feeba5b9244094043672bac0}
 
 
 
 
 Definition at line 4 of file communications.h.
+
+Referenced by discover().
+
+\begin{Code}\begin{verbatim}5 {
+6   int currentTime=millis();
+7   int maxTime=currentTime+timeout;
+8   while((Serial.available()==0)&&(millis()<(maxTime)))
+9     {}
+10   if((millis()>maxTime)||(Serial.available()==0))
+11     return -1;
+12   else
+13     return Serial.read();
+14 }
+\end{verbatim}
+\end{Code}
+
+
