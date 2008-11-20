@@ -66,7 +66,7 @@ Include dependency graph for nublogger.h:</div>
 In <a class="el" href="nublogger_8h.html#e369b3765489ee8bd0ea791c1843630f" title="configure() runs if the computer is trying to change the sensor&#39;s sample rate...">configure()</a>, the datalogger sends a LISTENING message to the computer, indicating that it's ready to receive data. The computer sends three ints: the hours, minutes and seconds of the sample interval, followed by a checksum byte that's the sum of the ints modulo 256. The sensor computes a checksum on the received data. If its checksum matches, it sends an ACKNOWLEDGE message back to the computer and updates its sample interval information. If the checksum does not match, it sends a CHECKSUM_ERROR_PLEASE_RESEND message, asking the computer to send the three ints again, followed by a checksum. If the sensor can't get a valid message (with a matching checksum) after three tries, it gives up, sends a CHECKSUM_ERROR_GIVING_UP message to the computer and keeps its original sample interval information 
 <p>Definition at line <a class="el" href="nublogger_8h-source.html#l00015">15</a> of file <a class="el" href="nublogger_8h-source.html">nublogger.h</a>.</p>
 
-<p>Referenced by <a class="el" href="nublogger_8h-source.html#l00027">discover()</a>.</p>
+<p>Referenced by <a class="el" href="nublogger_8h-source.html#l00027">discover()</a>, and <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00129">sendData()</a>.</p>
 <div class="fragment"><pre class="fragment"><a name="l00016"></a>00016 { 
 <a name="l00017"></a>00017 }
 </pre></div>
@@ -129,7 +129,7 @@ When the sensor turns on, it runs <a class="el" href="nublogger_8h.html#3fdb2350
 </div>
 </div><p>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Wed Nov 19 21:33:57 2008 for temperature sensor by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Wed Nov 19 21:50:15 2008 for temperature sensor by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7 </small></address>
 </body>
