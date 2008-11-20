@@ -34,3 +34,13 @@ float sensor2_resistance;
 //these floats hold the actual temperatures in degrees celsius
 float sensor1_temperature;
 float sensor2_temperature;
+
+
+
+//dumping grounds for function variables I'm making global
+
+//(from sendData())
+  char tries;
+  char success;
+  int response;
+  int sensor1_temperature_decimals;    //sprintf doesn't work for floats, so this hack gets 2 sigfigs
