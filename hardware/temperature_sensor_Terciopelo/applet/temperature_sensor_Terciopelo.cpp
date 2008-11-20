@@ -161,14 +161,13 @@ void sendData()
   int response=0;
  // sprintf(message,"%d", sampleNumber);
  Serial.println(sampleNumber,DEC);
-//  sprintf(message, " %d thermistor 1 = %d.%d degrees C", sampleNumber, (int)sensor1_temperature, sensor1_temperature_decimals);
+  sprintf(message, " %d thermistor 1 = %d.%d degrees C", sampleNumber, (int)sensor1_temperature, sensor1_temperature_decimals);
 //sprintf(message,"%d %d %d", (int) sensor1_temperature, (int) sensor1_resistance, sensor1_temperature_decimals);
-//  unsigned char checksum=getChecksum();
-  unsigned char checksum=0;
+  unsigned char checksum=getChecksum();
   while((success==FALSE)&&(tries<NUM_TRIES))
   {
     Serial.print(MESSAGE_START,BYTE);
-//    Serial.print(message);
+    Serial.print(message);
     Serial.print(checksum);
     Serial.print(MESSAGE_END,BYTE);
 //    response=getByte(50);   //look for the computer's response
