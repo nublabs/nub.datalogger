@@ -60,8 +60,6 @@
 
 <p>Definition at line <a class="el" href="temperature__sensor__board__v2_8h-source.html#l00021">21</a> of file <a class="el" href="temperature__sensor__board__v2_8h-source.html">temperature_sensor_board_v2.h</a>.</p>
 
-<p>Referenced by <a class="el" href="temperature__sensor__board__v2_8h-source.html#l00035">initializeSensor()</a>.</p>
-
 </div>
 </div><p>
 <a class="anchor" name="b2de299215608c2a35f0feb86adc2f6f"></a><!-- doxytag: member="temperature_sensor_board_v2.h::SAMPLE_BUTTON" ref="b2de299215608c2a35f0feb86adc2f6f" args="" -->
@@ -78,8 +76,6 @@
 <p>
 
 <p>Definition at line <a class="el" href="temperature__sensor__board__v2_8h-source.html#l00020">20</a> of file <a class="el" href="temperature__sensor__board__v2_8h-source.html">temperature_sensor_board_v2.h</a>.</p>
-
-<p>Referenced by <a class="el" href="temperature__sensor__board__v2_8h-source.html#l00035">initializeSensor()</a>.</p>
 
 </div>
 </div><p>
@@ -169,8 +165,6 @@ Serial RX PD0 0 //serial lines that go out to the xbee module Serial TX PD1 1 Xb
 sensor1_top PC0 (analog) 0 sensor1_bottom PC1 (analog) 1 sensor2_top PC2 (analog) 2 sensor2_bottom PC3 (analog) 3 
 <p>Definition at line <a class="el" href="temperature__sensor__board__v2_8h-source.html#l00019">19</a> of file <a class="el" href="temperature__sensor__board__v2_8h-source.html">temperature_sensor_board_v2.h</a>.</p>
 
-<p>Referenced by <a class="el" href="temperature__sensor__board__v2_8h-source.html#l00035">initializeSensor()</a>, <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00352">xbeeSleep()</a>, and <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00358">xbeeWake()</a>.</p>
-
 </div>
 </div><p>
 <hr><h2>Function Documentation</h2>
@@ -192,16 +186,14 @@ sensor1_top PC0 (analog) 0 sensor1_bottom PC1 (analog) 1 sensor2_top PC2 (analog
 <p>
 this function configures all the digital communication pins as input or output pins 
 <p>
-If you adapt this code to work with another sensor or board, you should replace the code in <a class="el" href="temperature__sensor__board__v2_8h.html#f6c9587ccbcf223f8c79f508c2fef366" title="this function configures all the digital communication pins as input or output pins...">initializeSensor()</a> to initialize all your relevant pins 
+If you adapt this code to work with another sensor or board, you should replace the code in <a class="el" href="applet_2temperature__sensor__board__v2_8h.html#f6c9587ccbcf223f8c79f508c2fef366" title="this function configures all the digital communication pins as input or output pins...">initializeSensor()</a> to initialize all your relevant pins 
 <p>Definition at line <a class="el" href="temperature__sensor__board__v2_8h-source.html#l00035">35</a> of file <a class="el" href="temperature__sensor__board__v2_8h-source.html">temperature_sensor_board_v2.h</a>.</p>
 
-<p>References <a class="el" href="temperature__sensor__board__v2_8h-source.html#l00021">LED</a>, <a class="el" href="temperature__sensor__board__v2_8h-source.html#l00020">SAMPLE_BUTTON</a>, and <a class="el" href="temperature__sensor__board__v2_8h-source.html#l00019">XBEE_SLEEP</a>.</p>
-
-<p>Referenced by <a class="el" href="temperature__sensor___terciopelo_8pde-source.html#l00072">setup()</a>.</p>
+<p>References <a class="el" href="applet_2temperature__sensor__board__v2_8h-source.html#l00021">LED</a>, <a class="el" href="applet_2temperature__sensor__board__v2_8h-source.html#l00020">SAMPLE_BUTTON</a>, and <a class="el" href="applet_2temperature__sensor__board__v2_8h-source.html#l00019">XBEE_SLEEP</a>.</p>
 <div class="fragment"><pre class="fragment"><a name="l00036"></a>00036  {
-<a name="l00037"></a>00037    pinMode(<a class="code" href="temperature__sensor__board__v2_8h.html#658c2878485cfe5cc625d283a6d34bc1">XBEE_SLEEP</a>,OUTPUT);
-<a name="l00038"></a>00038    pinMode(<a class="code" href="temperature__sensor__board__v2_8h.html#b2de299215608c2a35f0feb86adc2f6f">SAMPLE_BUTTON</a>,INPUT);
-<a name="l00039"></a>00039    pinMode(<a class="code" href="temperature__sensor__board__v2_8h.html#eb7a7ba1ab7e0406f1b5ab36d579f585">LED</a>,OUTPUT);
+<a name="l00037"></a>00037    pinMode(<a class="code" href="applet_2temperature__sensor__board__v2_8h.html#658c2878485cfe5cc625d283a6d34bc1">XBEE_SLEEP</a>,OUTPUT);
+<a name="l00038"></a>00038    pinMode(<a class="code" href="applet_2temperature__sensor__board__v2_8h.html#b2de299215608c2a35f0feb86adc2f6f">SAMPLE_BUTTON</a>,INPUT);
+<a name="l00039"></a>00039    pinMode(<a class="code" href="applet_2temperature__sensor__board__v2_8h.html#eb7a7ba1ab7e0406f1b5ab36d579f585">LED</a>,OUTPUT);
 <a name="l00040"></a>00040  }
 </pre></div>
 <p>
@@ -209,7 +201,7 @@ If you adapt this code to work with another sensor or board, you should replace 
 </div>
 </div><p>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Wed Nov 19 21:50:15 2008 for temperature sensor by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Thu Nov 20 14:52:50 2008 for temperature sensor by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7 </small></address>
 </body>
