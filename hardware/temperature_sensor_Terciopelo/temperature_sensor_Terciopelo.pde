@@ -140,7 +140,7 @@ void sendData()
   char tries=0;
   char success=FALSE;
   int sensor1_temperature_decimals=(sensor1_temperature-(int)sensor1_temperature)*100;    //sprintf doesn't work for floats, so this hack gets 2 sigfigs
-  int response;
+  int response=0;
  // sprintf(message,"%d", sampleNumber);
  Serial.println(sampleNumber,DEC);
 //  sprintf(message, " %d thermistor 1 = %d.%d degrees C", sampleNumber, (int)sensor1_temperature, sensor1_temperature_decimals);
