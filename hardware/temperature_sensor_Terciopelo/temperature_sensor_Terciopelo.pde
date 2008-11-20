@@ -95,6 +95,8 @@ void sample()
 //communications.h
 int getByte(int timeout)
 {
+  //all variables that deal with millis() should either be unsigned longs, or millis() should be cast as the variable it's going into.  There's a memory leak
+  //if you don't do this
   unsigned long currentTime=millis();
   unsigned long maxTime=currentTime+timeout;
   while((Serial.available()==0)&&(millis()<(maxTime)))
@@ -110,8 +112,11 @@ int getMessage(int timeout)
 {
   int completeMessage=-1;   //a flag that lets us know if we got a full message
   start=index;              //drop whatever other data is in our buffer--it'll probably just confuse the functions if we don't
-  int currentTime=millis();
-  int maxTime=currentTime+timeout;  
+  
+  //all variables that deal with millis() should either be unsigned longs, or millis() should be cast as the variable it's going into.  There's a memory leak
+  //if you don't do this
+  unsigned long currentTime=millis();
+  unsigned long maxTime=currentTime+timeout;  
   while((millis()<(maxTime))&&(buffer[index]!=MESSAGE_END))
   {
     if(Serial.available()>0)
