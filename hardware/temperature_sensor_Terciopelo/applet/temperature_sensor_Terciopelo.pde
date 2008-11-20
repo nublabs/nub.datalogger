@@ -20,7 +20,7 @@
  * sense data about the environemnt.  The sensors collect data and convert it into human-readable units, and then send the data
  * as plaintext over the wireless network to the computer, where it is stored and logged.  Any sensor that will work with this system
  * must implement the discover(), configure() and sample() functions, as well as be identifiable by a unique name
- * 
+ *  
  * The discover() function is a short communication sequence when the sensor is first turned on where it broadcasts its name over the
  * network and ensures that the computer recognizes it and is ready to configure it and log its data.  The sensor also sends the units
  * of whatever value it will be reporting.
@@ -133,7 +133,7 @@ int getMessage(int timeout)
   return completeMessage;
 }
 
-/*
+
 //!this function takes care of putting together a message string, calculating a checksum, sending it out to the computer and making sure the computer got it ok
 void sendData()
 {
@@ -145,11 +145,12 @@ void sendData()
  Serial.println(sampleNumber,DEC);
 //  sprintf(message, " %d thermistor 1 = %d.%d degrees C", sampleNumber, (int)sensor1_temperature, sensor1_temperature_decimals);
 //sprintf(message,"%d %d %d", (int) sensor1_temperature, (int) sensor1_resistance, sensor1_temperature_decimals);
-  unsigned char checksum=getChecksum();
+//  unsigned char checksum=getChecksum();
+  unsigned char checksum=0;
   while((success==FALSE)&&(tries<NUM_TRIES))
   {
     Serial.print(MESSAGE_START,BYTE);
-    Serial.print(message);
+//    Serial.print(message);
     Serial.print(checksum);
     Serial.print(MESSAGE_END,BYTE);
     response=getByte(50);   //look for the computer's response
@@ -166,11 +167,6 @@ void sendData()
     tries++;
   }
 
-}*/
-
-void sendData()
-{
-  Serial.println(sampleNumber);
 }
 
 //!this computes a checksum of the global string 'message'

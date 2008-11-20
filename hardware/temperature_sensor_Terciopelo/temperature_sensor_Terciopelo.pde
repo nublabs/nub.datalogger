@@ -133,7 +133,7 @@ int getMessage(int timeout)
   return completeMessage;
 }
 
-/*
+
 //!this function takes care of putting together a message string, calculating a checksum, sending it out to the computer and making sure the computer got it ok
 void sendData()
 {
@@ -145,14 +145,15 @@ void sendData()
  Serial.println(sampleNumber,DEC);
 //  sprintf(message, " %d thermistor 1 = %d.%d degrees C", sampleNumber, (int)sensor1_temperature, sensor1_temperature_decimals);
 //sprintf(message,"%d %d %d", (int) sensor1_temperature, (int) sensor1_resistance, sensor1_temperature_decimals);
-  unsigned char checksum=getChecksum();
+//  unsigned char checksum=getChecksum();
+  unsigned char checksum=0;
   while((success==FALSE)&&(tries<NUM_TRIES))
   {
     Serial.print(MESSAGE_START,BYTE);
-    Serial.print(message);
+//    Serial.print(message);
     Serial.print(checksum);
     Serial.print(MESSAGE_END,BYTE);
-    response=getByte(50);   //look for the computer's response
+//    response=getByte(50);   //look for the computer's response
 
     if(response==ACKNOWLEDGE)   //the computer got the data.  It's happy, we're happy, we're done!
       success=TRUE;
@@ -166,11 +167,6 @@ void sendData()
     tries++;
   }
 
-}*/
-
-void sendData()
-{
-  Serial.println(sampleNumber);
 }
 
 //!this computes a checksum of the global string 'message'
