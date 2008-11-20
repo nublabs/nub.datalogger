@@ -291,7 +291,9 @@ void discover()
 //!this function waits for the time specified by the global variables 'hours,' 'minutes,' and 'seconds'  It should ideally put the arduino in a power saving mode
 void waitForSampleInterval()
 {
-  
+  xbeeSleep();
+  delay(60*minutes*1000+seconds*1000);
+  xbeeWake();
 }
 
 
@@ -343,7 +345,20 @@ void waitForSampleInterval()
    pinMode(XBEE_SLEEP,OUTPUT);
    pinMode(SAMPLE_BUTTON,INPUT);
    pinMode(LED,OUTPUT);
+   xbeeWake();
  }  
+ 
+ //just a wrapper for putting the xbee into sleep mode
+ void xbeeSleep()
+ {
+   digitalWrite(XBEE_SLEEP,HIGH);
+ }
+ 
+ //just a wrapper for making the xbee wake up
+ void xbeeWake()
+ {
+   digitalWrite(XBEE_SLEEP,LOW);
+ }
  
  
 void getTemperatures()
