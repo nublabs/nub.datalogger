@@ -124,6 +124,11 @@ int getMessage(int timeout)
 }
 
 
+void sendData()
+{
+}
+
+
 
 //nublogger.h
 //!  configure() runs if the computer is trying to change the sensor's sample rate
@@ -273,6 +278,12 @@ void discover()
  #define SENSOR1_BOTTOM 1
  #define SENSOR2_TOP 2
  #define SENSOR2_BOTTOM 3
+ 
+ //the NTC thermistor constants.  They have to be floats since #defined constants don't seem to calculate floating point values correctly
+ float R0=10000.0;
+ float B=3950.0;
+ float T0=298;
+ float RBOTTOM=1000.0;
  
  
  //!  this function configures all the digital communication pins as input or output pins
