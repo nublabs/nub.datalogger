@@ -92,6 +92,11 @@ void setup()
   Serial.begin(19200);
   initializeSensor();
   discover();
+
+//just throwing this in here for debugging
+  getRawData();
+  convertToResistance();
+  convertToTemperature();
 }
 
 void loop()
@@ -102,9 +107,9 @@ void loop()
 
 void sample()
 {
-  getRawData();
+/*  getRawData();
   convertToResistance();
-  convertToTemperature();
+  convertToTemperature();*/
   sendData();
   sampleNumber++;
 }
