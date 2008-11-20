@@ -65,7 +65,7 @@
 
 //#include "communications.h"                //this file contains functions that make serial communication easier
 
-
+#include <stdio.h>
 
 
 
@@ -126,8 +126,26 @@ int getMessage(int timeout)
 
 void sendData()
 {
+  sprintf(message, "thermistor 1 = %f degrees C", sensor1_temperature);
+  unsigned char checksum=getChecksum();
+  Serial.print(MESSAGE_START);
+  Serial.print(message);
+  Serial.print(checksum);
+  Serial.print(MESSAGE_END);
 }
 
+
+unsigned char getChecksum()
+{
+  char i=0;
+  unsigned char checksum=0;
+  while(message[i]!=0)
+  {
+    checksum+=message[i];
+    i++;
+  }
+  return checksum;
+}
 
 
 //nublogger.h
