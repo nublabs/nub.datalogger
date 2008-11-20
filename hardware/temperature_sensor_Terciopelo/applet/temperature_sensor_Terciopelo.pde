@@ -74,11 +74,6 @@ void setup()
   Serial.begin(19200);
   initializeSensor();
   discover();
-
-//just throwing this in here for debugging
-  getRawData();
-  convertToResistance();
-  convertToTemperature();
 }
 
 void loop()
@@ -89,9 +84,9 @@ void loop()
 
 void sample()
 {
-/*  getRawData();
+  getRawData();
   convertToResistance();
-  convertToTemperature();*/
+  convertToTemperature();
   sendData();
   sampleNumber++;
 }
@@ -100,8 +95,8 @@ void sample()
 //communications.h
 int getByte(int timeout)
 {
-  int currentTime=millis();
-  int maxTime=currentTime+timeout;
+  unsigned long currentTime=millis();
+  unsigned long maxTime=currentTime+timeout;
   while((Serial.available()==0)&&(millis()<(maxTime)))
   {
   }
@@ -142,7 +137,6 @@ void sendData()
   int sensor1_temperature_decimals=(sensor1_temperature-(int)sensor1_temperature)*100;    //sprintf doesn't work for floats, so this hack gets 2 sigfigs
   int response=0;
  // sprintf(message,"%d", sampleNumber);
- Serial.println(sampleNumber,DEC);
   sprintf(message, " %d thermistor 1 = %d.%d degrees C", sampleNumber, (int)sensor1_temperature, sensor1_temperature_decimals);
 //sprintf(message,"%d %d %d", (int) sensor1_temperature, (int) sensor1_resistance, sensor1_temperature_decimals);
   unsigned char checksum=getChecksum();
@@ -152,7 +146,7 @@ void sendData()
     Serial.print(message);
     Serial.print(checksum);
     Serial.print(MESSAGE_END,BYTE);
-//    response=getByte(50);   //look for the computer's response
+    response=getByte(50);   //look for the computer's response
 
     if(response==ACKNOWLEDGE)   //the computer got the data.  It's happy, we're happy, we're done!
       success=TRUE;

@@ -95,8 +95,8 @@ void sample()
 //communications.h
 int getByte(int timeout)
 {
-  int currentTime=millis();
-  int maxTime=currentTime+timeout;
+  unsigned long currentTime=millis();
+  unsigned long maxTime=currentTime+timeout;
   while((Serial.available()==0)&&(millis()<(maxTime)))
   {
   }
@@ -146,7 +146,7 @@ void sendData()
     Serial.print(message);
     Serial.print(checksum);
     Serial.print(MESSAGE_END,BYTE);
-//    response=getByte(50);   //look for the computer's response
+    response=getByte(50);   //look for the computer's response
 
     if(response==ACKNOWLEDGE)   //the computer got the data.  It's happy, we're happy, we're done!
       success=TRUE;

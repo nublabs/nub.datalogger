@@ -10,7 +10,7 @@ char configured =TRUE;  //has the computer sent the sensor configuration info, o
 //the sample interval
 int hours = 0;
 int minutes = 0;
-int seconds = 1;
+int seconds = 0;
 
 //the number of samples sent.  I'm primarily using this for debugging
 int sampleNumber=0;
@@ -36,11 +36,3 @@ float sensor1_temperature;
 float sensor2_temperature;
 
 
-
-//dumping grounds for function variables I'm making global
-
-//(from sendData())
-/*  char tries;
-  char success;
-  int response;
-  int sensor1_temperature_decimals;    //sprintf doesn't work for floats, so this hack gets 2 sigfigs*/
