@@ -78,6 +78,8 @@ void setup()
 
 void loop()
 {
+  waitForSampleInterval();
+  sample();
 }
 
 void sample()
@@ -123,18 +125,37 @@ int getMessage(int timeout)
   return completeMessage;
 }
 
-//
+//!this function takes care of putting together a message string, calculating a checksum, sending it out to the computer and making sure the computer got it ok
 void sendData()
 {
-  sprintf(message, "thermistor 1 = %f degrees C", sensor1_temperature);
-  unsigned char checksum=getChecksum();
-  Serial.print(MESSAGE_START);
-  Serial.print(message);
-  Serial.print(checksum);
-  Serial.print(MESSAGE_END);
+  char tries=0;
+  char success=FALSE;
+  int response;
+  while((success==FALSE)&&(tries<NUM_TRIES))
+  {
+    sprintf(message, "thermistor 1 = %f degrees C", sensor1_temperature);
+    unsigned char checksum=getChecksum();
+    Serial.print(MESSAGE_START);
+    Serial.print(message);
+    Serial.print(checksum);
+    Serial.print(MESSAGE_END);
+    response=getByte(50);   //look for the computer's response
+    
+    if(response==ACKNOWLEDGE)   //the computer got the data.  It's happy, we're happy, we're done!
+      success=TRUE;
+    
+    else if(response==ACKNOWLEDGE_AND_CONFIGURE)  //the computer can ask to upload a new configuration at any sample
+    {
+      success=TRUE;
+      configure();
+    }
+    else         //if there was a timeout or a checksum mismatch, then re-try
+      tries++;
+  }
+    
 }
 
-//this computes a checksum of the global string 'message'
+//!this computes a checksum of the global string 'message'
 unsigned char getChecksum()
 {
   char i=0;
@@ -264,6 +285,13 @@ void discover()
   {
     Serial.print(TIMEOUT_ERROR,BYTE);  //getByte didn't get a byte before the timeout
   }  
+}
+
+
+//!this function waits for the time specified by the global variables 'hours,' 'minutes,' and 'seconds'  It should ideally put the arduino in a power saving mode
+void waitForSampleInterval()
+{
+  
 }
 
 
