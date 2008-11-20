@@ -10,7 +10,7 @@ char configured =TRUE;  //has the computer sent the sensor configuration info, o
 //the sample interval
 int hours = 0;
 int minutes = 0;
-int seconds = 0;
+int seconds = 1;
 
 //the number of samples sent.  I'm primarily using this for debugging
 int sampleNumber=0;
