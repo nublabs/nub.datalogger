@@ -69,6 +69,24 @@
 
 
 
+#include "WProgram.h"
+void setup();
+void loop();
+void sample();
+int getByte(int timeout);
+int getMessage(int timeout);
+void sendData();
+unsigned char getChecksum();
+void configure();
+void discover();
+void waitForSampleInterval();
+void initializeSensor();
+void xbeeSleep();
+void xbeeWake();
+void getTemperatures();
+void getRawData();
+void convertToResistance();
+void convertToTemperature();
 void setup()
 {
   Serial.begin(19200);
@@ -401,5 +419,18 @@ void convertToTemperature()
   sensor1_temperature = float(B/log(sensor1_resistance/(R0*exp(-1.0*B/T0))) - 273.0); // Temperature in degrees Celsius
   /* uncomment if I enable two sensing elements
    sensor2_temperature = float(B/log(sensor2_resistance/(R0*exp(-1.0*B/T0))) - 273.0); // Temperature in degrees Celsius   */
+}
+
+
+int main(void)
+{
+	init();
+
+	setup();
+    
+	for (;;)
+		loop();
+        
+	return 0;
 }
 
