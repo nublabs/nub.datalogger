@@ -85,7 +85,7 @@ class Sensor{
 void setup() {
   size(10,10);
   File configFile, dataFile;
-
+  String configFile
   allSensors=new LinkedList();
   configuredSensors=new LinkedList();
 
@@ -107,13 +107,42 @@ void setup() {
     myPort = new Serial(this, Serial.list()[serialPortNumber], 19200);   //opens up the serial port
     myPort.bufferUntil(lineFeed);   //if I choose to, read until I get a line feed
   }
+  
+  /** this all treats configFile as a File object.  I want to use the loadStrings() functions, so I'm going to try making
+  configFile a string instead
+  */
+  /*  
   if(fastBoot)
   {
     configFile=new File(defaultConfigFile);
   }  
+  
   else
-    configFile = chooseConfigFile();    //opens up a file chooser dialog
+  {
+    String configFileLocation=selectInput("select a configuration file.  Hit cancel to use defaults");    //opens up a file chooser dialog
+    if(configFileLocation==null)
+    {
+      configFile=new File(defaultConfigFile);
+    }
+    else
+    {
+      try{
+        configFile=new File(configFileLocation);
+      }
+      catch(Exception e)
+      {
+        println("can't open that file.  Using default");
+        configFile=new File(configFileLocation);
+      }
+    }
+  }*/
+  
+  
+  readConfiguration(configFile);
+}
 
+void readConfiguration(File configFile)
+{
 }
 
 void draw(){
@@ -125,6 +154,8 @@ void draw(){
     //rawData
     if(rawData!=null)
     {    
+      print(day()+"/"+month()+"/"+year()+"    ");   //print out the date
+      print(hour()+":"+minute()+":"+second()+"    ");  //print out the time in 24-hour format  
       print(rawData);                                             
       splitMessage=splitTokens(rawData,",");        //break the message up into smaller strings everywhere there's a comma
       if(checkMessage(splitMessage))                 //make sure the message is valid
@@ -341,8 +372,6 @@ void wait(int time)  //delay() doesn't work in setup, so this is a workaround
   {
   }
 }
-
-
 
 
 
