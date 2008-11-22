@@ -76,16 +76,27 @@ final int MESSAGE_END   =129;
 
 class Sensor{
   String name;
+  int hours, minutes, seconds;
+  boolean configured;
   Sensor(String newName)
   {
     name=newName;
+    configured=false;
+  }  
+  Sensor(String newName, int h, int m, int s)
+  {
+    name=newName;
+    hours=h;
+    minutes=m;
+    seconds=s;
+    configured=false;
   }
 }
 
 void setup() {
   size(10,10);
-  File configFile, dataFile;
-  String configFile
+//  File configFile, dataFile;
+  String configFile;
   allSensors=new LinkedList();
   configuredSensors=new LinkedList();
 
@@ -108,9 +119,21 @@ void setup() {
     myPort.bufferUntil(lineFeed);   //if I choose to, read until I get a line feed
   }
   
+  
+  if(fastBoot)
+    configFile=defaultConfigFile; 
+  else
+  {
+    String configFileLocation=selectInput("select a configuration file.  Hit cancel to use defaults");    //opens up a file chooser dialog
+    if(configFileLocation==null)
+      configFile=defaultConfigFile;
+    else
+        configFile=configFileLocation;
+  }
+
   /** this all treats configFile as a File object.  I want to use the loadStrings() functions, so I'm going to try making
   configFile a string instead
-  */
+  */  
   /*  
   if(fastBoot)
   {
@@ -141,8 +164,22 @@ void setup() {
   readConfiguration(configFile);
 }
 
-void readConfiguration(File configFile)
+void readConfiguration(String configFile)
 {
+  String [] lines=loadStrings(configFile);
+  for(int i=1;i<lines.length;i++)   //skip the header line and then read everything else from the file
+                                      //do I want to think about what happens if they don't put in a header line?
+  {
+    String[] brokenUp=splitTokens(lines[i],",");
+    //the format is sensor name, sample interval in hours, minutes, seconds
+    //add the sensors to 
+    Sensor temp=new Sensor(trim(brokenUp[0]));
+    temp.hours=Integer.decode(trim(brokenUp[1]));
+    temp.minutes=Integer.decode(trim(brokenUp[2]));
+    temp.seconds=Integer.decode(trim(brokenUp[3]));
+    configuredSensors.add(temp);
+    allSensors.add(temp); 
+  }
 }
 
 void draw(){
