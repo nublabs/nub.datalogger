@@ -29,3 +29,4 @@
 #define CHECKSUM 7
 #define CONFIGURATION_MESSAGE_LENGTH 8
 
+#define DELIMITER ','     //using commas to delimit fields in the messages I send out

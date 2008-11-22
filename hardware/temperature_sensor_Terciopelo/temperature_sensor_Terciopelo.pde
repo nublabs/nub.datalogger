@@ -73,7 +73,7 @@ void setup()
 {
   Serial.begin(19200);
   initializeSensor();
-  discover();
+ // discover();     //I'm getting rid of discovery--the computer can just see when it gets a new name coming in
 }
 
 void loop()
@@ -142,15 +142,17 @@ void sendData()
   int sensor1_temperature_decimals=(sensor1_temperature-(int)sensor1_temperature)*100;    //sprintf doesn't work for floats, so this hack gets 2 sigfigs
   int response=0;
  // sprintf(message,"%d", sampleNumber);
-  sprintf(message, " %d thermistor 1 = %d.%d degrees C", sampleNumber, (int)sensor1_temperature, sensor1_temperature_decimals);
+  sprintf(message, ",%s,%d.%d,degrees C,", name,(int)sensor1_temperature, sensor1_temperature_decimals);
 //sprintf(message,"%d %d %d", (int) sensor1_temperature, (int) sensor1_resistance, sensor1_temperature_decimals);
   unsigned char checksum=getChecksum();
   while((success==FALSE)&&(tries<NUM_TRIES))
   {
-    Serial.print(MESSAGE_START,BYTE);
+    Serial.print(MESSAGE_START,DEC);
     Serial.print(message);
-    Serial.print(checksum);
-    Serial.print(MESSAGE_END,BYTE);
+    Serial.print(checksum,DEC);
+    Serial.print(',');
+    Serial.print(MESSAGE_END,DEC);
+    Serial.println();
     response=getByte(50);   //look for the computer's response
 
     if(response==ACKNOWLEDGE)   //the computer got the data.  It's happy, we're happy, we're done!
@@ -174,7 +176,8 @@ unsigned char getChecksum()
   unsigned char checksum=0;
   while(message[i]!=0)
   {
-    checksum+=message[i];
+    if(message[i]!=DELIMITER)   //don't add the delimiters (like commas) into the checksum
+      checksum+=message[i];
     i++;
   }
   return checksum;
@@ -398,8 +401,6 @@ void convertToResistance()
   /* uncomment if I enable two sensing elements
    sensor2_resistance = ((float)sensor2_top/(float)sensor2_bottom - 1)*RBOTTOM; // Voltages converted to resistances*/
    int a=(int) sensor1_resistance;
-   Serial.println("woohoo!");
-//  Serial.println(a,DEC);
 }
 
 //this function converts the resistance of the thermistor into a temperature according to the thermistor's calibration curve
