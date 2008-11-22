@@ -54,11 +54,13 @@ void setup() {
    {}
  }
  
-
+//!This function goes through all the serial ports and sends out the string '+++'
+//!If there's an xbee connected, it'll go into command mode and respond within two seconds with 'OK'
+//sending it ATCN or waiting another ~2 seconds with no activity will bring it out of command mode
 int autoselectSerialPort(){
   println("searching for a wireless dongle connected to the computer");
   String[] availablePorts = Serial.list();
-  for(int i = 0; i < availablePorts.length; ++i){
+  for(int i = 0; i < availablePorts.length; ++i){     //try all the available ports
     Serial port = new Serial(this, availablePorts[i], baudRate);
     if (questionAnswer(port, "+++", "OK" + char(13), "ATCN" +char(13),i) == true){
       port.stop();
@@ -71,12 +73,13 @@ int autoselectSerialPort(){
   return -1;
 }
 
-
+//!sends out 'question' to the xbee and checks to see if the reply is the expected 'answer'
+//!this is a helper utility for doing dongle autodetection
 boolean questionAnswer(Serial port, String question, String answer, String response, int i){
   port.clear();
   port.write(question);
   println("asking whatever is on port " + i + " to go into command mode");
-  wait(autodetectResponseTime); 
+  wait(autodetectResponseTime);    //make this nonblocking (do the loop where I check millis() and myPort.available())
 
   if(port.available() > 0){
     println("something's talking back to us!");
