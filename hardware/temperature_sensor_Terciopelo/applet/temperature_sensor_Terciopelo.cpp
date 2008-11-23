@@ -140,6 +140,10 @@ int getMessage(int timeout)
     if(Serial.available()>0)
     {
       buffer[index]=Serial.read();
+      Serial.print(index,DEC);
+      Serial.print(" ");
+      Serial.print(buffer[index],DEC);
+      Serial.println();
       if(buffer[index]==MESSAGE_END)   //we got a complete message
         completeMessage=1;
       index++;
@@ -171,7 +175,7 @@ void sendData()
     Serial.print(',');
     Serial.print(MESSAGE_END,DEC);
     Serial.println();
-    response=getByte(50);   //look for the computer's response
+    response=getByte(TIMEOUT);   //look for the computer's response
 
     if(response==ACKNOWLEDGE)   //the computer got the data.  It's happy, we're happy, we're done!
       success=TRUE;
@@ -224,10 +228,13 @@ void configure()
   while((tries<NUM_TRIES)&&(success==0))     //we'll try
   {
     checksum=0;
-    Serial.print(LISTENING,BYTE);
-    error=getMessage(100);
+    Serial.println(LISTENING,DEC);
+    error=getMessage(TIMEOUT);
     if(error==-1)
-      Serial.print(TIMEOUT_ERROR,BYTE);
+    {
+      Serial.println(TIMEOUT_ERROR,DEC);
+      tries++;
+    }
     else
     {
       if(buffer[start]==MESSAGE_START)
@@ -244,38 +251,44 @@ void configure()
             seconds=(int)buffer[start+SECOND_HIGH]*256+(int)buffer[start+SECOND_LOW];
             success=1;         //we can stop looping
             configured=1;      //the sensor is configured!
+            Serial.println(ACKNOWLEDGE,DEC);
+
+/*            Serial.println(hours);
+            Serial.println(minutes);
+            Serial.println(seconds);
+*/
           }
           else
           {
             if(tries<NUM_TRIES)
             {
-              Serial.print(CHECKSUM_ERROR_PLEASE_RESEND);
+              Serial.println(CHECKSUM_ERROR_PLEASE_RESEND,DEC);
               tries++;
             }
             else
-              Serial.print(CHECKSUM_ERROR_GIVING_UP);
+              Serial.println(CHECKSUM_ERROR_GIVING_UP,DEC);
           }
         }
         else      //the message is the wrong size
         {
           if(tries<NUM_TRIES)
           {
-            Serial.print(MALFORMED_MESSAGE_ERROR_PLEASE_RESEND);
+            Serial.println(MALFORMED_MESSAGE_ERROR_PLEASE_RESEND,DEC);
             tries++;
           }
           else
-            Serial.print(MALFORMED_MESSAGE_ERROR_GIVING_UP);
+            Serial.println(MALFORMED_MESSAGE_ERROR_GIVING_UP,DEC);
         }
       }
       else
       {
         if(tries<NUM_TRIES)
         {
-          Serial.print(MALFORMED_MESSAGE_ERROR_PLEASE_RESEND);
+          Serial.println(MALFORMED_MESSAGE_ERROR_PLEASE_RESEND,DEC);
           tries++;
         }
         else
-          Serial.print(MALFORMED_MESSAGE_ERROR_GIVING_UP);
+          Serial.println(MALFORMED_MESSAGE_ERROR_GIVING_UP,DEC);
       }
     }
   }
@@ -306,7 +319,7 @@ void discover()
   Serial.print(checksum,BYTE);
   Serial.print(MESSAGE_END,BYTE);
 
-  int receivedByte=getByte(100);     //looks for a byte on the serial port with a 100ms timeout
+  int receivedByte=getByte(TIMEOUT);     //looks for a byte on the serial port with a 100ms timeout
   if(receivedByte==ACKNOWLEDGE)
     discovered=TRUE;
   if(receivedByte==ACKNOWLEDGE_AND_CONFIGURE)

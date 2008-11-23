@@ -4,6 +4,7 @@
 */
 
 #define NUM_TRIES 1
+#define TIMEOUT 1000
 
 //!  these are defined messages sent between the sensor and the computer
 #define ACKNOWLEDGE                    1
@@ -27,6 +28,6 @@
 #define SECOND_HIGH 5
 #define SECOND_LOW 6
 #define CHECKSUM 7
-#define CONFIGURATION_MESSAGE_LENGTH 8
+#define CONFIGURATION_MESSAGE_LENGTH 9
 
 #define DELIMITER ','     //using commas to delimit fields in the messages I send out
