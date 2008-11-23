@@ -54,7 +54,7 @@ FileWriter output;
 int lineFeed=10;
 
 final int TIMEOUT=100;
-final int NUM_TRIES=3;
+final int NUM_TRIES=1;
 
 final int START_BYTE=0;
 final int NAME=1;
@@ -99,7 +99,8 @@ class Sensor{
 }
 
 void setup() {
-  size(10,10);
+  size(200,200);
+  background(0);
 //  File configFile, dataFile;
   String configFile;
   allSensors=new LinkedList();
@@ -168,6 +169,8 @@ void readConfiguration(String configFile)
 void draw(){
   String rawData;
   String [] splitMessage;
+//  while(true)   //I don't trust draw to run properly--I'm putting in my own forever loop
+ // {
   while(myPort.available()>0)   //while there's data in the serial buffer
   {
     rawData=myPort.readStringUntil(lineFeed);     //read data off the serial port until I hit a line feed and store it in
@@ -182,12 +185,16 @@ void draw(){
       {
         addData(splitMessage);     //add the data to the log
         if(needsConfiguration(splitMessage))
-          configure(splitMessage);
+        {
+           // configure();
+    //      configure(splitMessage);
+        }
         else
          myPort.write(ACKNOWLEDGE);          
       }
     }
   }
+//  }
 }
 
 //this checks if a sensor needs to be configured.
@@ -207,9 +214,12 @@ boolean needsConfiguration(String[] splitMessage)
   return doesItNeedToBeConfigured;
 }
 
+
+/*
 void configure(String[] splitMessage)
 {
   int tries=0;
+  int response=-1;
   boolean tryingToConfigure=true;
   Sensor a=new Sensor("");
   int index=0;
@@ -229,10 +239,11 @@ void configure(String[] splitMessage)
   lowMinute=a.minutes%256;
   highSecond=a.seconds/256;
   lowSecond=a.seconds%256;
-  
+  println("asking datalogger if it's ready to configure");
    myPort.write(ACKNOWLEDGE_AND_CONFIGURE);
    while((tryingToConfigure)&&(!a.configured)&&(tries<NUM_TRIES))
    {
+     println("listening for a response");
    if(listenForResponse(TIMEOUT,LISTENING)==0)  //checks to make sure the sensor is ready to receive configuration
    {  
      println("sending configuration message");
@@ -246,7 +257,7 @@ void configure(String[] splitMessage)
       myPort.write((highHour+lowHour+highMinute+lowMinute+highSecond+lowSecond)%256);  //print the checksum;
       myPort.write(MESSAGE_END);
       println("send config message, listening for response");
-      int response=listenForResponse(TIMEOUT,ACKNOWLEDGE);
+      response=listenForResponse(TIMEOUT,ACKNOWLEDGE);
       if(response==0)  //everything got through ok
         {
           println(a.name+" is configured");
@@ -264,13 +275,73 @@ void configure(String[] splitMessage)
    else
    {
      tries++;
-     println(splitMessage[NAME]+" is not ready for configuration");
+     println(splitMessage[NAME]+" is not ready for configuration.  The response was "+response);
    }
    }
     
 }
+*/
+
+void configure()
+{
+    myPort.write(ACKNOWLEDGE_AND_CONFIGURE);
+    myPort.write(128);
+    myPort.write(0);
+    myPort.write(0);
+    myPort.write(0);
+    myPort.write(0);
+    myPort.write(0);
+    myPort.write(0);
+    myPort.write(0);
+    myPort.write(129);
+    delay(100);
+    while(myPort.available()>0)
+      print((char)myPort.read());
+}
+
+//!listens to the serial port for a max of timeout milliseconds and returns 0 if the response is the expected response
+//!or the response if it's unexpected.
 
 
+int listenForResponse(int timeout,int expectedResponse)
+{
+  String response=null;
+  int currentTime=millis();
+  while((millis()<(currentTime+timeout))&&(response==null))
+  {
+    response=myPort.readStringUntil(lineFeed);
+  }
+
+   if(response==null)
+   {
+     println("no response");
+     return -1;
+   }
+   else
+   {
+     println("the sensor's response was "+trim(response)+" and we expected: "+String.valueOf(expectedResponse));
+     if(trim(response).equals(String.valueOf(expectedResponse)))  //the response matches what I expected
+  {
+    println("great!  That's the response we were hoping to get");
+    return 0;
+  }
+  else
+  {
+    try{
+      return Integer.decode(trim(response));
+    }
+    catch(Exception e)
+    {
+      println("wacky response string:  "+response);
+      return -1;
+    }
+  }
+   }
+}
+
+
+/*  this version of listenForResponse is looking for bytes, but the datalogger is now spitting out strings to 
+avoid the confusion swapping between chars and ints on the computer side, which was hard
 //!listens to the serial port for a max of timeout milliseconds and returns 0 if the response is the expected response
 //!or the response if it's unexpected.
 int listenForResponse(int timeout,int expectedResponse)
@@ -286,7 +357,7 @@ int listenForResponse(int timeout,int expectedResponse)
   else
     return 0;
 }
-
+*/
 /** addData scans our list of known sensors ('sensors') and configured sensors ('configuredSensors') and checks to see
  * if the sensor that sent this message is listed.  If it's unlisted, it adds that sensor to the 'sensors' list and creates a 
  * new column in the 'allSensors' file.  If it's listed under 'sensors' but not under 'configuredSensors' then it appends a
@@ -506,32 +577,6 @@ int calculateChecksum(String[] message)
   return checksum%256;
 }
 
-//opens up a dialog to select a configuration file
-File chooseConfigFile(){
-  try {
-    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-  }
-  catch (Exception e) {
-    e.printStackTrace();
-  }
-
-  File file;
-  // create a file chooser
-  final JFileChooser fileChooser = new JFileChooser();   
-  fileChooser.setDialogTitle("select a configuration file.  Hit cancel to use defaults");
-  // in response to a button click:
-  int returnVal = fileChooser.showOpenDialog(this); //opens up a choose file dialog
-
-  if (returnVal == JFileChooser.APPROVE_OPTION) {
-    file = fileChooser.getSelectedFile();    //returns the selected file name
-  }
-  else {
-    println("Open command cancelled, using default configuration file instead.");
-    file = new File(defaultConfigFile);
-  }
-
-  return file;
-}
 
 void wait(int time)  //delay() doesn't work in setup, so this is a workaround
 {
@@ -551,7 +596,7 @@ int autoselectSerialPort() //throws portInUseException
   println("searching for a wireless dongle connected to the computer");
   String[] availablePorts = Serial.list();
   for(int i = 0; i < availablePorts.length; ++i){     //try all the available ports
-    //  try{    //todo:  gracefully handle a portInUseException error
+    try{    //todo:  gracefully handle a portInUseException error
     Serial port = new Serial(this, availablePorts[i], baudRate);
     if (questionAnswer(port, "+++", "OK" + char(13), "ATCN" +char(13),i) == true){
       port.stop();
@@ -559,8 +604,11 @@ int autoselectSerialPort() //throws portInUseException
       return i;
     }
     port.stop();
-    /*  }
-     catch(portInUseException e){}*/
+    }
+     catch(Exception e)
+      {
+        println("Uh-oh.  That port's in use.  Moving on...");
+      }
   }
   print("Error: no dongle found");
   return -1;
@@ -589,5 +637,12 @@ boolean questionAnswer(Serial port, String question, String answer, String respo
   return false;
 }
 
-
+void keyPressed()
+{
+  if(key=='c')  //configure
+  {
+    configure();
+  }
+  
+}
 
