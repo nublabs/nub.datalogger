@@ -114,6 +114,7 @@ void setup() {
   }
   else    
     serialPortNumber = autoselectSerialPort();        //auto-discover the dongle
+    
   if(serialPortNumber==-1)
   {
     println("sorry, man--we didn't find a dongle");
@@ -155,6 +156,8 @@ void readConfiguration(String configFile)
     String[] brokenUp=splitTokens(lines[i],",");
     //the format is sensor name, sample interval in hours, minutes, seconds
     //add the sensors to 
+    for(int j=0;j<brokenUp.length;j++)
+      print(brokenUp[j]);
     Sensor temp=new Sensor(trim(brokenUp[0]));
     temp.hours=Integer.decode(trim(brokenUp[1]));
     temp.minutes=Integer.decode(trim(brokenUp[2]));
@@ -187,7 +190,7 @@ void draw(){
         if(needsConfiguration(splitMessage))
         {
            // configure();
-    //      configure(splitMessage);
+              configure(splitMessage);
         }
         else
          myPort.write(ACKNOWLEDGE);          
@@ -215,7 +218,7 @@ boolean needsConfiguration(String[] splitMessage)
 }
 
 
-/*
+
 void configure(String[] splitMessage)
 {
   int tries=0;
@@ -241,6 +244,8 @@ void configure(String[] splitMessage)
   lowSecond=a.seconds%256;
   println("asking datalogger if it's ready to configure");
    myPort.write(ACKNOWLEDGE_AND_CONFIGURE);
+   delay(50);
+
    while((tryingToConfigure)&&(!a.configured)&&(tries<NUM_TRIES))
    {
      println("listening for a response");
@@ -280,7 +285,7 @@ void configure(String[] splitMessage)
    }
     
 }
-*/
+
 
 void configure()
 {
@@ -340,24 +345,6 @@ int listenForResponse(int timeout,int expectedResponse)
 }
 
 
-/*  this version of listenForResponse is looking for bytes, but the datalogger is now spitting out strings to 
-avoid the confusion swapping between chars and ints on the computer side, which was hard
-//!listens to the serial port for a max of timeout milliseconds and returns 0 if the response is the expected response
-//!or the response if it's unexpected.
-int listenForResponse(int timeout,int expectedResponse)
-{
-  int response=-1;
-  int currentTime=millis();
-  while((millis()<(currentTime+timeout))&&(myPort.available()==0))
-  {}
-  if(myPort.available()!=0)  //did something come in?
-    response=myPort.read();
-  if(response!=expectedResponse)  //we didn't get a reply or we got the wrong response
-    return response;
-  else
-    return 0;
-}
-*/
 /** addData scans our list of known sensors ('sensors') and configured sensors ('configuredSensors') and checks to see
  * if the sensor that sent this message is listed.  If it's unlisted, it adds that sensor to the 'sensors' list and creates a 
  * new column in the 'allSensors' file.  If it's listed under 'sensors' but not under 'configuredSensors' then it appends a

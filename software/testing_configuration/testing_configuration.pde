@@ -36,12 +36,11 @@ int baudRate=19200;       //the serial baudrate
 int autodetectResponseTime= 3000;   //the time, in milliseconds, for a dongle to respond to the autodetection request
 
 //default file locations
-String defaultConfigFile = "/Users/nikki/nublabs/nub.datalogger/software/nublogger_cascabel/config.csv";
 
-String currentDirectory="/Users/nikki/nublabs/nub.datalogger/software/nublogger_cascabel/";
-
-String allSensorsOutputFile="/Users/nikki/nublabs/nub.datalogger/software/nublogger_cascabel/output-all.csv";
-String configuredSensorsOutputFile="/Users/nikki/nublabs/nub.datalogger/software/nublogger_cascabel/output.csv";
+String currentDirectory="/Users/nikki/nublabs/nub.datalogger/software/testing_configuration/";
+String defaultConfigFile = currentDirectory+"config.csv";
+String allSensorsOutputFile=currentDirectory+"output-all.csv";
+String configuredSensorsOutputFile=currentDirectory+"output.csv";
 
 //this LinkedList stores all of our known sensing objects.
 LinkedList allSensors;
@@ -53,7 +52,7 @@ FileWriter output;
 
 int lineFeed=10;
 
-final int TIMEOUT=100;
+final int TIMEOUT=3000;
 final int NUM_TRIES=3;
 
 final int START_BYTE=0;
@@ -229,7 +228,7 @@ void configure(String[] splitMessage)
   lowMinute=a.minutes%256;
   highSecond=a.seconds/256;
   lowSecond=a.seconds%256;
-  
+  println("asking "+splitMessage[NAME]+" if it's ready to configure");
    myPort.write(ACKNOWLEDGE_AND_CONFIGURE);
    while((tryingToConfigure)&&(!a.configured)&&(tries<NUM_TRIES))
    {
@@ -273,6 +272,42 @@ void configure(String[] splitMessage)
 
 //!listens to the serial port for a max of timeout milliseconds and returns 0 if the response is the expected response
 //!or the response if it's unexpected.
+
+
+int listenForResponse(int timeout,int expectedResponse)
+{
+  String response=null;
+  int currentTime=millis();
+  while((millis()<(currentTime+timeout))&&(response==null))
+  {
+    response=myPort.readStringUntil(lineFeed);
+  }
+
+   println("the sensor's response was "+trim(response)+" and we expected: "+String.valueOf(expectedResponse));
+   if(response==null)
+     return -1;
+   else
+   {
+  if(trim(response).equals(String.valueOf(expectedResponse)))  //the response matches what I expected
+  {
+    println("great!  That's the response we were hoping to get");
+    return 0;
+  }
+  else
+  {
+    try{
+      return Integer.decode(trim(response));
+    }
+    catch(Exception e)
+    {
+      println("wacky response string:  "+response);
+      return -1;
+    }
+  }
+   }
+}
+
+/*  this version of listenForResponse is looking for raw bytes.  I've updated the micro to send ascii strings
 int listenForResponse(int timeout,int expectedResponse)
 {
   int response=-1;
@@ -281,11 +316,15 @@ int listenForResponse(int timeout,int expectedResponse)
   {}
   if(myPort.available()!=0)  //did something come in?
     response=myPort.read();
+   println("the sensor's response was "+response);
   if(response!=expectedResponse)  //we didn't get a reply or we got the wrong response
     return response;
   else
     return 0;
 }
+*/
+
+
 
 /** addData scans our list of known sensors ('sensors') and configured sensors ('configuredSensors') and checks to see
  * if the sensor that sent this message is listed.  If it's unlisted, it adds that sensor to the 'sensors' list and creates a 
