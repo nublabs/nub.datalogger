@@ -294,7 +294,7 @@ void configure()
     myPort.write(0);
     myPort.write(0);
     myPort.write(129);
-    delay(100);
+ //   delay(100);
     while(myPort.available()>0)
       print((char)myPort.read());
 }
