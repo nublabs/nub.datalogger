@@ -497,19 +497,19 @@ void waitForSampleInterval()
   setupWatchdog(9);    //set the watchdog timer to 8 second intervals
   for(j=0;j<eightSecondChunks;j++)
     system_sleep();    //sleep off what time we can in 8 second chunks;
- if(remainder>4)
+ if(remainder>=4)
  {
    setupWatchdog(8);  //sleep for 4 seconds;
    system_sleep();
    remainder-=4;
  }
- if(remainder>2)
+ if(remainder>=2)
  {
    setupWatchdog(7);  //2 second interval
    system_sleep();
    remainder-=2;
   }
-  if(remainder>1)
+  if(remainder>=1)
   {
     setupWatchdog(6);  //1 second interval
     system_sleep();
