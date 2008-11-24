@@ -19,11 +19,8 @@
  * into a computer that allows the computer to talk to a wireless Zigbee network, and then there are battery-powered sensors that 
  * sense data about the environemnt.  The sensors collect data and convert it into human-readable units, and then send the data
  * as plaintext over the wireless network to the computer, where it is stored and logged.  Any sensor that will work with this system
- * must implement the discover(), configure() and sample() functions, as well as be identifiable by a unique name
+ * must implement the configure() and sample() functions, as well as be identifiable by a unique name
  *  
- * The discover() function is a short communication sequence when the sensor is first turned on where it broadcasts its name over the
- * network and ensures that the computer recognizes it and is ready to configure it and log its data.  The sensor also sends the units
- * of whatever value it will be reporting.
  * 
  * the configure() function is triggered by a flag sent by the computer that indicates that the computer would like to change the 
  * datalogger's sample rate.  configure() is another communication sequence in which the computer sends a sample interval in hours, 
@@ -168,8 +165,7 @@ void sendData()
     Serial.print(message);
     Serial.print(checksum,DEC);
     Serial.print(',');
-    Serial.print(MESSAGE_END,DEC);
-    Serial.println();
+    Serial.println(MESSAGE_END,DEC);
     response=getByte(TIMEOUT);   //look for the computer's response
 
     if(response==ACKNOWLEDGE)   //the computer got the data.  It's happy, we're happy, we're done!
@@ -290,46 +286,6 @@ void configure()
     }
   }
 }
-
-
-//!  This function tells the computer of the datalogger's existence
-/**
- * When the sensor turns on, it runs discover().  It sends a MESSAGE_START message, a DISCOVER_ME message, and its name out to the 
- * computer and waits for acknowledgement.  The computer can send back a plain "ACKNOWLEDGE" message, which means that the sensor 
- * should run using its default configuration values.  The computer can also send back an "ACKNOWLEDGE_AND_CONFIGURE" message, which 
- * means that it has configuration data for the sensor.  If the sensor gets this message, it'll run configure() to receive the data 
- * from the computer.
- */
-void discover()
-{ 
-  unsigned char checksum=0;
-  int i=0;
-  Serial.print(MESSAGE_START, BYTE);
-  Serial.print(DISCOVER_ME,BYTE);
-  Serial.print(name);
-  while(name[i]!=0)
-  {
-    checksum+=name[i];
-    i++;
-  }
-  checksum+=DISCOVER_ME;
-  Serial.print(checksum,BYTE);
-  Serial.print(MESSAGE_END,BYTE);
-
-  int receivedByte=getByte(TIMEOUT);     //looks for a byte on the serial port with a 100ms timeout
-  if(receivedByte==ACKNOWLEDGE)
-    discovered=TRUE;
-  if(receivedByte==ACKNOWLEDGE_AND_CONFIGURE)
-  {
-    discovered=TRUE;
-    configure();
-  }
-  if(receivedByte==-1)
-  {
-    Serial.print(TIMEOUT_ERROR,BYTE);  //getByte didn't get a byte before the timeout
-  }  
-}
-
 
 
 //temperature_sensor_board_v2.h
