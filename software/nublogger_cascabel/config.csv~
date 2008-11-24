@@ -1,3 +1,4 @@
 name, sample interval(hours), sample interval(minutes), sample interval(seconds)
 albert, 0,0,5
-alvin 0,0,1
+alvin,0,0,1
+bob,0,0,10

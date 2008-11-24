@@ -139,6 +139,28 @@ void setup() {
   }
   
   readConfiguration(configFile);
+  writeHeader();
+}
+
+//!writes the column headings for the configured sensor file
+void writeHeader()
+{  
+  try{
+  output =new FileWriter(configuredSensorsOutputFile);    //we just read all that data into ram, so now I'm going to overwrite the file
+  for(int i=0;i<configuredSensors.size();i++)
+  {
+    Sensor a=(Sensor) configuredSensors.get(i);
+    output.write(a.name+",units,");
+  }
+    
+  output.flush();
+  output.close();  
+  }
+  catch(Exception e)
+  {
+    println("could not open output file");
+  }
+
 }
 
 void readConfiguration(String configFile)
@@ -148,7 +170,7 @@ void readConfiguration(String configFile)
   String [] lines=loadStrings(configFile);
   if(lines!=null)
   {
-    if(lines.length>1)
+    if(lines.length>1)  
     {
   for(int i=1;i<lines.length;i++)   //skip the header line and then read everything else from the file
                                       //do I want to think about what happens if they don't put in a header line?
@@ -156,8 +178,6 @@ void readConfiguration(String configFile)
     String[] brokenUp=splitTokens(lines[i],",");
     //the format is sensor name, sample interval in hours, minutes, seconds
     //add the sensors to 
-    for(int j=0;j<brokenUp.length;j++)
-      print(brokenUp[j]);
     Sensor temp=new Sensor(trim(brokenUp[0]));
     temp.hours=Integer.decode(trim(brokenUp[1]));
     temp.minutes=Integer.decode(trim(brokenUp[2]));
@@ -286,23 +306,6 @@ void configure(String[] splitMessage)
     
 }
 
-
-void configure()
-{
-    myPort.write(ACKNOWLEDGE_AND_CONFIGURE);
-    myPort.write(128);
-    myPort.write(0);
-    myPort.write(0);
-    myPort.write(0);
-    myPort.write(0);
-    myPort.write(0);
-    myPort.write(0);
-    myPort.write(0);
-    myPort.write(129);
- //   delay(100);
-    while(myPort.available()>0)
-      print((char)myPort.read());
-}
 
 //!listens to the serial port for a max of timeout milliseconds and returns 0 if the response is the expected response
 //!or the response if it's unexpected.
@@ -624,12 +627,5 @@ boolean questionAnswer(Serial port, String question, String answer, String respo
   return false;
 }
 
-void keyPressed()
-{
-  if(key=='c')  //configure
-  {
-    configure();
-  }
-  
-}
+
 
