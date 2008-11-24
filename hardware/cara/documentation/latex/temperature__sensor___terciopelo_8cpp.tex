@@ -1,0 +1,748 @@
+\hypertarget{temperature__sensor___terciopelo_8cpp}{
+\section{/Users/nikki/nublabs/nub.datalogger/hardware/temperature\_\-sensor\_\-Terciopelo/applet/temperature\_\-sensor\_\-Terciopelo.cpp File Reference}
+\label{temperature__sensor___terciopelo_8cpp}\index{/Users/nikki/nublabs/nub.datalogger/hardware/temperature\_\-sensor\_\-Terciopelo/applet/temperature\_\-sensor\_\-Terciopelo.cpp@{/Users/nikki/nublabs/nub.datalogger/hardware/temperature\_\-sensor\_\-Terciopelo/applet/temperature\_\-sensor\_\-Terciopelo.cpp}}
+}
+{\tt \#include \char`\"{}name.h\char`\"{}}\par
+{\tt \#include \char`\"{}globals.h\char`\"{}}\par
+{\tt \#include \char`\"{}communications\_\-definitions.h\char`\"{}}\par
+{\tt \#include $<$stdio.h$>$}\par
+{\tt \#include \char`\"{}WProgram.h\char`\"{}}\par
+
+
+Include dependency graph for temperature\_\-sensor\_\-Terciopelo.cpp:\subsection*{Defines}
+\begin{CompactItemize}
+\item 
+\#define \hyperlink{temperature__sensor___terciopelo_8cpp_658c2878485cfe5cc625d283a6d34bc1}{XBEE\_\-SLEEP}~2
+\item 
+\#define \hyperlink{temperature__sensor___terciopelo_8cpp_b2de299215608c2a35f0feb86adc2f6f}{SAMPLE\_\-BUTTON}~3
+\item 
+\#define \hyperlink{temperature__sensor___terciopelo_8cpp_eb7a7ba1ab7e0406f1b5ab36d579f585}{LED}~4
+\item 
+\#define \hyperlink{temperature__sensor___terciopelo_8cpp_2a2946288d28852ba343b09fd4f17d7a}{SENSOR1\_\-TOP}~0
+\item 
+\#define \hyperlink{temperature__sensor___terciopelo_8cpp_0da2a51dcb3e00b10aedd07d75f22382}{SENSOR1\_\-BOTTOM}~1
+\item 
+\#define \hyperlink{temperature__sensor___terciopelo_8cpp_645141ae2ab7fa7ac3f690c4959b6baf}{SENSOR2\_\-TOP}~2
+\item 
+\#define \hyperlink{temperature__sensor___terciopelo_8cpp_df66e6da6cf8c78004dc0a75fd14d3b1}{SENSOR2\_\-BOTTOM}~3
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+void \hyperlink{temperature__sensor___terciopelo_8cpp_4fc01d736fe50cf5b977f755b675f11d}{setup} ()
+\item 
+void \hyperlink{temperature__sensor___terciopelo_8cpp_fe461d27b9c48d5921c00d521181f12f}{loop} ()
+\item 
+void \hyperlink{temperature__sensor___terciopelo_8cpp_50a2ce599e896bfb535e70a42003ed23}{sample} ()
+\item 
+int \hyperlink{temperature__sensor___terciopelo_8cpp_f8c68e93feeba5b9244094043672bac0}{getByte} (int timeout)
+\item 
+int \hyperlink{temperature__sensor___terciopelo_8cpp_8f2521044963073c55b3c290fffd79e3}{getMessage} (int timeout)
+\item 
+void \hyperlink{temperature__sensor___terciopelo_8cpp_95b1b253ee46df6a93285803cf1f3370}{sendData} ()
+\begin{CompactList}\small\item\em this function takes care of putting together a message string, calculating a checksum, sending it out to the computer and making sure the computer got it ok \item\end{CompactList}\item 
+unsigned char \hyperlink{temperature__sensor___terciopelo_8cpp_465a79dc430d1e52a5b540920da744ca}{getChecksum} ()
+\begin{CompactList}\small\item\em this computes a checksum of the global string 'message' \item\end{CompactList}\item 
+void \hyperlink{temperature__sensor___terciopelo_8cpp_e369b3765489ee8bd0ea791c1843630f}{configure} ()
+\begin{CompactList}\small\item\em \hyperlink{applet_2nublogger_8h_e369b3765489ee8bd0ea791c1843630f}{configure()} runs if the computer is trying to change the sensor's sample rate \item\end{CompactList}\item 
+void \hyperlink{temperature__sensor___terciopelo_8cpp_3fdb2350c3f98c0de0f0ae3c831a8b14}{discover} ()
+\begin{CompactList}\small\item\em This function tells the computer of the datalogger's existence. \item\end{CompactList}\item 
+void \hyperlink{temperature__sensor___terciopelo_8cpp_b4dbd8380e5d93ead613cf38e6083b7f}{waitForSampleInterval} ()
+\begin{CompactList}\small\item\em this function waits for the time specified by the global variables 'hours,' 'minutes,' and 'seconds' It should ideally put the arduino in a power saving mode \item\end{CompactList}\item 
+void \hyperlink{temperature__sensor___terciopelo_8cpp_f6c9587ccbcf223f8c79f508c2fef366}{initializeSensor} ()
+\begin{CompactList}\small\item\em this function configures all the digital communication pins as input or output pins \item\end{CompactList}\item 
+void \hyperlink{temperature__sensor___terciopelo_8cpp_a06edc5122b70b3231ff87d8234fe759}{xbeeSleep} ()
+\item 
+void \hyperlink{temperature__sensor___terciopelo_8cpp_884c5dd8e3bb500063c819db197db666}{xbeeWake} ()
+\item 
+void \hyperlink{temperature__sensor___terciopelo_8cpp_ea28af0c7128421a38589128bb39ef1c}{getTemperatures} ()
+\item 
+void \hyperlink{temperature__sensor___terciopelo_8cpp_cfc975251dbc3a8c9a9b11f8df62cc41}{getRawData} ()
+\begin{CompactList}\small\item\em this just grabs the raw values off the analog to digital converter \item\end{CompactList}\item 
+void \hyperlink{temperature__sensor___terciopelo_8cpp_8e666a34a083b1806167ca991be0c436}{convertToResistance} ()
+\begin{CompactList}\small\item\em this function converts the raw ADC values from the thermistor into resistances of the thermistor \item\end{CompactList}\item 
+void \hyperlink{temperature__sensor___terciopelo_8cpp_3aa4f99331713009a70ee34eba83754b}{convertToTemperature} ()
+\item 
+int \hyperlink{temperature__sensor___terciopelo_8cpp_840291bc02cba5474a4cb46a9b9566fe}{main} (void)
+\end{CompactItemize}
+\subsection*{Variables}
+\begin{CompactItemize}
+\item 
+float \hyperlink{temperature__sensor___terciopelo_8cpp_735577560ca40e5b6008a98829068904}{R0} = 10000.0
+\item 
+float \hyperlink{temperature__sensor___terciopelo_8cpp_8188fea1f6709096fe21a3ee084d00d0}{B} = 3950.0
+\item 
+float \hyperlink{temperature__sensor___terciopelo_8cpp_4211ba1269f650e21964d32238a460b2}{T0} = 298
+\item 
+float \hyperlink{temperature__sensor___terciopelo_8cpp_d17df5990b551ac9e97a3d60f65833ff}{RBOTTOM} = 1000.0
+\end{CompactItemize}
+
+
+\subsection{Define Documentation}
+\hypertarget{temperature__sensor___terciopelo_8cpp_eb7a7ba1ab7e0406f1b5ab36d579f585}{
+\index{temperature\_\-sensor\_\-Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}!LED@{LED}}
+\index{LED@{LED}!temperature_sensor_Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}}
+\subsubsection[{LED}]{\setlength{\rightskip}{0pt plus 5cm}\#define LED~4}}
+\label{temperature__sensor___terciopelo_8cpp_eb7a7ba1ab7e0406f1b5ab36d579f585}
+
+
+
+
+Definition at line 348 of file temperature\_\-sensor\_\-Terciopelo.cpp.\hypertarget{temperature__sensor___terciopelo_8cpp_b2de299215608c2a35f0feb86adc2f6f}{
+\index{temperature\_\-sensor\_\-Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}!SAMPLE\_\-BUTTON@{SAMPLE\_\-BUTTON}}
+\index{SAMPLE\_\-BUTTON@{SAMPLE\_\-BUTTON}!temperature_sensor_Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}}
+\subsubsection[{SAMPLE\_\-BUTTON}]{\setlength{\rightskip}{0pt plus 5cm}\#define SAMPLE\_\-BUTTON~3}}
+\label{temperature__sensor___terciopelo_8cpp_b2de299215608c2a35f0feb86adc2f6f}
+
+
+
+
+Definition at line 347 of file temperature\_\-sensor\_\-Terciopelo.cpp.\hypertarget{temperature__sensor___terciopelo_8cpp_0da2a51dcb3e00b10aedd07d75f22382}{
+\index{temperature\_\-sensor\_\-Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}!SENSOR1\_\-BOTTOM@{SENSOR1\_\-BOTTOM}}
+\index{SENSOR1\_\-BOTTOM@{SENSOR1\_\-BOTTOM}!temperature_sensor_Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}}
+\subsubsection[{SENSOR1\_\-BOTTOM}]{\setlength{\rightskip}{0pt plus 5cm}\#define SENSOR1\_\-BOTTOM~1}}
+\label{temperature__sensor___terciopelo_8cpp_0da2a51dcb3e00b10aedd07d75f22382}
+
+
+
+
+Definition at line 351 of file temperature\_\-sensor\_\-Terciopelo.cpp.\hypertarget{temperature__sensor___terciopelo_8cpp_2a2946288d28852ba343b09fd4f17d7a}{
+\index{temperature\_\-sensor\_\-Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}!SENSOR1\_\-TOP@{SENSOR1\_\-TOP}}
+\index{SENSOR1\_\-TOP@{SENSOR1\_\-TOP}!temperature_sensor_Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}}
+\subsubsection[{SENSOR1\_\-TOP}]{\setlength{\rightskip}{0pt plus 5cm}\#define SENSOR1\_\-TOP~0}}
+\label{temperature__sensor___terciopelo_8cpp_2a2946288d28852ba343b09fd4f17d7a}
+
+
+
+
+Definition at line 350 of file temperature\_\-sensor\_\-Terciopelo.cpp.\hypertarget{temperature__sensor___terciopelo_8cpp_df66e6da6cf8c78004dc0a75fd14d3b1}{
+\index{temperature\_\-sensor\_\-Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}!SENSOR2\_\-BOTTOM@{SENSOR2\_\-BOTTOM}}
+\index{SENSOR2\_\-BOTTOM@{SENSOR2\_\-BOTTOM}!temperature_sensor_Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}}
+\subsubsection[{SENSOR2\_\-BOTTOM}]{\setlength{\rightskip}{0pt plus 5cm}\#define SENSOR2\_\-BOTTOM~3}}
+\label{temperature__sensor___terciopelo_8cpp_df66e6da6cf8c78004dc0a75fd14d3b1}
+
+
+
+
+Definition at line 353 of file temperature\_\-sensor\_\-Terciopelo.cpp.\hypertarget{temperature__sensor___terciopelo_8cpp_645141ae2ab7fa7ac3f690c4959b6baf}{
+\index{temperature\_\-sensor\_\-Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}!SENSOR2\_\-TOP@{SENSOR2\_\-TOP}}
+\index{SENSOR2\_\-TOP@{SENSOR2\_\-TOP}!temperature_sensor_Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}}
+\subsubsection[{SENSOR2\_\-TOP}]{\setlength{\rightskip}{0pt plus 5cm}\#define SENSOR2\_\-TOP~2}}
+\label{temperature__sensor___terciopelo_8cpp_645141ae2ab7fa7ac3f690c4959b6baf}
+
+
+
+
+Definition at line 352 of file temperature\_\-sensor\_\-Terciopelo.cpp.\hypertarget{temperature__sensor___terciopelo_8cpp_658c2878485cfe5cc625d283a6d34bc1}{
+\index{temperature\_\-sensor\_\-Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}!XBEE\_\-SLEEP@{XBEE\_\-SLEEP}}
+\index{XBEE\_\-SLEEP@{XBEE\_\-SLEEP}!temperature_sensor_Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}}
+\subsubsection[{XBEE\_\-SLEEP}]{\setlength{\rightskip}{0pt plus 5cm}\#define XBEE\_\-SLEEP~2}}
+\label{temperature__sensor___terciopelo_8cpp_658c2878485cfe5cc625d283a6d34bc1}
+
+
+these are the pin definitions for the v2 board
+
+function atmega pin arduino pin
+
+Serial RX PD0 0 //serial lines that go out to the xbee module Serial TX PD1 1 Xbee\_\-sleep PD2 2 //a pin that, when asserted, puts the xbee radio into a low power sleep mode Sample\_\-button PD3 3 //an optional button that forces the sensor to take and send out a measurement LED PD4 4 //an LED on board that you can use for all kinds of stuff
+
+sensor1\_\-top PC0 (analog) 0 sensor1\_\-bottom PC1 (analog) 1 sensor2\_\-top PC2 (analog) 2 sensor2\_\-bottom PC3 (analog) 3 
+
+Definition at line 346 of file temperature\_\-sensor\_\-Terciopelo.cpp.
+
+\subsection{Function Documentation}
+\hypertarget{temperature__sensor___terciopelo_8cpp_e369b3765489ee8bd0ea791c1843630f}{
+\index{temperature\_\-sensor\_\-Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}!configure@{configure}}
+\index{configure@{configure}!temperature_sensor_Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}}
+\subsubsection[{configure}]{\setlength{\rightskip}{0pt plus 5cm}void configure ()}}
+\label{temperature__sensor___terciopelo_8cpp_e369b3765489ee8bd0ea791c1843630f}
+
+
+\hyperlink{applet_2nublogger_8h_e369b3765489ee8bd0ea791c1843630f}{configure()} runs if the computer is trying to change the sensor's sample rate 
+
+In \hyperlink{applet_2nublogger_8h_e369b3765489ee8bd0ea791c1843630f}{configure()}, the datalogger sends a LISTENING message to the computer, indicating that it's ready to receive data. The computer sends three ints: the hours, minutes and seconds of the sample interval, followed by a checksum byte that's the sum of the ints modulo 256. The sensor computes a checksum on the received data. If its checksum matches, it sends an ACKNOWLEDGE message back to the computer and updates its sample interval information. If the checksum does not match, it sends a CHECKSUM\_\-ERROR\_\-PLEASE\_\-RESEND message, asking the computer to send the three ints again, followed by a checksum. If the sensor can't get a valid message (with a matching checksum) after three tries, it gives up, sends a CHECKSUM\_\-ERROR\_\-GIVING\_\-UP message to the computer and keeps its original sample interval information
+
+In \hyperlink{applet_2nublogger_8h_e369b3765489ee8bd0ea791c1843630f}{configure()}, the datalogger sends a LISTENING message to the computer, indicating that it's ready to receive data. The computer sends three ints: the hours, minutes and seconds of the sample interval, followed by a checksum byte that's the sum of the ints modulo 256. The sensor computes a checksum on the received data. If its checksum matches, it sends an ACKNOWLEDGE message back to the computer and updates its sample interval information. If the checksum does not match, it sends a CHECKSUM\_\-ERROR\_\-PLEASE\_\-RESEND message, asking the computer to send the three ints again, followed by a checksum. If the sensor can't get a valid message (with a matching checksum) after three tries, it gives up, sends a CHECKSUM\_\-ERROR\_\-GIVING\_\-UP message to the computer and keeps its original sample interval information
+
+In \hyperlink{applet_2nublogger_8h_e369b3765489ee8bd0ea791c1843630f}{configure()}, the datalogger sends a LISTENING message to the computer, indicating that it's ready to receive data. The computer sends three ints: the hours, minutes and seconds of the sample interval, followed by a checksum byte that's the sum of the ints modulo 256. The sensor computes a checksum on the received data. If its checksum matches, it sends an ACKNOWLEDGE message back to the computer and updates its sample interval information. If the checksum does not match, it sends a CHECKSUM\_\-ERROR\_\-PLEASE\_\-RESEND message, asking the computer to send the three ints again, followed by a checksum. If the sensor can't get a valid message (with a matching checksum) after three tries, it gives up, sends a CHECKSUM\_\-ERROR\_\-GIVING\_\-UP message to the computer and keeps its original sample interval information
+
+In \hyperlink{applet_2nublogger_8h_e369b3765489ee8bd0ea791c1843630f}{configure()}, the datalogger sends a LISTENING message to the computer, indicating that it's ready to receive data. The computer sends three ints: the hours, minutes and seconds of the sample interval, followed by a checksum byte that's the sum of the ints modulo 256. The sensor computes a checksum on the received data. If its checksum matches, it sends an ACKNOWLEDGE message back to the computer and updates its sample interval information. If the checksum does not match, it sends a CHECKSUM\_\-ERROR\_\-PLEASE\_\-RESEND message, asking the computer to send the three ints again, followed by a checksum. If the sensor can't get a valid message (with a matching checksum) after three tries, it gives up, sends a CHECKSUM\_\-ERROR\_\-GIVING\_\-UP message to the computer and keeps its original sample interval information 
+
+Definition at line 15 of file nublogger.h.
+
+References buffer, CHECKSUM, CHECKSUM\_\-ERROR\_\-GIVING\_\-UP, CHECKSUM\_\-ERROR\_\-PLEASE\_\-RESEND, CONFIGURATION\_\-MESSAGE\_\-LENGTH, configured, getMessage(), HOUR\_\-HIGH, HOUR\_\-LOW, hours, index, LISTENING, MALFORMED\_\-MESSAGE\_\-ERROR\_\-GIVING\_\-UP, MALFORMED\_\-MESSAGE\_\-ERROR\_\-PLEASE\_\-RESEND, MESSAGE\_\-START, MINUTE\_\-HIGH, MINUTE\_\-LOW, minutes, NUM\_\-TRIES, SECOND\_\-HIGH, SECOND\_\-LOW, seconds, start, and TIMEOUT\_\-ERROR.
+
+Referenced by discover(), and sendData().
+
+\begin{Code}\begin{verbatim}16 { 
+17 }
+\end{verbatim}
+\end{Code}
+
+
+\hypertarget{temperature__sensor___terciopelo_8cpp_8e666a34a083b1806167ca991be0c436}{
+\index{temperature\_\-sensor\_\-Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}!convertToResistance@{convertToResistance}}
+\index{convertToResistance@{convertToResistance}!temperature_sensor_Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}}
+\subsubsection[{convertToResistance}]{\setlength{\rightskip}{0pt plus 5cm}void convertToResistance ()}}
+\label{temperature__sensor___terciopelo_8cpp_8e666a34a083b1806167ca991be0c436}
+
+
+this function converts the raw ADC values from the thermistor into resistances of the thermistor 
+
+
+
+Definition at line 408 of file temperature\_\-sensor\_\-Terciopelo.cpp.
+
+References RBOTTOM, sensor1\_\-bottom, sensor1\_\-resistance, and sensor1\_\-top.
+
+Referenced by getTemperatures(), and sample().
+
+\begin{Code}\begin{verbatim}409 {
+410   sensor1_resistance = ((float)sensor1_top/(float)sensor1_bottom - 1)*RBOTTOM; // Voltages converted to resistances
+411   /* uncomment if I enable two sensing elements
+412    sensor2_resistance = ((float)sensor2_top/(float)sensor2_bottom - 1)*RBOTTOM; // Voltages converted to resistances*/
+413    int a=(int) sensor1_resistance;
+414    Serial.println("woohoo!");
+415 //  Serial.println(a,DEC);
+416 }
+\end{verbatim}
+\end{Code}
+
+
+\hypertarget{temperature__sensor___terciopelo_8cpp_3aa4f99331713009a70ee34eba83754b}{
+\index{temperature\_\-sensor\_\-Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}!convertToTemperature@{convertToTemperature}}
+\index{convertToTemperature@{convertToTemperature}!temperature_sensor_Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}}
+\subsubsection[{convertToTemperature}]{\setlength{\rightskip}{0pt plus 5cm}void convertToTemperature ()}}
+\label{temperature__sensor___terciopelo_8cpp_3aa4f99331713009a70ee34eba83754b}
+
+
+
+
+Definition at line 419 of file temperature\_\-sensor\_\-Terciopelo.cpp.
+
+References B, R0, sensor1\_\-resistance, sensor1\_\-temperature, and T0.
+
+Referenced by getTemperatures(), and sample().
+
+\begin{Code}\begin{verbatim}420 {
+421   sensor1_temperature = float(B/log(sensor1_resistance/(R0*exp(-1.0*B/T0))) - 273.0); // Temperature in degrees Celsius
+422   /* uncomment if I enable two sensing elements
+423    sensor2_temperature = float(B/log(sensor2_resistance/(R0*exp(-1.0*B/T0))) - 273.0); // Temperature in degrees Celsius   */
+424 }
+\end{verbatim}
+\end{Code}
+
+
+\hypertarget{temperature__sensor___terciopelo_8cpp_3fdb2350c3f98c0de0f0ae3c831a8b14}{
+\index{temperature\_\-sensor\_\-Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}!discover@{discover}}
+\index{discover@{discover}!temperature_sensor_Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}}
+\subsubsection[{discover}]{\setlength{\rightskip}{0pt plus 5cm}void discover ()}}
+\label{temperature__sensor___terciopelo_8cpp_3fdb2350c3f98c0de0f0ae3c831a8b14}
+
+
+This function tells the computer of the datalogger's existence. 
+
+When the sensor turns on, it runs \hyperlink{applet_2nublogger_8h_3fdb2350c3f98c0de0f0ae3c831a8b14}{discover()}. It sends a MESSAGE\_\-START message, a DISCOVER\_\-ME message, and its name out to the computer and waits for acknowledgement. The computer can send back a plain \char`\"{}ACKNOWLEDGE\char`\"{} message, which means that the sensor should run using its default configuration values. The computer can also send back an \char`\"{}ACKNOWLEDGE\_\-AND\_\-CONFIGURE\char`\"{} message, which means that it has configuration data for the sensor. If the sensor gets this message, it'll run \hyperlink{applet_2nublogger_8h_e369b3765489ee8bd0ea791c1843630f}{configure()} to receive the data from the computer.
+
+When the sensor turns on, it runs \hyperlink{applet_2nublogger_8h_3fdb2350c3f98c0de0f0ae3c831a8b14}{discover()}. It sends a MESSAGE\_\-START message, a DISCOVER\_\-ME message, and its name out to the computer and waits for acknowledgement. The computer can send back a plain \char`\"{}ACKNOWLEDGE\char`\"{} message, which means that the sensor should run using its default configuration values. The computer can also send back an \char`\"{}ACKNOWLEDGE\_\-AND\_\-CONFIGURE\char`\"{} message, which means that it has configuration data for the sensor. If the sensor gets this message, it'll run \hyperlink{applet_2nublogger_8h_e369b3765489ee8bd0ea791c1843630f}{configure()} to receive the data from the computer.
+
+When the sensor turns on, it runs \hyperlink{applet_2nublogger_8h_3fdb2350c3f98c0de0f0ae3c831a8b14}{discover()}. It sends a MESSAGE\_\-START message, a DISCOVER\_\-ME message, and its name out to the computer and waits for acknowledgement. The computer can send back a plain \char`\"{}ACKNOWLEDGE\char`\"{} message, which means that the sensor should run using its default configuration values. The computer can also send back an \char`\"{}ACKNOWLEDGE\_\-AND\_\-CONFIGURE\char`\"{} message, which means that it has configuration data for the sensor. If the sensor gets this message, it'll run \hyperlink{applet_2nublogger_8h_e369b3765489ee8bd0ea791c1843630f}{configure()} to receive the data from the computer.
+
+When the sensor turns on, it runs \hyperlink{applet_2nublogger_8h_3fdb2350c3f98c0de0f0ae3c831a8b14}{discover()}. It sends a MESSAGE\_\-START message, a DISCOVER\_\-ME message, and its name out to the computer and waits for acknowledgement. The computer can send back a plain \char`\"{}ACKNOWLEDGE\char`\"{} message, which means that the sensor should run using its default configuration values. The computer can also send back an \char`\"{}ACKNOWLEDGE\_\-AND\_\-CONFIGURE\char`\"{} message, which means that it has configuration data for the sensor. If the sensor gets this message, it'll run \hyperlink{applet_2nublogger_8h_e369b3765489ee8bd0ea791c1843630f}{configure()} to receive the data from the computer. 
+
+Definition at line 27 of file nublogger.h.
+
+References ACKNOWLEDGE, ACKNOWLEDGE\_\-AND\_\-CONFIGURE, configure(), DISCOVER\_\-ME, discovered, getByte(), MESSAGE\_\-END, MESSAGE\_\-START, name, TIMEOUT\_\-ERROR, and TRUE.
+
+Referenced by setup().
+
+\begin{Code}\begin{verbatim}28 { 
+29   unsigned char checksum=0;
+30   int i=0;
+31   Serial.print(MESSAGE_START, BYTE);
+32   Serial.print(DISCOVER_ME,BYTE);
+33   Serial.print(name);
+34   while(name[i]!=0)
+35   {
+36     checksum+=name[i];
+37     i++;
+38   }
+39   checksum+=DISCOVER_ME;
+40   Serial.print(checksum,BYTE);
+41   Serial.print(MESSAGE_END,BYTE);
+42 
+43   int receivedByte=getByte(100);     //looks for a byte on the serial port with a 100ms timeout
+44   if(receivedByte==ACKNOWLEDGE)
+45     discovered=TRUE;
+46   if(receivedByte==ACKNOWLEDGE_AND_CONFIGURE)
+47     {
+48       discovered=TRUE;
+49       configure();
+50     }
+51   
+52 }
+\end{verbatim}
+\end{Code}
+
+
+\hypertarget{temperature__sensor___terciopelo_8cpp_f8c68e93feeba5b9244094043672bac0}{
+\index{temperature\_\-sensor\_\-Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}!getByte@{getByte}}
+\index{getByte@{getByte}!temperature_sensor_Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}}
+\subsubsection[{getByte}]{\setlength{\rightskip}{0pt plus 5cm}int getByte (int {\em timeout})}}
+\label{temperature__sensor___terciopelo_8cpp_f8c68e93feeba5b9244094043672bac0}
+
+
+
+
+Definition at line 4 of file communications.h.
+
+Referenced by discover(), and sendData().
+
+\begin{Code}\begin{verbatim}5 {
+6   int currentTime=millis();
+7   int maxTime=currentTime+timeout;
+8   while((Serial.available()==0)&&(millis()<(maxTime)))
+9     {}
+10   if((millis()>maxTime)||(Serial.available()==0))
+11     return -1;
+12   else
+13     return Serial.read();
+14 }
+\end{verbatim}
+\end{Code}
+
+
+\hypertarget{temperature__sensor___terciopelo_8cpp_465a79dc430d1e52a5b540920da744ca}{
+\index{temperature\_\-sensor\_\-Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}!getChecksum@{getChecksum}}
+\index{getChecksum@{getChecksum}!temperature_sensor_Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}}
+\subsubsection[{getChecksum}]{\setlength{\rightskip}{0pt plus 5cm}unsigned char getChecksum ()}}
+\label{temperature__sensor___terciopelo_8cpp_465a79dc430d1e52a5b540920da744ca}
+
+
+this computes a checksum of the global string 'message' 
+
+
+
+Definition at line 184 of file temperature\_\-sensor\_\-Terciopelo.cpp.
+
+References message.
+
+Referenced by sendData().
+
+\begin{Code}\begin{verbatim}185 {
+186   char i=0;
+187   unsigned char checksum=0;
+188   while(message[i]!=0)
+189   {
+190     checksum+=message[i];
+191     i++;
+192   }
+193   return checksum;
+194 }
+\end{verbatim}
+\end{Code}
+
+
+\hypertarget{temperature__sensor___terciopelo_8cpp_8f2521044963073c55b3c290fffd79e3}{
+\index{temperature\_\-sensor\_\-Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}!getMessage@{getMessage}}
+\index{getMessage@{getMessage}!temperature_sensor_Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}}
+\subsubsection[{getMessage}]{\setlength{\rightskip}{0pt plus 5cm}int getMessage (int {\em timeout})}}
+\label{temperature__sensor___terciopelo_8cpp_8f2521044963073c55b3c290fffd79e3}
+
+
+
+
+Definition at line 127 of file temperature\_\-sensor\_\-Terciopelo.cpp.
+
+References buffer, index, MESSAGE\_\-END, and start.
+
+Referenced by configure().
+
+\begin{Code}\begin{verbatim}128 {
+129   int completeMessage=-1;   //a flag that lets us know if we got a full message
+130   start=index;              //drop whatever other data is in our buffer--it'll probably just confuse the functions if we don't
+131   int currentTime=millis();
+132   int maxTime=currentTime+timeout;  
+133   while((millis()<(maxTime))&&(buffer[index]!=MESSAGE_END))
+134   {
+135     if(Serial.available()>0)
+136     {
+137       buffer[index]=Serial.read();
+138       if(buffer[index]==MESSAGE_END)   //we got a complete message
+139         completeMessage=1;
+140       index++;
+141     }
+142   }
+143   if(completeMessage==-1)    //we never got a complete message
+144     start=index;    //skip past whatever we got from the buffer
+145 
+146   return completeMessage;
+147 }
+\end{verbatim}
+\end{Code}
+
+
+\hypertarget{temperature__sensor___terciopelo_8cpp_cfc975251dbc3a8c9a9b11f8df62cc41}{
+\index{temperature\_\-sensor\_\-Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}!getRawData@{getRawData}}
+\index{getRawData@{getRawData}!temperature_sensor_Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}}
+\subsubsection[{getRawData}]{\setlength{\rightskip}{0pt plus 5cm}void getRawData ()}}
+\label{temperature__sensor___terciopelo_8cpp_cfc975251dbc3a8c9a9b11f8df62cc41}
+
+
+this just grabs the raw values off the analog to digital converter 
+
+
+
+Definition at line 397 of file temperature\_\-sensor\_\-Terciopelo.cpp.
+
+References sensor1\_\-bottom, and sensor1\_\-top.
+
+Referenced by getTemperatures(), and sample().
+
+\begin{Code}\begin{verbatim}398 {
+399   sensor1_top=analogRead(0);
+400   sensor1_bottom=analogRead(1);
+401 
+402   /*  uncomment if I enable 2-sensing elements per sensor
+403    sensor2_top=analogRead(2);
+404    sensor2_bottom=analogRead(3);*/
+405 }
+\end{verbatim}
+\end{Code}
+
+
+\hypertarget{temperature__sensor___terciopelo_8cpp_ea28af0c7128421a38589128bb39ef1c}{
+\index{temperature\_\-sensor\_\-Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}!getTemperatures@{getTemperatures}}
+\index{getTemperatures@{getTemperatures}!temperature_sensor_Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}}
+\subsubsection[{getTemperatures}]{\setlength{\rightskip}{0pt plus 5cm}void getTemperatures ()}}
+\label{temperature__sensor___terciopelo_8cpp_ea28af0c7128421a38589128bb39ef1c}
+
+
+
+
+Definition at line 389 of file temperature\_\-sensor\_\-Terciopelo.cpp.
+
+References convertToResistance(), convertToTemperature(), and getRawData().
+
+\begin{Code}\begin{verbatim}390 {
+391   getRawData();
+392   convertToResistance();
+393   convertToTemperature();
+394 }
+\end{verbatim}
+\end{Code}
+
+
+\hypertarget{temperature__sensor___terciopelo_8cpp_f6c9587ccbcf223f8c79f508c2fef366}{
+\index{temperature\_\-sensor\_\-Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}!initializeSensor@{initializeSensor}}
+\index{initializeSensor@{initializeSensor}!temperature_sensor_Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}}
+\subsubsection[{initializeSensor}]{\setlength{\rightskip}{0pt plus 5cm}void initializeSensor ()}}
+\label{temperature__sensor___terciopelo_8cpp_f6c9587ccbcf223f8c79f508c2fef366}
+
+
+this function configures all the digital communication pins as input or output pins 
+
+If you adapt this code to work with another sensor or board, you should replace the code in \hyperlink{applet_2temperature__sensor__board__v2_8h_f6c9587ccbcf223f8c79f508c2fef366}{initializeSensor()} to initialize all your relevant pins
+
+If you adapt this code to work with another sensor or board, you should replace the code in \hyperlink{applet_2temperature__sensor__board__v2_8h_f6c9587ccbcf223f8c79f508c2fef366}{initializeSensor()} to initialize all your relevant pins
+
+If you adapt this code to work with another sensor or board, you should replace the code in \hyperlink{applet_2temperature__sensor__board__v2_8h_f6c9587ccbcf223f8c79f508c2fef366}{initializeSensor()} to initialize all your relevant pins
+
+If you adapt this code to work with another sensor or board, you should replace the code in \hyperlink{applet_2temperature__sensor__board__v2_8h_f6c9587ccbcf223f8c79f508c2fef366}{initializeSensor()} to initialize all your relevant pins 
+
+Definition at line 35 of file temperature\_\-sensor\_\-board\_\-v2.h.
+
+References LED, SAMPLE\_\-BUTTON, XBEE\_\-SLEEP, and xbeeWake().
+
+Referenced by setup().
+
+\begin{Code}\begin{verbatim}36  {
+37    pinMode(XBEE_SLEEP,OUTPUT);
+38    pinMode(SAMPLE_BUTTON,INPUT);
+39    pinMode(LED,OUTPUT);
+40  }
+\end{verbatim}
+\end{Code}
+
+
+\hypertarget{temperature__sensor___terciopelo_8cpp_fe461d27b9c48d5921c00d521181f12f}{
+\index{temperature\_\-sensor\_\-Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}!loop@{loop}}
+\index{loop@{loop}!temperature_sensor_Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}}
+\subsubsection[{loop}]{\setlength{\rightskip}{0pt plus 5cm}void loop ()}}
+\label{temperature__sensor___terciopelo_8cpp_fe461d27b9c48d5921c00d521181f12f}
+
+
+
+
+Definition at line 97 of file temperature\_\-sensor\_\-Terciopelo.cpp.
+
+References sample(), and waitForSampleInterval().
+
+Referenced by main().
+
+\begin{Code}\begin{verbatim}98 {
+99   waitForSampleInterval();
+100   sample();
+101 }
+\end{verbatim}
+\end{Code}
+
+
+\hypertarget{temperature__sensor___terciopelo_8cpp_840291bc02cba5474a4cb46a9b9566fe}{
+\index{temperature\_\-sensor\_\-Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}!main@{main}}
+\index{main@{main}!temperature_sensor_Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int main (void)}}
+\label{temperature__sensor___terciopelo_8cpp_840291bc02cba5474a4cb46a9b9566fe}
+
+
+
+
+Definition at line 427 of file temperature\_\-sensor\_\-Terciopelo.cpp.
+
+References loop(), and setup().
+
+\begin{Code}\begin{verbatim}428 {
+429         init();
+430 
+431         setup();
+432     
+433         for (;;)
+434                 loop();
+435         
+436         return 0;
+437 }
+\end{verbatim}
+\end{Code}
+
+
+\hypertarget{temperature__sensor___terciopelo_8cpp_50a2ce599e896bfb535e70a42003ed23}{
+\index{temperature\_\-sensor\_\-Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}!sample@{sample}}
+\index{sample@{sample}!temperature_sensor_Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}}
+\subsubsection[{sample}]{\setlength{\rightskip}{0pt plus 5cm}void sample ()}}
+\label{temperature__sensor___terciopelo_8cpp_50a2ce599e896bfb535e70a42003ed23}
+
+
+
+
+Definition at line 103 of file temperature\_\-sensor\_\-Terciopelo.cpp.
+
+References convertToResistance(), convertToTemperature(), getRawData(), sampleNumber, and sendData().
+
+Referenced by loop().
+
+\begin{Code}\begin{verbatim}104 {
+105   getRawData();
+106   convertToResistance();
+107   convertToTemperature();
+108   sendData();
+109   sampleNumber++;
+110 }
+\end{verbatim}
+\end{Code}
+
+
+\hypertarget{temperature__sensor___terciopelo_8cpp_95b1b253ee46df6a93285803cf1f3370}{
+\index{temperature\_\-sensor\_\-Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}!sendData@{sendData}}
+\index{sendData@{sendData}!temperature_sensor_Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}}
+\subsubsection[{sendData}]{\setlength{\rightskip}{0pt plus 5cm}void sendData ()}}
+\label{temperature__sensor___terciopelo_8cpp_95b1b253ee46df6a93285803cf1f3370}
+
+
+this function takes care of putting together a message string, calculating a checksum, sending it out to the computer and making sure the computer got it ok 
+
+
+
+Definition at line 151 of file temperature\_\-sensor\_\-Terciopelo.cpp.
+
+References ACKNOWLEDGE, ACKNOWLEDGE\_\-AND\_\-CONFIGURE, configure(), FALSE, getByte(), getChecksum(), message, MESSAGE\_\-END, MESSAGE\_\-START, NUM\_\-TRIES, sampleNumber, sensor1\_\-temperature, and TRUE.
+
+Referenced by sample().
+
+\begin{Code}\begin{verbatim}152 {
+153   char tries=0;
+154   char success=FALSE;
+155   int sensor1_temperature_decimals=(sensor1_temperature-(int)sensor1_temperature)*100;    //sprintf doesn't work for floats, so this hack gets 2 sigfigs
+156   int response=0;
+157  // sprintf(message,"%d", sampleNumber);
+158   sprintf(message, " %d thermistor 1 = %d.%d degrees C", sampleNumber, (int)sensor1_temperature, sensor1_temperature_decimals);
+159 //sprintf(message,"%d %d %d", (int) sensor1_temperature, (int) sensor1_resistance, sensor1_temperature_decimals);
+160   unsigned char checksum=getChecksum();
+161   while((success==FALSE)&&(tries<NUM_TRIES))
+162   {
+163     Serial.print(MESSAGE_START,BYTE);
+164     Serial.print(message);
+165     Serial.print(checksum);
+166     Serial.print(MESSAGE_END,BYTE);
+167     response=getByte(50);   //look for the computer's response
+168 
+169     if(response==ACKNOWLEDGE)   //the computer got the data.  It's happy, we're happy, we're done!
+170       success=TRUE;
+171 
+172     else if(response==ACKNOWLEDGE_AND_CONFIGURE)  //the computer can ask to upload a new configuration at any sample
+173     {
+174       success=TRUE;
+175       configure();
+176     }
+177     else         //if there was a timeout or a checksum mismatch, then re-try
+178     tries++;
+179   }
+180 
+181 }
+\end{verbatim}
+\end{Code}
+
+
+\hypertarget{temperature__sensor___terciopelo_8cpp_4fc01d736fe50cf5b977f755b675f11d}{
+\index{temperature\_\-sensor\_\-Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}!setup@{setup}}
+\index{setup@{setup}!temperature_sensor_Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}}
+\subsubsection[{setup}]{\setlength{\rightskip}{0pt plus 5cm}void setup ()}}
+\label{temperature__sensor___terciopelo_8cpp_4fc01d736fe50cf5b977f755b675f11d}
+
+
+nublogger temperature sensor Terciopelo(+)
+
+Alex Hornstein 11.19.08 \href{mailto:alex@nublabs.com}{\tt alex@nublabs.com} datalogger.nublabs.com
+
+(+)In keeping with the arduino nomenclature, we are naming all our code revisions with Spanish names of venemous snakes. The Terciopelo, or fer-de-lance is a pit viper common in central and northwestern south america. It has a powerful venom that, left untreated, can cause necrosis, brain hemorrhaging, renal failure and death. It's also capable of spraying venom through its fangs for up to 6 feet. Cool, huh? This is a sensor for nublab's datalogging system. The datalogger is a two-part system: There is a USB dongle that plugs into a computer that allows the computer to talk to a wireless Zigbee network, and then there are battery-powered sensors that sense data about the environemnt. The sensors collect data and convert it into human-readable units, and then send the data as plaintext over the wireless network to the computer, where it is stored and logged. Any sensor that will work with this system must implement the \hyperlink{applet_2nublogger_8h_3fdb2350c3f98c0de0f0ae3c831a8b14}{discover()}, \hyperlink{applet_2nublogger_8h_e369b3765489ee8bd0ea791c1843630f}{configure()} and \hyperlink{temperature__sensor___terciopelo_8cpp_50a2ce599e896bfb535e70a42003ed23}{sample()} functions, as well as be identifiable by a unique name
+
+The \hyperlink{applet_2nublogger_8h_3fdb2350c3f98c0de0f0ae3c831a8b14}{discover()} function is a short communication sequence when the sensor is first turned on where it broadcasts its name over the network and ensures that the computer recognizes it and is ready to configure it and log its data. The sensor also sends the units of whatever value it will be reporting.
+
+the \hyperlink{applet_2nublogger_8h_e369b3765489ee8bd0ea791c1843630f}{configure()} function is triggered by a flag sent by the computer that indicates that the computer would like to change the datalogger's sample rate. \hyperlink{applet_2nublogger_8h_e369b3765489ee8bd0ea791c1843630f}{configure()} is another communication sequence in which the computer sends a sample interval in hours, minutes and seconds to the datalogger. By default, the datalogger samples every second.
+
+the \hyperlink{temperature__sensor___terciopelo_8cpp_50a2ce599e896bfb535e70a42003ed23}{sample()} function is called by the sensor every sample interval. \hyperlink{temperature__sensor___terciopelo_8cpp_50a2ce599e896bfb535e70a42003ed23}{sample()} reads a value from whatever sensing element (Thermistor, current sensor, light sensor, etc) the particular sensor uses, converts it to physical units (degrees celsius, amps, lux, etc) and sends out a string over the wireless network with the sensor's unique name and its sensed values.
+
+the name: each sensor should have a unique name burnt into its eeprom that makes it uniquely identifiable in the network. Nublabs is using a list of north and south american baby names which is available at datalogger.nublabs.com This particular sensor is a temperature sensor using an NTC thermistor. The thermistor is a resistive element. We sense it using two resistor dividers--one resistor, R1 which connects from Vcc to the thermistor, and another resistor that connects from the other end of the thermistor to ground. We measure the voltage at both ends of the thermistor using separate Analog to Digital Converter (ADC) pins. This allows us to factor out any effect changing battery voltage has on our temperature measurement. This code is written for version 2 of the sensor hardware. A pdf of the sensor schematic and board layout is available at datalogger.nublabs.com 
+
+Definition at line 90 of file temperature\_\-sensor\_\-Terciopelo.cpp.
+
+References discover(), and initializeSensor().
+
+Referenced by main().
+
+\begin{Code}\begin{verbatim}91 {
+92   Serial.begin(19200);
+93   initializeSensor();
+94   discover();
+95 }
+\end{verbatim}
+\end{Code}
+
+
+\hypertarget{temperature__sensor___terciopelo_8cpp_b4dbd8380e5d93ead613cf38e6083b7f}{
+\index{temperature\_\-sensor\_\-Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}!waitForSampleInterval@{waitForSampleInterval}}
+\index{waitForSampleInterval@{waitForSampleInterval}!temperature_sensor_Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}}
+\subsubsection[{waitForSampleInterval}]{\setlength{\rightskip}{0pt plus 5cm}void waitForSampleInterval ()}}
+\label{temperature__sensor___terciopelo_8cpp_b4dbd8380e5d93ead613cf38e6083b7f}
+
+
+this function waits for the time specified by the global variables 'hours,' 'minutes,' and 'seconds' It should ideally put the arduino in a power saving mode 
+
+
+
+Definition at line 317 of file temperature\_\-sensor\_\-Terciopelo.cpp.
+
+References minutes, seconds, xbeeSleep(), and xbeeWake().
+
+Referenced by loop().
+
+\begin{Code}\begin{verbatim}318 {
+319   xbeeSleep();
+320   delay(60*minutes*1000+seconds*1000);
+321   xbeeWake();
+322 }
+\end{verbatim}
+\end{Code}
+
+
+\hypertarget{temperature__sensor___terciopelo_8cpp_a06edc5122b70b3231ff87d8234fe759}{
+\index{temperature\_\-sensor\_\-Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}!xbeeSleep@{xbeeSleep}}
+\index{xbeeSleep@{xbeeSleep}!temperature_sensor_Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}}
+\subsubsection[{xbeeSleep}]{\setlength{\rightskip}{0pt plus 5cm}void xbeeSleep ()}}
+\label{temperature__sensor___terciopelo_8cpp_a06edc5122b70b3231ff87d8234fe759}
+
+
+
+
+Definition at line 377 of file temperature\_\-sensor\_\-Terciopelo.cpp.
+
+References XBEE\_\-SLEEP.
+
+Referenced by waitForSampleInterval().
+
+\begin{Code}\begin{verbatim}378 {
+379   digitalWrite(XBEE_SLEEP,HIGH);
+380 }
+\end{verbatim}
+\end{Code}
+
+
+\hypertarget{temperature__sensor___terciopelo_8cpp_884c5dd8e3bb500063c819db197db666}{
+\index{temperature\_\-sensor\_\-Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}!xbeeWake@{xbeeWake}}
+\index{xbeeWake@{xbeeWake}!temperature_sensor_Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}}
+\subsubsection[{xbeeWake}]{\setlength{\rightskip}{0pt plus 5cm}void xbeeWake ()}}
+\label{temperature__sensor___terciopelo_8cpp_884c5dd8e3bb500063c819db197db666}
+
+
+
+
+Definition at line 383 of file temperature\_\-sensor\_\-Terciopelo.cpp.
+
+References XBEE\_\-SLEEP.
+
+Referenced by initializeSensor(), and waitForSampleInterval().
+
+\begin{Code}\begin{verbatim}384 {
+385   digitalWrite(XBEE_SLEEP,LOW);
+386 }
+\end{verbatim}
+\end{Code}
+
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{temperature__sensor___terciopelo_8cpp_8188fea1f6709096fe21a3ee084d00d0}{
+\index{temperature\_\-sensor\_\-Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}!B@{B}}
+\index{B@{B}!temperature_sensor_Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}}
+\subsubsection[{B}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf B} = 3950.0}}
+\label{temperature__sensor___terciopelo_8cpp_8188fea1f6709096fe21a3ee084d00d0}
+
+
+
+
+Definition at line 357 of file temperature\_\-sensor\_\-Terciopelo.cpp.
+
+Referenced by convertToTemperature().\hypertarget{temperature__sensor___terciopelo_8cpp_735577560ca40e5b6008a98829068904}{
+\index{temperature\_\-sensor\_\-Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}!R0@{R0}}
+\index{R0@{R0}!temperature_sensor_Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}}
+\subsubsection[{R0}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf R0} = 10000.0}}
+\label{temperature__sensor___terciopelo_8cpp_735577560ca40e5b6008a98829068904}
+
+
+
+
+Definition at line 356 of file temperature\_\-sensor\_\-Terciopelo.cpp.
+
+Referenced by convertToTemperature().\hypertarget{temperature__sensor___terciopelo_8cpp_d17df5990b551ac9e97a3d60f65833ff}{
+\index{temperature\_\-sensor\_\-Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}!RBOTTOM@{RBOTTOM}}
+\index{RBOTTOM@{RBOTTOM}!temperature_sensor_Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}}
+\subsubsection[{RBOTTOM}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf RBOTTOM} = 1000.0}}
+\label{temperature__sensor___terciopelo_8cpp_d17df5990b551ac9e97a3d60f65833ff}
+
+
+
+
+Definition at line 359 of file temperature\_\-sensor\_\-Terciopelo.cpp.
+
+Referenced by convertToResistance().\hypertarget{temperature__sensor___terciopelo_8cpp_4211ba1269f650e21964d32238a460b2}{
+\index{temperature\_\-sensor\_\-Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}!T0@{T0}}
+\index{T0@{T0}!temperature_sensor_Terciopelo.cpp@{temperature\_\-sensor\_\-Terciopelo.cpp}}
+\subsubsection[{T0}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf T0} = 298}}
+\label{temperature__sensor___terciopelo_8cpp_4211ba1269f650e21964d32238a460b2}
+
+
+
+
+Definition at line 358 of file temperature\_\-sensor\_\-Terciopelo.cpp.
+
+Referenced by convertToTemperature().

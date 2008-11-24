@@ -111,21 +111,22 @@ int getByte(int timeout)
 int getMessage(int timeout)
 {
   int completeMessage=-1;   //a flag that lets us know if we got a full message
-  start=index;              //drop whatever other data is in our buffer--it'll probably just confuse the functions if we don't
-  
+  start=0;              //drop whatever other data is in our buffer--it'll probably just confuse the functions if we don't
+  index=0;              //set these to 0 so we don't run into any overrun bugs when they hit 255.  I think the unsigned char
+                        //structure will take care (haha--"char") of it, but why push it?
   //all variables that deal with millis() should either be unsigned longs, or millis() should be cast as the variable it's going into.  There's a memory leak
   //if you don't do this
   unsigned long currentTime=millis();
   unsigned long maxTime=currentTime+timeout;  
-  while((millis()<(maxTime))&&(buffer[index]!=MESSAGE_END))
+  while((millis()<(maxTime))&&(completeMessage==-1))
   {
     if(Serial.available()>0)
     {
       buffer[index]=Serial.read();
-      Serial.print(index,DEC);
+/*      Serial.print(index,DEC);
       Serial.print(" ");
       Serial.print(buffer[index],DEC);
-      Serial.println();
+      Serial.println();*/
       if(buffer[index]==MESSAGE_END)   //we got a complete message
         completeMessage=1;
       index++;
