@@ -155,7 +155,7 @@ void writeHeader()
     
   output.flush();
   output.close();  
-  }
+  } 
   catch(Exception e)
   {
     println("could not open output file");
