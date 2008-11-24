@@ -67,7 +67,18 @@
 
 #include <stdio.h>
 
+//sleep.h and wdt.h contain power-saving and sleep functions I use to put the arduino in power-efficient delays between samples
+#include <avr/sleep.h>
+#include <avr/wdt.h>
 
+//these are useful bitwise definitions.  I only use them in setting up the watchdog timer, and I'd like to get rid of them and 
+//replace them with more arduino-friendly functions eventually.
+#ifndef cbi
+#define cbi(sfr, bit) (_SFR_BYTE(sfr) &= ~_BV(bit))
+#endif
+#ifndef sbi
+#define sbi(sfr, bit) (_SFR_BYTE(sfr) |= _BV(bit))
+#endif
 
 #include "WProgram.h"
 void setup();
@@ -79,7 +90,6 @@ void sendData();
 unsigned char getChecksum();
 void configure();
 void discover();
-void waitForSampleInterval();
 void initializeSensor();
 void xbeeSleep();
 void xbeeWake();
@@ -87,9 +97,14 @@ void getTemperatures();
 void getRawData();
 void convertToResistance();
 void convertToTemperature();
+void lowPowerOperation();
+void system_sleep();
+void setupWatchdog(int time);
+void waitForSampleInterval();
 void setup()
 {
   Serial.begin(19200);
+  lowPowerOperation();   //turns off all unnecessary modules in the microcontroller to save power
   initializeSensor();
  // discover();     //I'm getting rid of discovery--the computer can just see when it gets a new name coming in
 }
@@ -246,14 +261,16 @@ void configure()
             checksum+=buffer[start+i];
           if(checksum==buffer[start+CHECKSUM])    //check to see if the calculated checksum is the same as the received checksum
           {
+
+            Serial.println(ACKNOWLEDGE,DEC);   //do this first so the timeout can be shorter
+            delay(1);  //wait a sec for the data to get out, since it's giving me drama
             //if it is, then we can load all the sample interval info
             hours=(int)buffer[start+HOUR_HIGH]*256+(int)buffer[start+HOUR_LOW];
             minutes=(int)buffer[start+MINUTE_HIGH]*256+(int)buffer[start+MINUTE_LOW];
             seconds=(int)buffer[start+SECOND_HIGH]*256+(int)buffer[start+SECOND_LOW];
             success=1;         //we can stop looping
             configured=1;      //the sensor is configured!
-            Serial.println(ACKNOWLEDGE,DEC);
-
+           
 /*            Serial.println(hours);
             Serial.println(minutes);
             Serial.println(seconds);
@@ -333,16 +350,6 @@ void discover()
     Serial.print(TIMEOUT_ERROR,BYTE);  //getByte didn't get a byte before the timeout
   }  
 }
-
-
-//!this function waits for the time specified by the global variables 'hours,' 'minutes,' and 'seconds'  It should ideally put the arduino in a power saving mode
-void waitForSampleInterval()
-{
-  xbeeSleep();
-  delay(60*minutes*1000+seconds*1000);
-  xbeeWake();
-}
-
 
 
 
@@ -443,6 +450,101 @@ void convertToTemperature()
    sensor2_temperature = float(B/log(sensor2_resistance/(R0*exp(-1.0*B/T0))) - 273.0); // Temperature in degrees Celsius   */
 }
 
+//!kills the TWI, SPI, timer1 and timer2 modules.  We're not using TWI or SPI, and timer1 and timer2 are used for PWM, which we don't use
+void lowPowerOperation()
+{
+  //turn off modules we're not using to save power
+  sbi(PRR,PRTWI);
+   sbi(PRR,PRSPI);
+   sbi(PRR,PRTIM1);
+   sbi(PRR,PRTIM2);
+ 
+ //set up the micro to go into POWER_DOWN mode when sleep_mode() is called.  It's the lowest power mode, and turns off pretty much everything except for the WDT
+  cbi( SMCR,SE );      // sleep enable, power down mode
+  cbi( SMCR,SM0 );     // power down mode
+  sbi( SMCR,SM1 );     // power down mode
+  cbi( SMCR,SM2 );     // power down mode
+  
+}
+
+//****************************************************************  
+// set system into the sleep state 
+// system wakes up when wtchdog is timed out
+void system_sleep() {
+
+  cbi(ADCSRA,ADEN);                    // switch Analog to Digitalconverter OFF
+
+  set_sleep_mode(SLEEP_MODE_PWR_DOWN); // sleep mode is set here
+  sleep_enable();
+
+  sleep_mode();                        // System sleeps here
+
+    sleep_disable();                     // System continues execution here when watchdog timed out 
+    sbi(ADCSRA,ADEN);                    // switch Analog to Digitalconverter ON
+
+}
+
+//****************************************************************
+// 0=16ms, 1=32ms,2=64ms,3=128ms,4=250ms,5=500ms
+// 6=1 sec,7=2 sec, 8=4 sec, 9= 8sec
+void setupWatchdog(int time) {
+
+  byte configValue;
+
+  if (time > 9 ) time=9;
+  configValue=time & 7;
+  if (time > 7) configValue|= (1<<5);
+  configValue|= (1<<WDCE);
+  
+  MCUSR &= ~(1<<WDRF);
+  // start timed sequence
+  WDTCSR |= (1<<WDCE) | (1<<WDE);
+  // set new watchdog timeout value
+  WDTCSR = configValue;
+  WDTCSR |= _BV(WDIE);
+}
+
+/**
+  This function is responsible for making the sensor wait for its sampleInterval while using very little power.  It uses the 
+  watchdog timer, which can wait 8,4,2, or 1 seconds.  By putting the sensor in a very low power sleep mode first and using
+  the watchdog timer's overflow interrupt to bring it out of the sleep mode, I can be extremely power efficient, using ~50uA 
+  rather than 20mA.  Using efficient sleep methods, the sensor can run for ~290 days off of 2 AA batteries, sampling every minute.
+  It's probably a bit less than that, but I think half a year is totally reasonable
+*/
+void waitForSampleInterval()
+{
+  unsigned long totalSeconds=(hours*3600)+(minutes*60)+seconds;  //the total number of seconds we're going to wait
+  unsigned int eightSecondChunks=totalSeconds/8;
+  unsigned int remainder=totalSeconds%8;
+  unsigned int j;
+  setupWatchdog(9);    //set the watchdog timer to 8 second intervals
+  for(j=0;j<eightSecondChunks;j++)
+    system_sleep();    //sleep off what time we can in 8 second chunks;
+ if(remainder>=4)
+ {
+   setupWatchdog(8);  //sleep for 4 seconds;
+   system_sleep();
+   remainder-=4;
+ }
+ if(remainder>=2)
+ {
+   setupWatchdog(7);  //2 second interval
+   system_sleep();
+   remainder-=2;
+  }
+  if(remainder>=1)
+  {
+    setupWatchdog(6);  //1 second interval
+    system_sleep();
+  }
+}
+
+//****************************************************************  
+// Watchdog Interrupt Service / is executed when  watchdog timed out
+// This is just an interrupt vector so the interrupt has something to call.  I just care about the timing.
+ISR(WDT_vect) {
+  boolean f_wdt=1;  // set global flag
+}
 
 int main(void)
 {

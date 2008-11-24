@@ -240,14 +240,16 @@ void configure()
             checksum+=buffer[start+i];
           if(checksum==buffer[start+CHECKSUM])    //check to see if the calculated checksum is the same as the received checksum
           {
+
+            Serial.println(ACKNOWLEDGE,DEC);   //do this first so the timeout can be shorter
+            delay(1);  //wait a sec for the data to get out, since it's giving me drama
             //if it is, then we can load all the sample interval info
             hours=(int)buffer[start+HOUR_HIGH]*256+(int)buffer[start+HOUR_LOW];
             minutes=(int)buffer[start+MINUTE_HIGH]*256+(int)buffer[start+MINUTE_LOW];
             seconds=(int)buffer[start+SECOND_HIGH]*256+(int)buffer[start+SECOND_LOW];
             success=1;         //we can stop looping
             configured=1;      //the sensor is configured!
-            Serial.println(ACKNOWLEDGE,DEC);
-
+           
 /*            Serial.println(hours);
             Serial.println(minutes);
             Serial.println(seconds);
