@@ -80,6 +80,7 @@
 void setup()
 {
   Serial.begin(19200);
+  randomSeed(analogRead(5));  //seed the random number generator with one of the unused ADC pins, for added randomness
   lowPowerOperation();   //turns off all unnecessary modules in the microcontroller to save power
   initializeSensor();
  // discover();     //I'm getting rid of discovery--the computer can just see when it gets a new name coming in
@@ -155,12 +156,21 @@ void sendData()
   char success=FALSE;
   int sensor1_temperature_decimals=(sensor1_temperature-(int)sensor1_temperature)*100;    //sprintf doesn't work for floats, so this hack gets 2 sigfigs
   int response=0;
- // sprintf(message,"%d", sampleNumber);
+ 
+
+  //put together the message
   sprintf(message, ",%s,%d.%d,degrees C,", name,(int)sensor1_temperature, sensor1_temperature_decimals);
-//sprintf(message,"%d %d %d", (int) sensor1_temperature, (int) sensor1_resistance, sensor1_temperature_decimals);
   unsigned char checksum=getChecksum();
   while((success==FALSE)&&(tries<NUM_TRIES))
   {
+    if(Serial.available()>0)   //if someone else is talking
+    {
+       Serial.flush();          //trash everything that's in the buffer
+       tries++;
+       delay(MESSAGE_TIME*(int)random(1,10));       //random backoff
+    }
+    else
+    {
     Serial.print(MESSAGE_START,DEC);
     Serial.print(message);
     Serial.print(checksum,DEC);
@@ -178,6 +188,7 @@ void sendData()
     }
     else         //if there was a timeout or a checksum mismatch, then re-try
     tries++;
+  }
   }
 
 }

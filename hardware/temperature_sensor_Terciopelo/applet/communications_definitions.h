@@ -3,8 +3,10 @@
   This file contains definitions for message bytes sent back and forth between the sensor and computer
 */
 
-#define NUM_TRIES 1
-#define TIMEOUT 1000
+#define NUM_TRIES 2
+#define TIMEOUT 100
+#define MESSAGE_TIME 12    //the approximate number of milliseconds it takes for a message to get sent
+
 
 //!  these are defined messages sent between the sensor and the computer
 #define ACKNOWLEDGE                    1
