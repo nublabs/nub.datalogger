@@ -1,6 +1,5 @@
 import processing.serial.*;
 import java.io.*;
-import javax.swing.*;
 
 /**
  * Nublogger Cascabel
@@ -35,13 +34,15 @@ boolean fastBoot=true;         //another debugging variable which uses file defa
 int baudRate=19200;       //the serial baudrate
 int autodetectResponseTime= 3000;   //the time, in milliseconds, for a dongle to respond to the autodetection request
 
+String currentDirectory="/Users/nikki/nublabs/10am_reverted_code/nub.datalogger/software/nublogger_cascabel/";
+//String currentDirectory="";
+
 //default file locations
-String defaultConfigFile = "/Users/nikki/nublabs/nub.datalogger/software/nublogger_cascabel/config.csv";
+String defaultConfigFile = currentDirectory+"config.csv";
 
-String currentDirectory="/Users/nikki/nublabs/nub.datalogger/software/nublogger_cascabel/";
 
-String allSensorsOutputFile="/Users/nikki/nublabs/nub.datalogger/software/nublogger_cascabel/output-all.csv";
-String configuredSensorsOutputFile="/Users/nikki/nublabs/nub.datalogger/software/nublogger_cascabel/output.csv";
+String allSensorsOutputFile=currentDirectory+"output-all.csv";
+String configuredSensorsOutputFile=currentDirectory+"output.csv";
 
 //this LinkedList stores all of our known sensing objects.
 LinkedList allSensors;
@@ -51,7 +52,7 @@ LinkedList configuredSensors;
 
 FileWriter output;
 
-int lineFeed=10;
+int lineFeed=(int)'\n';
 
 final int TIMEOUT=100;
 final int NUM_TRIES=1;
@@ -131,28 +132,36 @@ void setup() {
     configFile=defaultConfigFile; 
   else
   {
-    String configFileLocation=selectInput("select a configuration file.  Hit cancel to use defaults");    //opens up a file chooser dialog
+    String configFileLocation=selectInput("Select a configuration file.  Hit cancel to use defaults");    //opens up a file chooser dialog
     if(configFileLocation==null)
       configFile=defaultConfigFile;
     else
         configFile=configFileLocation;
+
+    String outputFileLocation=selectOutput("Select a file to save your logged data to.  Hit cancel to use defaults");    //opens up a file chooser dialog
+    if(outputFileLocation!=null)
+        configuredSensorsOutputFile=outputFileLocation;
+
   }
   
   readConfiguration(configFile);
   writeHeader();
 }
 
-//!writes the column headings for the configured sensor file
+//!writes the column headings for the output files
 void writeHeader()
 {  
+  
+  //write to the configured sensors output file
   try{
-  output =new FileWriter(configuredSensorsOutputFile);    //we just read all that data into ram, so now I'm going to overwrite the file
+  output =new FileWriter(configuredSensorsOutputFile); 
+  output.write("Date,Time,");
   for(int i=0;i<configuredSensors.size();i++)
   {
     Sensor a=(Sensor) configuredSensors.get(i);
     output.write(a.name+",units,");
   }
-    
+  output.write("\n");  
   output.flush();
   output.close();  
   } 
@@ -160,6 +169,25 @@ void writeHeader()
   {
     println("could not open output file");
   }
+
+  //write to the 'all sensors' output file
+  try{
+  output =new FileWriter(allSensorsOutputFile); 
+  output.write("Date,Time,");
+  for(int i=0;i<configuredSensors.size();i++)
+  {
+    Sensor a=(Sensor) configuredSensors.get(i);
+    output.write(a.name+",units,");
+  }
+  output.write("\n");  
+  output.flush();
+  output.close();  
+  } 
+  catch(Exception e)
+  {
+    println("could not open output file");
+  }
+
 
 }
 
@@ -282,7 +310,7 @@ void configure(String[] splitMessage)
       myPort.write((highHour+lowHour+highMinute+lowMinute+highSecond+lowSecond)%256);  //print the checksum;
       myPort.write(MESSAGE_END);
       println("send config message, listening for response");
-      response=listenForResponse(TIMEOUT,ACKNOWLEDGE);
+      response=listenForResponse(TIMEOUT*2,ACKNOWLEDGE);
       if(response==0)  //everything got through ok
         {
           println(a.name+" is configured");
@@ -402,7 +430,7 @@ void addColumn(String[] splitMessage)
   String[] file =loadStrings(allSensorsOutputFile); // read in all the data from the allSensors output file
   try{
   output =new FileWriter(allSensorsOutputFile);    //we just read all that data into ram, so now I'm going to overwrite the file
-  output.write(file[0]+","+splitMessage[NAME]+","+"units\n");
+  output.write(file[0]+splitMessage[NAME]+","+"units,\n");
   for(int i=1;i<file.length;i++)
     output.write(file[i]+",,\n"); 
   output.flush();
@@ -627,5 +655,10 @@ boolean questionAnswer(Serial port, String question, String answer, String respo
   return false;
 }
 
+void keyPressed()  //if a key gets hit
+{
+  if((key=='q')||(key=='Q'))  //user wants to quit
+    exit();  //then we quit
+}
 
 

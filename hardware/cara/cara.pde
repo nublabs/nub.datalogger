@@ -6,7 +6,7 @@
  * alex@nublabs.com
  * datalogger.nublabs.com
  *
- * (+)In keeping with the arduino nomenclature, we are naming all our code revisions
+ * (+)In keeping with the arduino nomenclature, we are naming all our code revisions  
  * with Spanish names of venemous snakes.  
  * The Terciopelo, or fer-de-lance is a pit viper common in central and northwestern south america.
  * It has a powerful venom that, left untreated, can cause necrosis, brain hemorrhaging, renal failure and death.  
@@ -19,11 +19,8 @@
  * into a computer that allows the computer to talk to a wireless Zigbee network, and then there are battery-powered sensors that 
  * sense data about the environemnt.  The sensors collect data and convert it into human-readable units, and then send the data
  * as plaintext over the wireless network to the computer, where it is stored and logged.  Any sensor that will work with this system
- * must implement the discover(), configure() and sample() functions, as well as be identifiable by a unique name
+ * must implement the configure() and sample() functions, as well as be identifiable by a unique name
  *  
- * The discover() function is a short communication sequence when the sensor is first turned on where it broadcasts its name over the
- * network and ensures that the computer recognizes it and is ready to configure it and log its data.  The sensor also sends the units
- * of whatever value it will be reporting.
  * 
  * the configure() function is triggered by a flag sent by the computer that indicates that the computer would like to change the 
  * datalogger's sample rate.  configure() is another communication sequence in which the computer sends a sample interval in hours, 
@@ -83,6 +80,7 @@
 void setup()
 {
   Serial.begin(19200);
+  randomSeed(analogRead(5));  //seed the random number generator with one of the unused ADC pins, for added randomness
   lowPowerOperation();   //turns off all unnecessary modules in the microcontroller to save power
   initializeSensor();
  // discover();     //I'm getting rid of discovery--the computer can just see when it gets a new name coming in
@@ -158,18 +156,26 @@ void sendData()
   char success=FALSE;
   int sensor1_temperature_decimals=(sensor1_temperature-(int)sensor1_temperature)*100;    //sprintf doesn't work for floats, so this hack gets 2 sigfigs
   int response=0;
- // sprintf(message,"%d", sampleNumber);
+ 
+
+  //put together the message
   sprintf(message, ",%s,%d.%d,degrees C,", name,(int)sensor1_temperature, sensor1_temperature_decimals);
-//sprintf(message,"%d %d %d", (int) sensor1_temperature, (int) sensor1_resistance, sensor1_temperature_decimals);
   unsigned char checksum=getChecksum();
   while((success==FALSE)&&(tries<NUM_TRIES))
   {
+    if(Serial.available()>0)   //if someone else is talking
+    {
+       Serial.flush();          //trash everything that's in the buffer
+       tries++;
+       delay(MESSAGE_TIME*(int)random(1,10));       //random backoff
+    }
+    else
+    {
     Serial.print(MESSAGE_START,DEC);
     Serial.print(message);
     Serial.print(checksum,DEC);
     Serial.print(',');
-    Serial.print(MESSAGE_END,DEC);
-    Serial.println();
+    Serial.println(MESSAGE_END,DEC);
     response=getByte(TIMEOUT);   //look for the computer's response
 
     if(response==ACKNOWLEDGE)   //the computer got the data.  It's happy, we're happy, we're done!
@@ -182,6 +188,7 @@ void sendData()
     }
     else         //if there was a timeout or a checksum mismatch, then re-try
     tries++;
+  }
   }
 
 }
@@ -224,10 +231,13 @@ void configure()
   {
     checksum=0;
     Serial.println(LISTENING,DEC);
+    
     error=getMessage(TIMEOUT);
     if(error==-1)
     {
       Serial.println(TIMEOUT_ERROR,DEC);
+      
+
       tries++;
     }
     else
@@ -242,6 +252,7 @@ void configure()
           {
 
             Serial.println(ACKNOWLEDGE,DEC);   //do this first so the timeout can be shorter
+            
             delay(1);  //wait a sec for the data to get out, since it's giving me drama
             //if it is, then we can load all the sample interval info
             hours=(int)buffer[start+HOUR_HIGH]*256+(int)buffer[start+HOUR_LOW];
@@ -260,10 +271,15 @@ void configure()
             if(tries<NUM_TRIES)
             {
               Serial.println(CHECKSUM_ERROR_PLEASE_RESEND,DEC);
+              
+
               tries++;
             }
             else
+            {
               Serial.println(CHECKSUM_ERROR_GIVING_UP,DEC);
+                   
+            } 
           }
         }
         else      //the message is the wrong size
@@ -271,10 +287,15 @@ void configure()
           if(tries<NUM_TRIES)
           {
             Serial.println(MALFORMED_MESSAGE_ERROR_PLEASE_RESEND,DEC);
+            
             tries++;
           }
           else
+          {
             Serial.println(MALFORMED_MESSAGE_ERROR_GIVING_UP,DEC);
+            
+  
+          }
         }
       }
       else
@@ -282,54 +303,17 @@ void configure()
         if(tries<NUM_TRIES)
         {
           Serial.println(MALFORMED_MESSAGE_ERROR_PLEASE_RESEND,DEC);
-          tries++;
+          
+         tries++;
         }
         else
+        {
           Serial.println(MALFORMED_MESSAGE_ERROR_GIVING_UP,DEC);
+        }
       }
     }
   }
 }
-
-
-//!  This function tells the computer of the datalogger's existence
-/**
- * When the sensor turns on, it runs discover().  It sends a MESSAGE_START message, a DISCOVER_ME message, and its name out to the 
- * computer and waits for acknowledgement.  The computer can send back a plain "ACKNOWLEDGE" message, which means that the sensor 
- * should run using its default configuration values.  The computer can also send back an "ACKNOWLEDGE_AND_CONFIGURE" message, which 
- * means that it has configuration data for the sensor.  If the sensor gets this message, it'll run configure() to receive the data 
- * from the computer.
- */
-void discover()
-{ 
-  unsigned char checksum=0;
-  int i=0;
-  Serial.print(MESSAGE_START, BYTE);
-  Serial.print(DISCOVER_ME,BYTE);
-  Serial.print(name);
-  while(name[i]!=0)
-  {
-    checksum+=name[i];
-    i++;
-  }
-  checksum+=DISCOVER_ME;
-  Serial.print(checksum,BYTE);
-  Serial.print(MESSAGE_END,BYTE);
-
-  int receivedByte=getByte(TIMEOUT);     //looks for a byte on the serial port with a 100ms timeout
-  if(receivedByte==ACKNOWLEDGE)
-    discovered=TRUE;
-  if(receivedByte==ACKNOWLEDGE_AND_CONFIGURE)
-  {
-    discovered=TRUE;
-    configure();
-  }
-  if(receivedByte==-1)
-  {
-    Serial.print(TIMEOUT_ERROR,BYTE);  //getByte didn't get a byte before the timeout
-  }  
-}
-
 
 
 //temperature_sensor_board_v2.h

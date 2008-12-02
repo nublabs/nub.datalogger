@@ -1,0 +1,3 @@
+
+nublogger_cascabel
+nublogger_cascabel.jar,core.jar,serial.jar,RXTXcomm.jar

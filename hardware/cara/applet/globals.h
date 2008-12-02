@@ -10,10 +10,11 @@ char configured =TRUE;  //has the computer sent the sensor configuration info, o
 //the sample interval
 int hours = 0;
 int minutes = 0;
-int seconds = 1;
+int seconds = 5;
 
 //the number of samples sent.  I'm primarily using this for debugging
 int sampleNumber=0;
+
 
 
 //the buffer and the index and start bytes keep track of our own buffering system for data we use to get messages
