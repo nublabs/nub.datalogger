@@ -3,7 +3,6 @@ import processing.xml.*;
 
 import processing.serial.*; 
 import java.io.*; 
-import javax.swing.*; 
 
 import java.applet.*; 
 import java.awt.*; 
@@ -21,8 +20,7 @@ public class nublogger_cascabel extends PApplet {
 
 
 
-
-/**
+/** 
  * Nublogger Cascabel
  * This is the latest version of the nublogger software as of 11.20.08
  * This software discovers, configures and logs data from nublogger-compatible wireless boards
@@ -75,6 +73,8 @@ FileWriter output;
 
 int lineFeed=(int)'\n';
 
+PFont font;         //the font I'll use
+
 final int TIMEOUT=100;
 final int NUM_TRIES=1;
 
@@ -104,6 +104,7 @@ final int MESSAGE_END   =129;
 class Sensor{
   String name;
   int hours, minutes, seconds;
+  String lastValue;
   boolean configured;
   Sensor(String newName)
   {
@@ -118,10 +119,28 @@ class Sensor{
     seconds=s;
     configured=false;
   }
+  Sensor(String newName, String value)
+  {
+    name=newName;
+    configured=false;
+    lastValue=value;
+  }  
+  Sensor(String newName, int h, int m, int s, String value)
+  {
+    name=newName;
+    hours=h;
+    minutes=m;
+    seconds=s;
+    configured=false;
+    lastValue=value;
+  }
 }
 
 public void setup() {
-  size(200,200);
+  size(400,400);
+  font=loadFont("ACaslonPro-Regular-14.vlw");  //setting up our font
+  textFont(font);
+  textMode(MODEL);      //should make a smoother font
   background(0);
 //  File configFile, dataFile;
   String configFile;
@@ -146,6 +165,7 @@ public void setup() {
   {
     myPort = new Serial(this, Serial.list()[serialPortNumber], 19200);   //opens up the serial port
     myPort.bufferUntil(lineFeed);   //if I choose to, read until I get a line feed
+    background(0,80,0);              //turn the background green if we found a dongle
   }
   
   
@@ -169,17 +189,20 @@ public void setup() {
   writeHeader();
 }
 
-//!writes the column headings for the configured sensor file
+//!writes the column headings for the output files
 public void writeHeader()
 {  
+  
+  //write to the configured sensors output file
   try{
-  output =new FileWriter(configuredSensorsOutputFile);    //we just read all that data into ram, so now I'm going to overwrite the file
+  output =new FileWriter(configuredSensorsOutputFile); 
+  output.write("Date,Time,");
   for(int i=0;i<configuredSensors.size();i++)
   {
     Sensor a=(Sensor) configuredSensors.get(i);
     output.write(a.name+",units,");
   }
-    
+  output.write("\n");  
   output.flush();
   output.close();  
   } 
@@ -187,6 +210,25 @@ public void writeHeader()
   {
     println("could not open output file");
   }
+
+  //write to the 'all sensors' output file
+  try{
+  output =new FileWriter(allSensorsOutputFile); 
+  output.write("Date,Time,");
+  for(int i=0;i<configuredSensors.size();i++)
+  {
+    Sensor a=(Sensor) configuredSensors.get(i);
+    output.write(a.name+",units,");
+  }
+  output.write("\n");  
+  output.flush();
+  output.close();  
+  } 
+  catch(Exception e)
+  {
+    println("could not open output file");
+  }
+
 
 }
 
@@ -243,6 +285,20 @@ public void draw(){
          myPort.write(ACKNOWLEDGE);          
       }
     }
+  }
+
+  text("sensors we're listening to",15,20);
+  for(int count=0;count<allSensors.size();count++)
+  {
+    Sensor a=(Sensor) allSensors.get(count);
+    text(a.name,15,20+((count+1)*20));
+  }
+
+  text("sensors we want to configure",200,20);
+  for(int count=0;count<configuredSensors.size();count++)
+  {
+    Sensor a=(Sensor) configuredSensors.get(count);
+    text(a.name,200,20+((count+1)*20));
   }
 //  }
 }
@@ -309,7 +365,7 @@ public void configure(String[] splitMessage)
       myPort.write((highHour+lowHour+highMinute+lowMinute+highSecond+lowSecond)%256);  //print the checksum;
       myPort.write(MESSAGE_END);
       println("send config message, listening for response");
-      response=listenForResponse(TIMEOUT,ACKNOWLEDGE);
+      response=listenForResponse(TIMEOUT*2,ACKNOWLEDGE);
       if(response==0)  //everything got through ok
         {
           println(a.name+" is configured");
@@ -403,7 +459,7 @@ public void addData(String[] splitMessage)
 
   if((!inSensors)&&(!inConfiguredSensors))   //this is a completely new sensor
   {
-    allSensors.add(new Sensor(splitMessage[NAME]));   //add the name to the sensors list
+    allSensors.add(new Sensor(splitMessage[NAME],splitMessage[VALUE]));   //add the name to the sensors list
     addColumn(splitMessage);                       //add a column to the allSensors file
   }
 
@@ -429,7 +485,7 @@ public void addColumn(String[] splitMessage)
   String[] file =loadStrings(allSensorsOutputFile); // read in all the data from the allSensors output file
   try{
   output =new FileWriter(allSensorsOutputFile);    //we just read all that data into ram, so now I'm going to overwrite the file
-  output.write(file[0]+","+splitMessage[NAME]+","+"units\n");
+  output.write(file[0]+splitMessage[NAME]+","+"units,\n");
   for(int i=1;i<file.length;i++)
     output.write(file[i]+",,\n"); 
   output.flush();
@@ -654,6 +710,11 @@ public boolean questionAnswer(Serial port, String question, String answer, Strin
   return false;
 }
 
+public void keyPressed()  //if a key gets hit
+{
+  if((key=='q')||(key=='Q'))  //user wants to quit
+    exit();  //then we quit
+}
 
 
 

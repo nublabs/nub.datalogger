@@ -79,6 +79,7 @@
 
 void setup()
 {
+  flash();  //flash the led
   Serial.begin(19200);
   randomSeed(analogRead(5));  //seed the random number generator with one of the unused ADC pins, for added randomness
   lowPowerOperation();   //turns off all unnecessary modules in the microcontroller to save power
@@ -94,6 +95,7 @@ void loop()
 
 void sample()
 {
+  flash();  //flash the led
   getRawData();
   convertToResistance();
   convertToTemperature();
@@ -365,6 +367,20 @@ void initializeSensor()
   xbeeWake();
 }  
 
+//!  this flashes the LED--useful for waking up or marking a sample
+void flash()
+{
+  char i;
+  for(i=0;i<5;i++)
+  {
+  digitalWrite(LED,HIGH);
+  delay(20);
+  digitalWrite(LED,LOW);
+  delay(20);
+  }
+}
+
+
 //just a wrapper for putting the xbee into sleep mode
 void xbeeSleep()
 {
@@ -477,6 +493,11 @@ void setupWatchdog(int time) {
 void waitForSampleInterval()
 {
   unsigned long totalSeconds=(hours*3600)+(minutes*60)+seconds;  //the total number of seconds we're going to wait
+  totalSeconds-=(totalSeconds/10);    //setting the timing to .9 of the uploaded interval
+/*  this was my first shot at timing correction.  If 'seconds' was 1, it became 0.
+  totalSeconds*=9;
+  totalSeconds/=10;       //after testing, I found the sensors to be about 10% slow, losing 6 seconds every minute.  This oughta correct for that
+  */
   unsigned int eightSecondChunks=totalSeconds/8;
   unsigned int remainder=totalSeconds%8;
   unsigned int j;

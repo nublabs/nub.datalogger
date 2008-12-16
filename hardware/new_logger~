@@ -1,0 +1,9 @@
+
+startString="char* name=\""
+endString="\";"
+
+cp -r temperature_sensor_Terciopelo $1
+mv $1/temperature_sensor_Terciopelo.pde $1/$1.pde
+cat startString >$1/name.h
+cat $1 >> $1/name.h
+cat endString >>$1/name.h

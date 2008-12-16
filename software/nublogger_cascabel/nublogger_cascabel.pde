@@ -1,7 +1,7 @@
 import processing.serial.*;
 import java.io.*;
 
-/**
+/** 
  * Nublogger Cascabel
  * This is the latest version of the nublogger software as of 11.20.08
  * This software discovers, configures and logs data from nublogger-compatible wireless boards
@@ -26,16 +26,16 @@ import java.io.*;
 
 
 Serial myPort;             //the serial port used to talk to the wireless network
-boolean skipAutoDetection=true;    //used for debugging purposes.  When it's set to true I use pre-configured settings 
+boolean skipAutoDetection=false;    //used for debugging purposes.  When it's set to true I use pre-configured settings 
 //rather than prompt for user input or try to autodiscover shite
 
-boolean fastBoot=true;         //another debugging variable which uses file defaults rather than opening a dialog
+boolean fastBoot=false;         //another debugging variable which uses file defaults rather than opening a dialog
 
 int baudRate=19200;       //the serial baudrate
 int autodetectResponseTime= 3000;   //the time, in milliseconds, for a dongle to respond to the autodetection request
 
-String currentDirectory="/Users/nikki/nublabs/10am_reverted_code/nub.datalogger/software/nublogger_cascabel/";
-//String currentDirectory="";
+//String currentDirectory="/Users/nikki/nublabs/10am_reverted_code/nub.datalogger/software/nublogger_cascabel/";
+String currentDirectory="";
 
 //default file locations
 String defaultConfigFile = currentDirectory+"config.csv";
@@ -53,6 +53,8 @@ LinkedList configuredSensors;
 FileWriter output;
 
 int lineFeed=(int)'\n';
+
+PFont font;         //the font I'll use
 
 final int TIMEOUT=100;
 final int NUM_TRIES=1;
@@ -83,6 +85,7 @@ final int MESSAGE_END   =129;
 class Sensor{
   String name;
   int hours, minutes, seconds;
+  String lastValue;
   boolean configured;
   Sensor(String newName)
   {
@@ -97,10 +100,28 @@ class Sensor{
     seconds=s;
     configured=false;
   }
+  Sensor(String newName, String value)
+  {
+    name=newName;
+    configured=false;
+    lastValue=value;
+  }  
+  Sensor(String newName, int h, int m, int s, String value)
+  {
+    name=newName;
+    hours=h;
+    minutes=m;
+    seconds=s;
+    configured=false;
+    lastValue=value;
+  }
 }
 
 void setup() {
-  size(200,200);
+  size(400,400);
+  font=loadFont("ACaslonPro-Regular-14.vlw");  //setting up our font
+  textFont(font);
+  textMode(MODEL);      //should make a smoother font
   background(0);
 //  File configFile, dataFile;
   String configFile;
@@ -125,6 +146,7 @@ void setup() {
   {
     myPort = new Serial(this, Serial.list()[serialPortNumber], 19200);   //opens up the serial port
     myPort.bufferUntil(lineFeed);   //if I choose to, read until I get a line feed
+    background(0,80,0);              //turn the background green if we found a dongle
   }
   
   
@@ -244,6 +266,20 @@ void draw(){
          myPort.write(ACKNOWLEDGE);          
       }
     }
+  }
+
+  text("sensors we're listening to",15,20);
+  for(int count=0;count<allSensors.size();count++)
+  {
+    Sensor a=(Sensor) allSensors.get(count);
+    text(a.name,15,20+((count+1)*20));
+  }
+
+  text("sensors we want to configure",200,20);
+  for(int count=0;count<configuredSensors.size();count++)
+  {
+    Sensor a=(Sensor) configuredSensors.get(count);
+    text(a.name,200,20+((count+1)*20));
   }
 //  }
 }
@@ -404,7 +440,7 @@ void addData(String[] splitMessage)
 
   if((!inSensors)&&(!inConfiguredSensors))   //this is a completely new sensor
   {
-    allSensors.add(new Sensor(splitMessage[NAME]));   //add the name to the sensors list
+    allSensors.add(new Sensor(splitMessage[NAME],splitMessage[VALUE]));   //add the name to the sensors list
     addColumn(splitMessage);                       //add a column to the allSensors file
   }
 
